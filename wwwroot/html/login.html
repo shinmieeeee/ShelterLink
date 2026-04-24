@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShelterLink – Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="site.css"/>
+</head>
+<body>
+
+  <!-- Scattered paw prints background -->
+  <div class="bg-paws" aria-hidden="true">
+    <span class="paw" style="top:8%;left:6%;font-size:2rem;opacity:.18;transform:rotate(-20deg)">🐾</span>
+    <span class="paw" style="top:15%;left:88%;font-size:1.4rem;opacity:.14;transform:rotate(10deg)">🐾</span>
+    <span class="paw" style="top:72%;left:4%;font-size:1.6rem;opacity:.15;transform:rotate(30deg)">🐾</span>
+    <span class="paw" style="top:82%;left:91%;font-size:2.2rem;opacity:.12;transform:rotate(-15deg)">🐾</span>
+    <span class="paw" style="top:45%;left:2%;font-size:1.2rem;opacity:.13;transform:rotate(5deg)">🐾</span>
+    <span class="paw" style="top:30%;left:93%;font-size:1.8rem;opacity:.16;transform:rotate(-30deg)">🐾</span>
+    <span class="paw" style="top:60%;left:87%;font-size:1.3rem;opacity:.11;transform:rotate(22deg)">🐾</span>
+    <span class="paw" style="top:90%;left:40%;font-size:1.5rem;opacity:.10;transform:rotate(-8deg)">🐾</span>
+  </div>
+
+  <!-- Side illustrations -->
+  <div class="side-art left-art" aria-hidden="true">
+    <div class="cat-sketch">🐱</div>
+  </div>
+  <div class="side-art right-art" aria-hidden="true">
+    <div class="dog-sketch">🐶</div>
+  </div>
+
+  <!-- Login Card -->
+  <main class="card-wrapper">
+    <div class="card">
+
+      <!-- Logo -->
+      <div class="logo-area">
+        <div class="logo-icon">🐾</div>
+        <h1 class="brand"><span class="brand-shelter">Shelter</span><span class="brand-link">Link</span></h1>
+      </div>
+
+      <h2 class="welcome">Welcome Back</h2>
+      <p class="tagline">Find your perfect companion</p>
+
+      <!-- Form -->
+      <form id="loginForm" novalidate>
+
+        <div class="field-group">
+          <label for="username">Username</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <span class="field-error" id="usernameError"></span>
+        </div>
+
+        <div class="field-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password visibility">
+              <span id="eyeIcon">👁️</span>
+            </button>
+          </div>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <div class="row-options">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe" name="rememberMe"/>
+            <span class="check-box"></span>
+            Remember Me
+          </label>
+          <a href="#" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-signin" id="signInBtn">
+          <span class="btn-label">Sign In</span>
+          <span class="btn-loader" id="btnLoader" hidden>⏳</span>
+        </button>
+
+        <div class="toast" id="toast"></div>
+
+        <p class="signup-prompt">
+          Don't have an account? <a href="register.html" class="create-link">Create one</a>
+        </p>
+
+      </form>
+    </div>
+
+    <a href="admin.html" class="staff-link">Staff Admin Portal</a>
+  </main>
+
+  <script src="site.js"></script>
+</body>
+</html>
