@@ -2733,11 +2733,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pc\\OneDrive\\Documents\\Shin-mie\\ShelterLink\\ShelterLink\\ShelterLink.csproj",
+      "projectUniqueName": "C:\\Users\\pc\\OneDrive\\Documents\\Shin-mie\\ShelterLink\\ShelterLink.csproj",
       "projectName": "ShelterLink",
-      "projectPath": "C:\\Users\\pc\\OneDrive\\Documents\\Shin-mie\\ShelterLink\\ShelterLink\\ShelterLink.csproj",
+      "projectPath": "C:\\Users\\pc\\OneDrive\\Documents\\Shin-mie\\ShelterLink\\ShelterLink.csproj",
       "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pc\\OneDrive\\Documents\\Shin-mie\\ShelterLink\\ShelterLink\\obj\\",
+      "outputPath": "C:\\Users\\pc\\OneDrive\\Documents\\Shin-mie\\ShelterLink\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
