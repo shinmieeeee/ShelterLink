@@ -1,0 +1,8 @@
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.AssemblyInfoInputs.cache
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.AssemblyInfo.cs
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.csproj.CoreCompileInputs.cache
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.RazorAssemblyInfo.cache
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\shelterlink\obj\Debug\net10.0\ShelterLink.RazorAssemblyInfo.cs
