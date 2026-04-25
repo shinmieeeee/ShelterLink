@@ -1,0 +1,108 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShelterLink – Create Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+
+  <!-- Background paw prints -->
+  <div class="bg-paws" aria-hidden="true">
+    <span class="paw" style="top:8%;left:6%;font-size:2rem;opacity:.18">🐾</span>
+    <span class="paw" style="top:15%;left:88%;font-size:1.4rem;opacity:.14">🐾</span>
+    <span class="paw" style="top:72%;left:4%;font-size:1.6rem;opacity:.15">🐾</span>
+    <span class="paw" style="top:82%;left:91%;font-size:2.2rem;opacity:.12">🐾</span>
+    <span class="paw" style="top:45%;left:2%;font-size:1.2rem;opacity:.13">🐾</span>
+    <span class="paw" style="top:30%;left:93%;font-size:1.8rem;opacity:.16">🐾</span>
+    <span class="paw" style="top:60%;left:87%;font-size:1.3rem;opacity:.11">🐾</span>
+    <span class="paw" style="top:90%;left:40%;font-size:1.5rem;opacity:.10">🐾</span>
+  </div>
+
+  <!-- Side illustrations -->
+  <div class="side-art left-art" aria-hidden="true">🐱</div>
+  <div class="side-art right-art" aria-hidden="true">🐶</div>
+
+  <!-- Card -->
+  <main class="card-wrapper">
+    <div class="card">
+
+      <div class="logo-area">
+        <div class="logo-icon">🐾</div>
+        <h1 class="brand">
+          <span class="brand-shelter">Shelter</span><span class="brand-link">Link</span>
+        </h1>
+      </div>
+
+      <h2 class="welcome">Create Your Account</h2>
+      <p class="tagline">Start your adoption journey today</p>
+
+      <form id="registerForm" novalidate="">
+
+        <div class="field-group">
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" id="username" placeholder="Username" autocomplete="username" required="">
+          </div>
+          <span class="field-error" id="usernameError"></span>
+        </div>
+
+        <div class="field-group">
+          <div class="input-wrap">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="email" placeholder="Email" autocomplete="email" required="">
+          </div>
+          <span class="field-error" id="emailError"></span>
+        </div>
+
+        <div class="field-group">
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" placeholder="Password" autocomplete="new-password" required="">
+            <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password visibility">
+              <span id="eyeIcon">👁️</span>
+            </button>
+          </div>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <div class="field-group">
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" autocomplete="new-password" required="">
+            <button type="button" class="toggle-pw" id="toggleConfirmPw" aria-label="Toggle confirm password visibility">
+              <span id="eyeIconConfirm">👁️</span>
+            </button>
+          </div>
+          <span class="field-error" id="confirmPasswordError"></span>
+        </div>
+
+        <div class="field-group">
+          <div class="input-wrap">
+            <span class="input-icon">🐰</span>
+            <input type="number" id="age" placeholder="Age" min="18" max="120" required="">
+          </div>
+          <span class="hint">Must be 18+</span>
+          <span class="field-error" id="ageError"></span>
+        </div>
+
+        <button type="submit" class="btn-signin" id="createBtn">
+          <span class="btn-label">Create Account</span>
+        </button>
+
+        <div class="toast" id="toast"></div>
+
+        <p class="signup-prompt">
+          Already have an account? <a href="login.html" class="create-link">Sign In</a>
+        </p>
+
+      </form>
+    </div>
+
+    <a href="admin.html" class="staff-link">Staff Admin Portal</a>
+  </main>
+
+  <script src="/js/register.js"></script>
+
+
+</body></html>

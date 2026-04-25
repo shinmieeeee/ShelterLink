@@ -3,34 +3,22 @@ using ShelterLink.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// Database connection
-var connectionString = builder.Configuration.GetConnectionString("ShelterLinkDb");
 builder.Services.AddDbContext<ShelterLinkContext>(options =>
-    options.UseMySql(connectionString,
-        ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ));
+
+builder.Services.AddControllers();
+
+builder.Services.AddCors(options =>
+    options.AddPolicy("AllowAll",
+        p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+app.UseCors("AllowAll");
+app.UseStaticFiles();
+app.MapControllers();
 
 app.Run();
