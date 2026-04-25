@@ -194,7 +194,6 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\un6qynbw9f-{0}-muycvpuwrr-muycvpuwrr.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\xcq5w1b7sg-{0}-87fc7y1x7t-87fc7y1x7t.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\j0kygcp7ks-{0}-mlv21k5csn-mlv21k5csn.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-uotcl2d1sw-uotcl2d1sw.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\7x5t3xhdlj-{0}-jb2jqh3wq7-jb2jqh3wq7.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\989vowv0kk-{0}-jb2jqh3wq7-jb2jqh3wq7.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\staticwebassets.build.json
@@ -208,3 +207,7 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\refint\She
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ShelterLink.pdb
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ShelterLink.genruntimeconfig.cache
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ref\ShelterLink.dll
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\4haptlwxcs-{0}-5ipweew5fc-5ipweew5fc.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-maco3eb6n6-maco3eb6n6.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\h25f7o385g-{0}-5ipweew5fc-5ipweew5fc.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\317vgzn6ki-{0}-5ipweew5fc-5ipweew5fc.gz
