@@ -104,7 +104,6 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\rjsmcshtml
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\bundle\ShelterLink.styles.css
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\projectbundle\ShelterLink.bundle.scp.css
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ey7jdt0k0v-{0}-euyijvvon8-euyijvvon8.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ksb6e64cpw-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\5y4joer2hc-{0}-d9epbymxe4-d9epbymxe4.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\a6va3266kl-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -179,7 +178,6 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\refint\She
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ShelterLink.pdb
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ShelterLink.genruntimeconfig.cache
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ref\ShelterLink.dll
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-maco3eb6n6-maco3eb6n6.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
@@ -195,6 +193,10 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\ru\Microso
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\317vgzn6ki-{0}-56gs9ro8ia-56gs9ro8ia.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\4haptlwxcs-{0}-gfmqmgz068-gfmqmgz068.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\h25f7o385g-{0}-21cgd5x8q9-21cgd5x8q9.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\zkm4jzb6ul-{0}-lgbnh1zi36-lgbnh1zi36.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\0ty8zv433p-{0}-jq1rupxl3b-jq1rupxl3b.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\b7msvogoub-{0}-hgdodeiqu1-hgdodeiqu1.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\317vgzn6ki-{0}-i2zwal7k25-i2zwal7k25.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ey7jdt0k0v-{0}-gfmqmgz068-gfmqmgz068.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\h25f7o385g-{0}-0ejaeuvkgl-0ejaeuvkgl.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-maco3eb6n6-maco3eb6n6.gz

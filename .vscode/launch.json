@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch ShelterLink",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5084/html/login.html",
+      "preLaunchTask": "Run ShelterLink"
+    }
+  ]
+}
