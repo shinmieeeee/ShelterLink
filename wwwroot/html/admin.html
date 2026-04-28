@@ -1,9 +1,10 @@
 <html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShelterLink – Create Account</title>
+  <title>ShelterLink – Admin Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/register.css">
+  <link rel="stylesheet" href="../css/site.css">
+  <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
 
@@ -32,33 +33,27 @@
         <h1 class="brand">
           <span class="brand-shelter">Shelter</span><span class="brand-link">Link</span>
         </h1>
+        <span class="admin-badge">Admin Portal</span>
       </div>
 
-      <h2 class="welcome">Create Your Account</h2>
-      <p class="tagline">Start your adoption journey today</p>
+      <h2 class="welcome">Welcome Back</h2>
+      <p class="tagline">Access shelter management system</p>
+      <p class="error-msg" id="errorMsg"></p>
 
-      <form id="registerForm" novalidate="">
+      <form id="adminLoginForm" novalidate="">
 
         <div class="field-group">
           <div class="input-wrap">
             <span class="input-icon">👤</span>
-            <input type="text" id="username" placeholder="Username" autocomplete="username" required="">
+            <input type="text" id="adminUsername" placeholder="Admin Username" autocomplete="username" required="">
           </div>
           <span class="field-error" id="usernameError"></span>
         </div>
 
         <div class="field-group">
           <div class="input-wrap">
-            <span class="input-icon">✉️</span>
-            <input type="email" id="email" placeholder="Email" autocomplete="email" required="">
-          </div>
-          <span class="field-error" id="emailError"></span>
-        </div>
-
-        <div class="field-group">
-          <div class="input-wrap">
             <span class="input-icon">🔒</span>
-            <input type="password" id="password" placeholder="Password" autocomplete="new-password" required="">
+            <input type="password" id="adminPassword" placeholder="Password" autocomplete="current-password" required="">
             <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password visibility">
               <span id="eyeIcon">👁️</span>
             </button>
@@ -66,43 +61,29 @@
           <span class="field-error" id="passwordError"></span>
         </div>
 
-        <div class="field-group">
-          <div class="input-wrap">
-            <span class="input-icon">🔒</span>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" autocomplete="new-password" required="">
-            <button type="button" class="toggle-pw" id="toggleConfirmPw" aria-label="Toggle confirm password visibility">
-              <span id="eyeIconConfirm">👁️</span>
-            </button>
-          </div>
-          <span class="field-error" id="confirmPasswordError"></span>
+        <div class="row-options">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe">
+            <span class="check-box"></span>
+            Remember Me
+          </label>
+          <a href="#" class="forgot-link">Forgot Password?</a>
         </div>
 
-        <div class="field-group">
-          <div class="input-wrap">
-            <span class="input-icon">🐰</span>
-            <input type="number" id="age" placeholder="Age" min="18" max="120" required="">
-          </div>
-          <span class="hint">Must be 18+</span>
-          <span class="field-error" id="ageError"></span>
-        </div>
-
-        <button type="submit" class="btn-signin" id="createBtn">
-          <span class="btn-label">Create Account</span>
+        <button type="submit" class="btn-signin" id="signInBtn">
+          <span class="btn-label">Sign In</span>
         </button>
 
         <div class="toast" id="toast"></div>
 
-        <p class="signup-prompt">
-          Already have an account? <a href="login.html" class="create-link">Sign In</a>
-        </p>
-
       </form>
-    </div>
 
-    <a href="admin.html" class="staff-link">Staff Admin Portal</a>
+      <a href="login.html" class="back-link">← Back to User Login</a>
+
+    </div>
   </main>
 
-  <script src="../js/register.js"></script>
+  <script src="../js/admin.js"></script>
 
 
 </body></html>

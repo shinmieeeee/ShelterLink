@@ -1,0 +1,41 @@
+/* =============================================
+   ShelterLink – Admin Login Page Styles
+   ============================================= */
+
+/* Admin portal badge under the logo */
+.admin-badge {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  padding: 0.2rem 0.8rem;
+  margin-top: 0.4rem;
+}
+
+/* Inline error message (Invalid Username or Password) */
+.error-msg {
+  text-align: center;
+  color: var(--error);
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  min-height: 1.1rem;
+}
+
+/* Back to user login link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-mid);
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--green); }
