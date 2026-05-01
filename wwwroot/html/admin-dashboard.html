@@ -1,475 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShelterLink – Admin Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --green:        #2e9e4f;
-      --green-dark:   #1f7a3a;
-      --green-light:  #e8f5ec;
-      --brown:        #7a4f2d;
-      --tan:          #c9a87c;
-      --bg-from:      #d4e8c2;
-      --bg-mid:       #e8dcc8;
-      --bg-to:        #d4b896;
-      --card-bg:      rgba(255,255,255,0.93);
-      --text-dark:    #2b2118;
-      --text-mid:     #5a4a3a;
-      --text-light:   #8a7a6a;
-      --input-bg:     #f5f0ea;
-      --input-border: #d8ccc0;
-      --error:        #d63031;
-      --radius:       14px;
-      --shadow:       0 4px 24px rgba(100,70,30,0.13);
-      --sidebar-w:    240px;
-    }
-
-    html, body { height: 100%; }
-
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-mid) 50%, var(--bg-to) 100%);
-      min-height: 100vh;
-      display: flex;
-      color: var(--text-dark);
-    }
-
-    /* ── Sidebar ── */
-    .sidebar {
-      width: var(--sidebar-w);
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-right: 1px solid rgba(255,255,255,0.7);
-      display: flex;
-      flex-direction: column;
-      padding: 1.5rem 1rem;
-      gap: 0.3rem;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      z-index: 100;
-      box-shadow: 2px 0 16px rgba(100,70,30,0.08);
-    }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem 1.2rem;
-      border-bottom: 1px solid var(--input-border);
-      margin-bottom: 0.5rem;
-    }
-
-    .sidebar-logo .logo-icon { font-size: 1.6rem; }
-
-    .sidebar-logo .brand {
-      font-family: 'Baloo 2', cursive;
-      font-size: 1.3rem;
-      line-height: 1;
-    }
-
-    .brand-shelter { color: var(--green); }
-    .brand-link    { color: var(--brown); }
-
-    .admin-badge {
-      font-size: 0.65rem;
-      background: var(--green);
-      color: #fff;
-      border-radius: 6px;
-      padding: 2px 6px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-left: auto;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.65rem 0.75rem;
-      border-radius: var(--radius);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      transition: all 0.2s;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-
-    .nav-item:hover { background: var(--green-light); color: var(--green-dark); }
-    .nav-item.active { background: var(--green); color: #fff; }
-    .nav-item .nav-icon { font-size: 1.1rem; width: 1.4rem; text-align: center; }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding-top: 1rem;
-      border-top: 1px solid var(--input-border);
-    }
-
-    .admin-info {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.5rem 0.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .admin-avatar {
-      width: 36px; height: 36px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: #fff;
-      font-weight: 800;
-    }
-
-    .admin-name { font-weight: 700; font-size: 0.85rem; color: var(--text-dark); }
-    .admin-role { font-size: 0.72rem; color: var(--text-light); }
-
-    .btn-logout {
-      width: 100%;
-      padding: 0.6rem;
-      background: #fdeaea;
-      color: var(--error);
-      border: none;
-      border-radius: var(--radius);
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-logout:hover { background: var(--error); color: #fff; }
-
-    /* ── Main content ── */
-    .main {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      padding: 2rem;
-      overflow-y: auto;
-    }
-
-    .page { display: none; }
-    .page.active { display: block; animation: fadeIn 0.3s ease; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ── Page header ── */
-    .page-header {
-      margin-bottom: 1.8rem;
-    }
-
-    .page-header h2 {
-      font-family: 'Baloo 2', cursive;
-      font-size: 1.7rem;
-      color: var(--text-dark);
-    }
-
-    .page-header p { color: var(--text-light); font-size: 0.9rem; margin-top: 0.2rem; }
-
-    /* ── Stat cards ── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 1.2rem 1.4rem;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.7);
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      transition: transform 0.2s;
-    }
-
-    .stat-card:hover { transform: translateY(-3px); }
-    .stat-icon { font-size: 1.6rem; }
-    .stat-label { font-size: 0.78rem; color: var(--text-light); font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; }
-    .stat-value { font-family: 'Baloo 2', cursive; font-size: 2rem; color: var(--text-dark); line-height: 1; }
-    .stat-card.green .stat-value { color: var(--green); }
-    .stat-card.brown .stat-value { color: var(--brown); }
-    .stat-card.red   .stat-value { color: var(--error); }
-    .stat-card.tan   .stat-value { color: #c07a20; }
-
-    /* ── Section card ── */
-    .section-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 1.4rem;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.7);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .section-title {
-      font-family: 'Baloo 2', cursive;
-      font-size: 1.15rem;
-      color: var(--text-dark);
-    }
-
-    /* ── Buttons ── */
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      border: none;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: 0.83rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-primary { background: var(--green); color: #fff; }
-    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
-    .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
-    .btn-danger { background: #fdeaea; color: var(--error); }
-    .btn-danger:hover { background: var(--error); color: #fff; }
-    .btn-warning { background: #fff8e1; color: #c07a20; }
-    .btn-warning:hover { background: #c07a20; color: #fff; }
-    .btn-info { background: #e8f0fe; color: #1a56db; }
-    .btn-info:hover { background: #1a56db; color: #fff; }
-    .btn-success { background: var(--green-light); color: var(--green-dark); }
-    .btn-success:hover { background: var(--green); color: #fff; }
-
-    /* ── Table ── */
-    .table-wrap { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.86rem;
-    }
-
-    th {
-      text-align: left;
-      padding: 0.6rem 0.8rem;
-      background: var(--input-bg);
-      color: var(--text-light);
-      font-weight: 700;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    td {
-      padding: 0.7rem 0.8rem;
-      border-bottom: 1px solid var(--input-bg);
-      color: var(--text-dark);
-      vertical-align: middle;
-    }
-
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(46,158,79,0.04); }
-
-    /* ── Badges ── */
-    .badge {
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
-    .badge-available  { background: var(--green-light); color: var(--green-dark); }
-    .badge-adopted    { background: #e8f0fe; color: #1a56db; }
-    .badge-pending    { background: #fff8e1; color: #c07a20; }
-    .badge-approved   { background: var(--green-light); color: var(--green-dark); }
-    .badge-rejected   { background: #fdeaea; color: var(--error); }
-    .badge-interview  { background: #f3e8ff; color: #7c3aed; }
-    .badge-homecheck  { background: #fff8e1; color: #c07a20; }
-
-    /* ── Animal image ── */
-    .animal-img {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--input-bg);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      border: 2px solid var(--input-border);
-    }
-
-    /* ── Modal ── */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(43,33,24,0.45);
-      backdrop-filter: blur(4px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
-
-    .modal {
-      background: #fff;
-      border-radius: 20px;
-      padding: 2rem;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 20px 60px rgba(100,70,30,0.25);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.4rem;
-    }
-
-    .modal-title { font-family: 'Baloo 2', cursive; font-size: 1.2rem; color: var(--text-dark); }
-
-    .modal-close {
-      background: none; border: none; font-size: 1.3rem;
-      cursor: pointer; color: var(--text-light); transition: color 0.2s;
-    }
-    .modal-close:hover { color: var(--error); }
-
-    /* ── Form inside modal ── */
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-weight: 700; font-size: 0.83rem; color: var(--text-mid); margin-bottom: 0.35rem; }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      background: var(--input-bg);
-      border: 1.5px solid var(--input-border);
-      border-radius: 10px;
-      padding: 0.65rem 0.85rem;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
-      color: var(--text-dark);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(46,158,79,0.12);
-    }
-
-    .form-group textarea { resize: vertical; min-height: 80px; }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-
-    .modal-actions {
-      display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.4rem;
-    }
-
-    /* ── Notification dot ── */
-    .notif-dot {
-      width: 8px; height: 8px;
-      background: var(--error);
-      border-radius: 50%;
-      display: inline-block;
-      margin-left: auto;
-    }
-
-    /* ── Audit log ── */
-    .log-item {
-      display: flex;
-      gap: 0.8rem;
-      align-items: flex-start;
-      padding: 0.7rem 0;
-      border-bottom: 1px solid var(--input-bg);
-    }
-
-    .log-item:last-child { border-bottom: none; }
-    .log-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); margin-top: 5px; flex-shrink: 0; }
-    .log-dot.red { background: var(--error); }
-    .log-dot.tan { background: var(--tan); }
-    .log-text { font-size: 0.84rem; color: var(--text-dark); font-weight: 600; }
-    .log-time { font-size: 0.74rem; color: var(--text-light); margin-top: 2px; }
-
-    /* ── Notification list ── */
-    .notif-item {
-      display: flex; gap: 0.8rem; align-items: flex-start;
-      padding: 0.8rem;
-      border-radius: 10px;
-      background: var(--input-bg);
-      margin-bottom: 0.6rem;
-      transition: background 0.2s;
-    }
-
-    .notif-item.unread { background: var(--green-light); }
-    .notif-icon { font-size: 1.2rem; margin-top: 2px; }
-    .notif-text { font-size: 0.84rem; font-weight: 600; color: var(--text-dark); }
-    .notif-time { font-size: 0.74rem; color: var(--text-light); margin-top: 2px; }
-
-    /* ── Empty state ── */
-    .empty-state {
-      text-align: center; padding: 2.5rem 1rem;
-      color: var(--text-light); font-size: 0.9rem;
-    }
-
-    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
-
-    /* ── Search/filter bar ── */
-    .filter-bar {
-      display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem;
-    }
-
-    .filter-bar input,
-    .filter-bar select {
-      padding: 0.5rem 0.85rem;
-      border: 1.5px solid var(--input-border);
-      border-radius: 10px;
-      background: var(--input-bg);
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.85rem;
-      color: var(--text-dark);
-      outline: none;
-    }
-
-    .filter-bar input:focus,
-    .filter-bar select:focus { border-color: var(--green); }
-
-    .filter-bar input { flex: 1; min-width: 160px; }
-
-    /* ── Toast ── */
-    #adminToast {
-      position: fixed; bottom: 1.5rem; right: 1.5rem;
-      padding: 0.75rem 1.2rem;
-      border-radius: 12px;
-      font-weight: 700; font-size: 0.88rem;
-      z-index: 999;
-      display: none;
-      animation: fadeIn 0.3s ease;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-
-    #adminToast.success { background: var(--green); color: #fff; display: block; }
-    #adminToast.error   { background: var(--error); color: #fff; display: block; }
-
-    /* ── Confirm modal ── */
-    .confirm-msg { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 1.4rem; line-height: 1.6; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin-dashboard.css">
 </head>
 <body>
 
@@ -491,11 +25,11 @@
   </button>
   <button class="nav-item" onclick="showPage('applications', this)">
     <span class="nav-icon">📋</span> Applications
-    <span class="notif-dot" id="appNotifDot"></span>
+    <span class="notif-dot" id="appNotifDot" style="display: inline-block;"></span>
   </button>
   <button class="nav-item" onclick="showPage('notifications', this)">
     <span class="nav-icon">🔔</span> Notifications
-    <span class="notif-dot" id="notifDot"></span>
+    <span class="notif-dot" id="notifDot" style="display: inline-block;"></span>
   </button>
   <button class="nav-item" onclick="showPage('auditlog', this)">
     <span class="nav-icon">📜</span> Audit Log
@@ -527,17 +61,17 @@
       <div class="stat-card green">
         <div class="stat-icon">🐾</div>
         <div class="stat-label">Total Animals</div>
-        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-value" id="statTotal">5</div>
       </div>
       <div class="stat-card tan">
         <div class="stat-icon">⏳</div>
         <div class="stat-label">Pending Applications</div>
-        <div class="stat-value" id="statPending">0</div>
+        <div class="stat-value" id="statPending">1</div>
       </div>
       <div class="stat-card green">
         <div class="stat-icon">✅</div>
         <div class="stat-label">Approved</div>
-        <div class="stat-value" id="statApproved">0</div>
+        <div class="stat-value" id="statApproved">1</div>
       </div>
       <div class="stat-card red">
         <div class="stat-icon">❌</div>
@@ -562,7 +96,35 @@
               <th>Date</th>
             </tr>
           </thead>
-          <tbody id="recentAppBody"></tbody>
+          <tbody id="recentAppBody">
+    <tr>
+      <td><b>Shaun</b></td>
+      <td>Rocky</td>
+      <td><span class="badge badge-approved">Approved</span></td>
+      <td style="color:var(--text-light)">2026-04-20</td>
+    </tr>
+  
+    <tr>
+      <td><b>Shinn</b></td>
+      <td>Mochi</td>
+      <td><span class="badge badge-homecheck">Home Check</span></td>
+      <td style="color:var(--text-light)">2026-04-25</td>
+    </tr>
+  
+    <tr>
+      <td><b>Shaun</b></td>
+      <td>Luna</td>
+      <td><span class="badge badge-interview">Interview Scheduled</span></td>
+      <td style="color:var(--text-light)">2026-04-27</td>
+    </tr>
+  
+    <tr>
+      <td><b>Shinn</b></td>
+      <td>Buddy</td>
+      <td><span class="badge badge-pending">Submitted</span></td>
+      <td style="color:var(--text-light)">2026-04-28</td>
+    </tr>
+  </tbody>
         </table>
       </div>
     </div>
@@ -573,7 +135,22 @@
         <div class="section-title">📜 Recent Activity</div>
         <button class="btn btn-primary btn-sm" onclick="showPage('auditlog', document.querySelector('[onclick*=auditlog]'))">View All</button>
       </div>
-      <div id="recentLogs"></div>
+      <div id="recentLogs">
+    <div class="log-item">
+      <div class="log-dot green"></div>
+      <div><div class="log-text">Admin approved application #4 (Shaun → Rocky)</div><div class="log-time">Apr 20, 2026 10:32 AM</div></div>
+    </div>
+  
+    <div class="log-item">
+      <div class="log-dot tan"></div>
+      <div><div class="log-text">Admin added new animal: Mochi (Persian Cat)</div><div class="log-time">Apr 19, 2026 2:15 PM</div></div>
+    </div>
+  
+    <div class="log-item">
+      <div class="log-dot green"></div>
+      <div><div class="log-text">Admin updated animal status: Max → Adopted</div><div class="log-time">Apr 18, 2026 9:00 AM</div></div>
+    </div>
+  </div>
     </div>
   </div>
 
@@ -589,7 +166,7 @@
         <button class="btn btn-primary" onclick="openAnimalModal()">+ Add Animal</button>
       </div>
       <div class="filter-bar">
-        <input type="text" id="animalSearch" placeholder="🔍 Search animals..." oninput="renderAnimals()"/>
+        <input type="text" id="animalSearch" placeholder="🔍 Search animals..." oninput="renderAnimals()">
         <select id="animalStatusFilter" onchange="renderAnimals()">
           <option value="">All Statuses</option>
           <option value="Available">Available</option>
@@ -614,7 +191,102 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="animalTableBody"></tbody>
+          <tbody id="animalTableBody">
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          <div class="animal-img">🐶</div>
+          <b>Buddy</b>
+        </div>
+      </td>
+      <td>Dog</td>
+      <td>Labrador</td>
+      <td>3 years</td>
+      <td><span class="badge badge-available">Available</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem">
+          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(1)">✏️ Edit</button>
+          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(1)">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          <div class="animal-img">🐱</div>
+          <b>Luna</b>
+        </div>
+      </td>
+      <td>Cat</td>
+      <td>Siamese</td>
+      <td>2 years</td>
+      <td><span class="badge badge-available">Available</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem">
+          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(2)">✏️ Edit</button>
+          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(2)">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          <div class="animal-img">🐶</div>
+          <b>Max</b>
+        </div>
+      </td>
+      <td>Dog</td>
+      <td>Golden Retriever</td>
+      <td>5 years</td>
+      <td><span class="badge badge-adopted">Adopted</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem">
+          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(3)">✏️ Edit</button>
+          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(3)">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          <div class="animal-img">🐱</div>
+          <b>Mochi</b>
+        </div>
+      </td>
+      <td>Cat</td>
+      <td>Persian</td>
+      <td>1 year</td>
+      <td><span class="badge badge-available">Available</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem">
+          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(4)">✏️ Edit</button>
+          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(4)">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          <div class="animal-img">🐶</div>
+          <b>Rocky</b>
+        </div>
+      </td>
+      <td>Dog</td>
+      <td>Beagle</td>
+      <td>4 years</td>
+      <td><span class="badge badge-available">Available</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem">
+          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(5)">✏️ Edit</button>
+          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(5)">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
         </table>
       </div>
     </div>
@@ -631,7 +303,7 @@
         <div class="section-title">All Applications</div>
       </div>
       <div class="filter-bar">
-        <input type="text" id="appSearch" placeholder="🔍 Search applicants..." oninput="renderApplications()"/>
+        <input type="text" id="appSearch" placeholder="🔍 Search applicants..." oninput="renderApplications()">
         <select id="appStatusFilter" onchange="renderApplications()">
           <option value="">All Statuses</option>
           <option value="Submitted">Submitted</option>
@@ -652,7 +324,59 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="appTableBody"></tbody>
+          <tbody id="appTableBody">
+    <tr>
+      <td><b>Shinn</b><br><span style="font-size:0.75rem;color:var(--text-light)">sheashinmie04@gmail.com</span></td>
+      <td>Buddy</td>
+      <td><span class="badge badge-pending">Submitted</span></td>
+      <td style="color:var(--text-light)">2026-04-28</td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+          <button class="btn btn-info btn-sm" onclick="viewApp(1)">👁️ View</button>
+          <button class="btn btn-success btn-sm" onclick="updateAppStatus(1,'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(1,'Rejected')">❌</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><b>Shaun</b><br><span style="font-size:0.75rem;color:var(--text-light)">janxentshawn@gmail.com</span></td>
+      <td>Luna</td>
+      <td><span class="badge badge-interview">Interview Scheduled</span></td>
+      <td style="color:var(--text-light)">2026-04-27</td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+          <button class="btn btn-info btn-sm" onclick="viewApp(2)">👁️ View</button>
+          <button class="btn btn-success btn-sm" onclick="updateAppStatus(2,'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(2,'Rejected')">❌</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><b>Shinn</b><br><span style="font-size:0.75rem;color:var(--text-light)">sheashinmie04@gmail.com</span></td>
+      <td>Mochi</td>
+      <td><span class="badge badge-homecheck">Home Check</span></td>
+      <td style="color:var(--text-light)">2026-04-25</td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+          <button class="btn btn-info btn-sm" onclick="viewApp(3)">👁️ View</button>
+          <button class="btn btn-success btn-sm" onclick="updateAppStatus(3,'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(3,'Rejected')">❌</button>
+        </div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><b>Shaun</b><br><span style="font-size:0.75rem;color:var(--text-light)">janxentshawn@gmail.com</span></td>
+      <td>Rocky</td>
+      <td><span class="badge badge-approved">Approved</span></td>
+      <td style="color:var(--text-light)">2026-04-20</td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+          <button class="btn btn-info btn-sm" onclick="viewApp(4)">👁️ View</button>
+          
+        </div>
+      </td>
+    </tr>
+  </tbody>
         </table>
       </div>
     </div>
@@ -669,7 +393,39 @@
         <div class="section-title">All Notifications</div>
         <button class="btn btn-primary btn-sm" onclick="markAllRead()">Mark All Read</button>
       </div>
-      <div id="notifList"></div>
+      <div id="notifList">
+    <div class="notif-item unread" onclick="markRead(1)">
+      <div class="notif-icon">📋</div>
+      <div>
+        <div class="notif-text">New application from Shinn for Buddy</div>
+        <div class="notif-time">2 hours ago</div>
+      </div>
+    </div>
+  
+    <div class="notif-item unread" onclick="markRead(2)">
+      <div class="notif-icon">📋</div>
+      <div>
+        <div class="notif-text">New application from Shaun for Luna</div>
+        <div class="notif-time">5 hours ago</div>
+      </div>
+    </div>
+  
+    <div class="notif-item " onclick="markRead(3)">
+      <div class="notif-icon">✅</div>
+      <div>
+        <div class="notif-text">Shaun's application for Rocky approved</div>
+        <div class="notif-time">1 day ago</div>
+      </div>
+    </div>
+  
+    <div class="notif-item " onclick="markRead(4)">
+      <div class="notif-icon">🐾</div>
+      <div>
+        <div class="notif-text">New animal Mochi added to the shelter</div>
+        <div class="notif-time">2 days ago</div>
+      </div>
+    </div>
+  </div>
     </div>
   </div>
 
@@ -684,7 +440,27 @@
         <div class="section-title">Activity History</div>
         <button class="btn btn-danger btn-sm" onclick="clearLogs()">Clear Logs</button>
       </div>
-      <div id="auditLogList"></div>
+      <div id="auditLogList">
+    <div class="log-item">
+      <div class="log-dot green"></div>
+      <div><div class="log-text">Admin approved application #4 (Shaun → Rocky)</div><div class="log-time">Apr 20, 2026 10:32 AM</div></div>
+    </div>
+  
+    <div class="log-item">
+      <div class="log-dot tan"></div>
+      <div><div class="log-text">Admin added new animal: Mochi (Persian Cat)</div><div class="log-time">Apr 19, 2026 2:15 PM</div></div>
+    </div>
+  
+    <div class="log-item">
+      <div class="log-dot green"></div>
+      <div><div class="log-text">Admin updated animal status: Max → Adopted</div><div class="log-time">Apr 18, 2026 9:00 AM</div></div>
+    </div>
+  
+    <div class="log-item">
+      <div class="log-dot red"></div>
+      <div><div class="log-text">Admin rejected application #0 (test user)</div><div class="log-time">Apr 17, 2026 4:45 PM</div></div>
+    </div>
+  </div>
     </div>
   </div>
 
@@ -700,7 +476,7 @@
     <div class="form-row">
       <div class="form-group">
         <label>Name</label>
-        <input type="text" id="aName" placeholder="e.g. Buddy"/>
+        <input type="text" id="aName" placeholder="e.g. Buddy">
       </div>
       <div class="form-group">
         <label>Species</label>
@@ -714,11 +490,11 @@
     <div class="form-row">
       <div class="form-group">
         <label>Breed</label>
-        <input type="text" id="aBreed" placeholder="e.g. Labrador"/>
+        <input type="text" id="aBreed" placeholder="e.g. Labrador">
       </div>
       <div class="form-group">
         <label>Age</label>
-        <input type="text" id="aAge" placeholder="e.g. 2 years"/>
+        <input type="text" id="aAge" placeholder="e.g. 2 years">
       </div>
     </div>
     <div class="form-row">
@@ -741,7 +517,7 @@
       <label>Description</label>
       <textarea id="aDesc" placeholder="Brief description of the animal..."></textarea>
     </div>
-    <input type="hidden" id="aEditId" value=""/>
+    <input type="hidden" id="aEditId" value="">
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('animalModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveAnimal()">Save Animal</button>
@@ -782,25 +558,25 @@
 <script>
 // ── State ──
 let animals = [
-  { id: 1, name: 'Buddy',   species: 'Dog', breed: 'Labrador',       age: '3 years',  status: 'Available', gender: 'Male',   desc: 'Friendly and energetic.' },
-  { id: 2, name: 'Luna',    species: 'Cat', breed: 'Siamese',        age: '2 years',  status: 'Available', gender: 'Female', desc: 'Calm and affectionate.' },
-  { id: 3, name: 'Max',     species: 'Dog', breed: 'Golden Retriever',age: '5 years', status: 'Adopted',   gender: 'Male',   desc: 'Great with kids.' },
-  { id: 4, name: 'Mochi',   species: 'Cat', breed: 'Persian',        age: '1 year',   status: 'Available', gender: 'Female', desc: 'Loves to cuddle.' },
-  { id: 5, name: 'Rocky',   species: 'Dog', breed: 'Beagle',         age: '4 years',  status: 'Available', gender: 'Male',   desc: 'Playful and loyal.' },
+  { id: 1, name: 'Buddy',   species: 'Dog', breed: 'Labrador',        age: '3 years',  status: 'Available', gender: 'Male',   desc: 'Friendly and energetic.' },
+  { id: 2, name: 'Luna',    species: 'Cat', breed: 'Siamese',         age: '2 years',  status: 'Available', gender: 'Female', desc: 'Calm and affectionate.' },
+  { id: 3, name: 'Max',     species: 'Dog', breed: 'Golden Retriever', age: '5 years', status: 'Adopted',   gender: 'Male',   desc: 'Great with kids.' },
+  { id: 4, name: 'Mochi',   species: 'Cat', breed: 'Persian',         age: '1 year',   status: 'Available', gender: 'Female', desc: 'Loves to cuddle.' },
+  { id: 5, name: 'Rocky',   species: 'Dog', breed: 'Beagle',          age: '4 years',  status: 'Available', gender: 'Male',   desc: 'Playful and loyal.' },
 ];
 
 let applications = [
-  { id: 1, applicant: 'Shinn',  animal: 'Buddy', status: 'Submitted',          date: '2026-04-28', email: 'sheashinmie04@gmail.com', notes: 'Has a large backyard.' },
+  { id: 1, applicant: 'Shinn',  animal: 'Buddy', status: 'Submitted',           date: '2026-04-28', email: 'sheashinmie04@gmail.com', notes: 'Has a large backyard.' },
   { id: 2, applicant: 'Shaun',  animal: 'Luna',  status: 'Interview Scheduled', date: '2026-04-27', email: 'janxentshawn@gmail.com',  notes: 'Lives alone, very responsible.' },
   { id: 3, applicant: 'Shinn',  animal: 'Mochi', status: 'Home Check',          date: '2026-04-25', email: 'sheashinmie04@gmail.com', notes: 'Cat-friendly household.' },
   { id: 4, applicant: 'Shaun',  animal: 'Rocky', status: 'Approved',            date: '2026-04-20', email: 'janxentshawn@gmail.com',  notes: 'Previous pet owner.' },
 ];
 
 let notifications = [
-  { id: 1, icon: '📋', text: 'New application from Shinn for Buddy',  time: '2 hours ago',  read: false },
-  { id: 2, icon: '📋', text: 'New application from Shaun for Luna',   time: '5 hours ago',  read: false },
-  { id: 3, icon: '✅', text: "Shaun's application for Rocky approved", time: '1 day ago',    read: true  },
-  { id: 4, icon: '🐾', text: 'New animal Mochi added to the shelter', time: '2 days ago',   read: true  },
+  { id: 1, icon: '📋', text: 'New application from Shinn for Buddy',   time: '2 hours ago', read: false },
+  { id: 2, icon: '📋', text: 'New application from Shaun for Luna',    time: '5 hours ago', read: false },
+  { id: 3, icon: '✅', text: "Shaun's application for Rocky approved", time: '1 day ago',   read: true  },
+  { id: 4, icon: '🐾', text: 'New animal Mochi added to the shelter',  time: '2 days ago',  read: true  },
 ];
 
 let auditLogs = [
@@ -855,7 +631,7 @@ function updateStats() {
 
 // ── Recent apps (overview) ──
 function renderRecentApps() {
-  const tbody = document.getElementById('recentAppBody');
+  const tbody  = document.getElementById('recentAppBody');
   const recent = [...applications].reverse().slice(0, 4);
   if (!recent.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:1.5rem">No applications yet</td></tr>'; return; }
   tbody.innerHTML = recent.map(a => `
@@ -870,7 +646,7 @@ function renderRecentApps() {
 
 // ── Recent logs (overview) ──
 function renderRecentLogs() {
-  const el = document.getElementById('recentLogs');
+  const el     = document.getElementById('recentLogs');
   const recent = auditLogs.slice(0, 3);
   if (!recent.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📜</div>No activity yet</div>'; return; }
   el.innerHTML = recent.map(l => `
@@ -920,14 +696,14 @@ function renderAnimals() {
 }
 
 function openAnimalModal(id) {
-  document.getElementById('aEditId').value = '';
-  document.getElementById('aName').value   = '';
+  document.getElementById('aEditId').value  = '';
+  document.getElementById('aName').value    = '';
   document.getElementById('aSpecies').value = 'Dog';
-  document.getElementById('aBreed').value  = '';
-  document.getElementById('aAge').value    = '';
-  document.getElementById('aStatus').value = 'Available';
-  document.getElementById('aGender').value = 'Male';
-  document.getElementById('aDesc').value   = '';
+  document.getElementById('aBreed').value   = '';
+  document.getElementById('aAge').value     = '';
+  document.getElementById('aStatus').value  = 'Available';
+  document.getElementById('aGender').value  = 'Male';
+  document.getElementById('aDesc').value    = '';
   document.getElementById('animalModalTitle').textContent = id ? 'Edit Animal' : 'Add Animal';
 
   if (id) {
@@ -1011,7 +787,7 @@ function renderApplications() {
       <td style="color:var(--text-light)">${a.date}</td>
       <td>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="btn btn-info btn-sm"    onclick="viewApp(${a.id})">👁️ View</button>
+          <button class="btn btn-info btn-sm" onclick="viewApp(${a.id})">👁️ View</button>
           ${a.status !== 'Approved' && a.status !== 'Rejected' ? `<button class="btn btn-success btn-sm" onclick="updateAppStatus(${a.id},'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(${a.id},'Rejected')">❌</button>` : ''}
         </div>
       </td>
@@ -1092,9 +868,9 @@ function addNotif(icon, text) {
 }
 
 function updateNotifDots() {
-  const unread = notifications.filter(n => !n.read).length;
+  const unread     = notifications.filter(n => !n.read).length;
   const pendingApps = applications.filter(a => a.status === 'Submitted').length;
-  document.getElementById('notifDot').style.display    = unread     ? 'inline-block' : 'none';
+  document.getElementById('notifDot').style.display    = unread      ? 'inline-block' : 'none';
   document.getElementById('appNotifDot').style.display = pendingApps ? 'inline-block' : 'none';
 }
 
@@ -1111,7 +887,7 @@ function renderAuditLog() {
 }
 
 function addLog(type, text) {
-  const now = new Date();
+  const now  = new Date();
   const time = now.toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', hour12:true });
   auditLogs.unshift({ type, text, time });
   renderRecentLogs();
@@ -1143,15 +919,15 @@ function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
 function showConfirm(title, msg, onConfirm) {
-  document.getElementById('confirmTitle').textContent   = title;
-  document.getElementById('confirmMsg').innerHTML       = msg;
-  document.getElementById('confirmOkBtn').onclick       = () => { onConfirm(); closeModal('confirmModal'); };
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').innerHTML     = msg;
+  document.getElementById('confirmOkBtn').onclick     = () => { onConfirm(); closeModal('confirmModal'); };
   openModal('confirmModal');
 }
 
 let toastTimer;
 function showToast(msg, type) {
-  const t = document.getElementById('adminToast');
+  const t   = document.getElementById('adminToast');
   t.textContent = msg;
   t.className   = type;
   clearTimeout(toastTimer);
@@ -1173,5 +949,6 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   });
 });
 </script>
-</body>
-</html>
+
+
+</body></html>
