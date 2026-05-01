@@ -1,5 +1,5 @@
 ﻿/* =============================================
-   ShelterLink – Login Page JavaScript (app.js)
+   ShelterLink – Login Page JavaScript
    ============================================= */
 
 const form        = document.getElementById('loginForm');
@@ -16,7 +16,7 @@ const passwordErr = document.getElementById('passwordError');
 // ── Toggle password visibility ──
 togglePwBtn.addEventListener('click', () => {
   const isPw = passwordEl.type === 'password';
-  passwordEl.type  = isPw ? 'text' : 'password';
+  passwordEl.type = isPw ? 'text' : 'password';
   eyeIcon.textContent = isPw ? '🙈' : '👁️';
 });
 
@@ -51,24 +51,12 @@ form.addEventListener('submit', async (e) => {
   const username = usernameEl.value.trim();
   const password = passwordEl.value;
 
-  // Client-side validation
   let valid = true;
-
-  if (!username) {
-    showError(usernameEl, usernameErr, 'Please enter your username.');
-    valid = false;
-  }
-  if (!password) {
-    showError(passwordEl, passwordErr, 'Please enter your password.');
-    valid = false;
-  } else if (password.length < 6) {
-    showError(passwordEl, passwordErr, 'Password must be at least 6 characters.');
-    valid = false;
-  }
-
+  if (!username) { showError(usernameEl, usernameErr, 'Please enter your email.'); valid = false; }
+  if (!password) { showError(passwordEl, passwordErr, 'Please enter your password.'); valid = false; }
+  else if (password.length < 6) { showError(passwordEl, passwordErr, 'Password must be at least 6 characters.'); valid = false; }
   if (!valid) return;
 
-  // Show loading state
   signInBtn.disabled = true;
   signInBtn.querySelector('.btn-label').textContent = 'Signing in…';
   btnLoader.hidden = false;
@@ -78,23 +66,23 @@ form.addEventListener('submit', async (e) => {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email: username, password }),
     });
 
     const data = await response.json();
 
     if (response.ok && data.success) {
+      // Save user object for dashboard
+      const userJson = JSON.stringify(data.user);
+      sessionStorage.setItem('shelterlink_user', userJson);
+      localStorage.setItem('shelterlink_user', userJson);
+
       showToast('🐾 Welcome back! Redirecting…', 'success');
-      // Store token if returned
-      if (data.token) {
-        localStorage.setItem('shelterlink_token', data.token);
-      }
-      // Redirect after short delay
       setTimeout(() => {
-        window.location.href = data.redirectUrl || '/dashboard.html';
-      }, 1200);
+        window.location.href = data.redirectUrl || 'dashboard.html';
+      }, 1000);
     } else {
-      showToast(data.message || 'Invalid username or password.', 'error');
+      showToast(data.message || 'Invalid email or password.', 'error');
       signInBtn.disabled = false;
       signInBtn.querySelector('.btn-label').textContent = 'Sign In';
       btnLoader.hidden = true;

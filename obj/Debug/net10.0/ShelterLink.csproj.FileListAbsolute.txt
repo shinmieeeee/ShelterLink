@@ -105,7 +105,6 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\bundle\ShelterLink.styles.css
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\projectbundle\ShelterLink.bundle.scp.css
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ksb6e64cpw-{0}-61n19gt1b8-61n19gt1b8.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\5y4joer2hc-{0}-d9epbymxe4-d9epbymxe4.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\a6va3266kl-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\pv9ssasxh0-{0}-c2jlpeoesf-c2jlpeoesf.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\xf10z45mux-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -199,4 +198,8 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\317vgzn6ki-{0}-i2zwal7k25-i2zwal7k25.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ey7jdt0k0v-{0}-gfmqmgz068-gfmqmgz068.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\h25f7o385g-{0}-0ejaeuvkgl-0ejaeuvkgl.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-maco3eb6n6-maco3eb6n6.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\2m9wu3powx-{0}-2g643l6uyt-2g643l6uyt.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\e6ctr4kv0w-{0}-4attikgy7o-4attikgy7o.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-9jxo4sabse-9jxo4sabse.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ss6lzozql3-{0}-l3xzxtn8mm-l3xzxtn8mm.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\5y4joer2hc-{0}-nyr2gi1q92-nyr2gi1q92.gz
