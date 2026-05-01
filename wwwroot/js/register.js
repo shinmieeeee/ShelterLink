@@ -1,7 +1,3 @@
-/* =============================================
-   ShelterLink – Register Page JavaScript
-   ============================================= */
-
 const form             = document.getElementById('registerForm');
 const usernameEl       = document.getElementById('username');
 const emailEl          = document.getElementById('email');

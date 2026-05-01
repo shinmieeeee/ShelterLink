@@ -1,7 +1,3 @@
-/* =============================================
-   ShelterLink – Login Page JavaScript
-   ============================================= */
-
    const form        = document.getElementById('loginForm');
    const usernameEl  = document.getElementById('username');
    const passwordEl  = document.getElementById('password');

@@ -1,8 +1,3 @@
-/* =============================================
-   ShelterLink – Dashboard JavaScript
-   ============================================= */
-
-// ── State ──
 const state = {
   user: JSON.parse(sessionStorage.getItem('shelterlink_user') || 'null'),
   currentView: 'home',
