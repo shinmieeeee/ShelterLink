@@ -660,17 +660,20 @@ body {
 .empty-state h3 { font-family: 'Baloo 2', cursive; font-size: 1.2rem; margin-bottom: 6px; }
 .empty-state p { font-size: 0.88rem; }
 
-/* ── MODAL ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(26,34,54,0.55);
   z-index: 200;
-  display: flex;
+  display: none;          /* ← hidden by default */
   align-items: center;
   justify-content: center;
   padding: 20px;
   animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay:not([hidden]) {
+  display: flex;          /* ← only flex when the hidden attr is removed */
 }
 
 .modal-card {
