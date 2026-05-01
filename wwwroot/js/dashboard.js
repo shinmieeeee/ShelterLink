@@ -38,6 +38,7 @@ function showToast(msg, type = 'success') {
 
 // ── Auth guard ──
 function initAuth() {
+<<<<<<< HEAD
   // Try sessionStorage first
   if (!state.user) {
     try {
@@ -58,6 +59,19 @@ function initAuth() {
   if (!state.user) {
     window.location.href = 'login.html';
     return false;
+=======
+  // For now use sessionStorage; if not set, redirect to login
+  if (!state.user) {
+    // Try to get from localStorage fallback
+    const stored = localStorage.getItem('shelterlink_user');
+    if (stored) {
+      state.user = JSON.parse(stored);
+      sessionStorage.setItem('shelterlink_user', stored);
+    } else {
+      window.location.href = 'login.html';
+      return false;
+    }
+>>>>>>> 41a8b0b73edac4d73c5ccc71d04cf1ff7ab377fe
   }
   userNameDisplay.textContent = state.user.name || state.user.email || 'User';
   return true;
@@ -466,4 +480,8 @@ function errorState(msg) {
 // ── INIT ──
 if (initAuth()) {
   renderHome();
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 41a8b0b73edac4d73c5ccc71d04cf1ff7ab377fe

@@ -47,4 +47,8 @@ namespace ShelterLink.Controllers
         public string Email    { get; set; } = string.Empty;
         public string? Password { get; set; }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 41a8b0b73edac4d73c5ccc71d04cf1ff7ab377fe
