@@ -26,8 +26,4 @@ namespace ShelterLink.Controllers
             return Ok(new { featured, totalAvailable });
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 41a8b0b73edac4d73c5ccc71d04cf1ff7ab377fe
