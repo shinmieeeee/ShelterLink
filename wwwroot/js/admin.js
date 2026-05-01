@@ -4,7 +4,7 @@
   const passwordEl  = document.getElementById("adminPassword");
   const togglePwBtn = document.getElementById("togglePw");
   const eyeIcon     = document.getElementById("eyeIcon");
-  const rememberMe  = document.getElementById("rememberMe");
+  const rememberMe  = { checked: false }; 
   const signInBtn   = document.getElementById("signInBtn");
   const errorMsg    = document.getElementById("errorMsg");
   const toast       = document.getElementById("toast");
