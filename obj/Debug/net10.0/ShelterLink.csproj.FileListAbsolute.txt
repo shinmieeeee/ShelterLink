@@ -112,15 +112,12 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\bundle\ShelterLink.styles.css
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\scopedcss\projectbundle\ShelterLink.bundle.scp.css
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\zkm4jzb6ul-{0}-lgbnh1zi36-lgbnh1zi36.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\2m9wu3powx-{0}-2g643l6uyt-2g643l6uyt.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ey7jdt0k0v-{0}-gfmqmgz068-gfmqmgz068.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ksb6e64cpw-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\0ty8zv433p-{0}-jq1rupxl3b-jq1rupxl3b.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\e6ctr4kv0w-{0}-qnbgr4zv7m-qnbgr4zv7m.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\kkubckb9cz-{0}-url5od0bym-url5od0bym.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\h25f7o385g-{0}-0ejaeuvkgl-0ejaeuvkgl.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\b7msvogoub-{0}-hgdodeiqu1-hgdodeiqu1.gz
-C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ss6lzozql3-{0}-eb3hn3xaxr-eb3hn3xaxr.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\317vgzn6ki-{0}-i2zwal7k25-i2zwal7k25.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\5y4joer2hc-{0}-pca84fi0vs-pca84fi0vs.gz
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\a6va3266kl-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -195,3 +192,6 @@ C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\refint\She
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ShelterLink.pdb
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ShelterLink.genruntimeconfig.cache
 C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\ref\ShelterLink.dll
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\2m9wu3powx-{0}-q3svhpyppq-q3svhpyppq.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\e6ctr4kv0w-{0}-pdlhvpeir6-pdlhvpeir6.gz
+C:\Users\pc\OneDrive\Documents\Shin-mie\ShelterLink\obj\Debug\net10.0\compressed\ss6lzozql3-{0}-hv50dyy27i-hv50dyy27i.gz
