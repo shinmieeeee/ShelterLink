@@ -1,93 +1,126 @@
-<html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ShelterLink – Admin Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/admin-dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin-dashboard.css" />
 </head>
+
 <body>
 
-<!-- ── Sidebar ── -->
 <aside class="sidebar">
+
   <div class="sidebar-logo">
     <div class="logo-icon">🐾</div>
+
     <div class="brand">
-      <span class="brand-shelter">Shelter</span><span class="brand-link">Link</span>
+      <span class="brand-shelter">Shelter</span>
+      <span class="brand-link">Link</span>
     </div>
+
     <span class="admin-badge">ADMIN</span>
   </div>
 
   <button class="nav-item active" onclick="showPage('overview', this)">
-    <span class="nav-icon">📊</span> Overview
+    <span class="nav-icon">📊</span>
+    Overview
   </button>
+
   <button class="nav-item" onclick="showPage('animals', this)">
-    <span class="nav-icon">🐾</span> Animals
+    <span class="nav-icon">🐾</span>
+    Animals
   </button>
+
   <button class="nav-item" onclick="showPage('applications', this)">
-    <span class="nav-icon">📋</span> Applications
-    <span class="notif-dot" id="appNotifDot" style="display: inline-block;"></span>
+    <span class="nav-icon">📋</span>
+    Applications
+    <span class="notif-dot" id="appNotifDot"></span>
   </button>
+
   <button class="nav-item" onclick="showPage('notifications', this)">
-    <span class="nav-icon">🔔</span> Notifications
-    <span class="notif-dot" id="notifDot" style="display: inline-block;"></span>
+    <span class="nav-icon">🔔</span>
+    Notifications
+    <span class="notif-dot" id="notifDot"></span>
   </button>
+
   <button class="nav-item" onclick="showPage('auditlog', this)">
-    <span class="nav-icon">📜</span> Audit Log
+    <span class="nav-icon">📜</span>
+    Audit Log
   </button>
 
   <div class="sidebar-footer">
+
     <div class="admin-info">
       <div class="admin-avatar" id="adminAvatar">A</div>
+
       <div>
         <div class="admin-name" id="adminName">Admin</div>
         <div class="admin-role">Administrator</div>
       </div>
     </div>
+
     <button class="btn-logout" onclick="logout()">🚪 Sign Out</button>
+
   </div>
 </aside>
 
-<!-- ── Main ── -->
+<!-- ───────── Main Content ───────── -->
 <main class="main">
 
-  <!-- Overview -->
-  <div class="page active" id="page-overview">
+  <section class="page active" id="page-overview">
+
     <div class="page-header">
       <h2>👋 Welcome back, <span id="welcomeName">Admin</span>!</h2>
       <p>Here's what's happening at the shelter today.</p>
     </div>
 
     <div class="stats-grid">
+
       <div class="stat-card green">
         <div class="stat-icon">🐾</div>
         <div class="stat-label">Total Animals</div>
-        <div class="stat-value" id="statTotal">5</div>
+        <div class="stat-value" id="statTotal">0</div>
       </div>
+
       <div class="stat-card tan">
         <div class="stat-icon">⏳</div>
         <div class="stat-label">Pending Applications</div>
-        <div class="stat-value" id="statPending">1</div>
+        <div class="stat-value" id="statPending">0</div>
       </div>
+
       <div class="stat-card green">
         <div class="stat-icon">✅</div>
         <div class="stat-label">Approved</div>
-        <div class="stat-value" id="statApproved">1</div>
+        <div class="stat-value" id="statApproved">0</div>
       </div>
+
       <div class="stat-card red">
         <div class="stat-icon">❌</div>
         <div class="stat-label">Rejected</div>
         <div class="stat-value" id="statRejected">0</div>
       </div>
+
     </div>
 
-    <!-- Recent Applications -->
     <div class="section-card">
+
       <div class="section-header">
         <div class="section-title">📋 Recent Applications</div>
-        <button class="btn btn-primary btn-sm" onclick="showPage('applications', document.querySelector('[onclick*=applications]'))">View All</button>
+
+        <button
+          class="btn btn-primary btn-sm"
+          onclick="showPage('applications', document.querySelectorAll('.nav-item')[2])">
+          View All
+        </button>
       </div>
+
       <div class="table-wrap">
-        <table id="recentAppTable">
+        <table>
           <thead>
             <tr>
               <th>Applicant</th>
@@ -96,89 +129,71 @@
               <th>Date</th>
             </tr>
           </thead>
-          <tbody id="recentAppBody">
-    <tr>
-      <td><b>Shaun</b></td>
-      <td>Rocky</td>
-      <td><span class="badge badge-approved">Approved</span></td>
-      <td style="color:var(--text-light)">2026-04-20</td>
-    </tr>
-  
-    <tr>
-      <td><b>Shinn</b></td>
-      <td>Mochi</td>
-      <td><span class="badge badge-homecheck">Home Check</span></td>
-      <td style="color:var(--text-light)">2026-04-25</td>
-    </tr>
-  
-    <tr>
-      <td><b>Shaun</b></td>
-      <td>Luna</td>
-      <td><span class="badge badge-interview">Interview Scheduled</span></td>
-      <td style="color:var(--text-light)">2026-04-27</td>
-    </tr>
-  
-    <tr>
-      <td><b>Shinn</b></td>
-      <td>Buddy</td>
-      <td><span class="badge badge-pending">Submitted</span></td>
-      <td style="color:var(--text-light)">2026-04-28</td>
-    </tr>
-  </tbody>
+
+          <tbody id="recentAppBody"></tbody>
         </table>
       </div>
+
     </div>
 
-    <!-- Recent Audit Log -->
     <div class="section-card">
+
       <div class="section-header">
         <div class="section-title">📜 Recent Activity</div>
-        <button class="btn btn-primary btn-sm" onclick="showPage('auditlog', document.querySelector('[onclick*=auditlog]'))">View All</button>
-      </div>
-      <div id="recentLogs">
-    <div class="log-item">
-      <div class="log-dot green"></div>
-      <div><div class="log-text">Admin approved application #4 (Shaun → Rocky)</div><div class="log-time">Apr 20, 2026 10:32 AM</div></div>
-    </div>
-  
-    <div class="log-item">
-      <div class="log-dot tan"></div>
-      <div><div class="log-text">Admin added new animal: Mochi (Persian Cat)</div><div class="log-time">Apr 19, 2026 2:15 PM</div></div>
-    </div>
-  
-    <div class="log-item">
-      <div class="log-dot green"></div>
-      <div><div class="log-text">Admin updated animal status: Max → Adopted</div><div class="log-time">Apr 18, 2026 9:00 AM</div></div>
-    </div>
-  </div>
-    </div>
-  </div>
 
-  <!-- Animals -->
-  <div class="page" id="page-animals">
+        <button
+          class="btn btn-primary btn-sm"
+          onclick="showPage('auditlog', document.querySelectorAll('.nav-item')[4])">
+          View All
+        </button>
+      </div>
+
+      <div id="recentLogs"></div>
+
+    </div>
+
+  </section>
+
+  <section class="page" id="page-animals">
+
     <div class="page-header">
       <h2>🐾 Animal Management</h2>
       <p>Add, edit, or remove animals from the shelter.</p>
     </div>
+
     <div class="section-card">
+
       <div class="section-header">
         <div class="section-title">All Animals</div>
-        <button class="btn btn-primary" onclick="openAnimalModal()">+ Add Animal</button>
+
+        <button class="btn btn-primary" onclick="openAnimalModal()">
+          + Add Animal
+        </button>
       </div>
+
       <div class="filter-bar">
-        <input type="text" id="animalSearch" placeholder="🔍 Search animals..." oninput="renderAnimals()">
+
+        <input
+          type="text"
+          id="animalSearch"
+          placeholder="🔍 Search animals..."
+          oninput="renderAnimals()">
+
         <select id="animalStatusFilter" onchange="renderAnimals()">
           <option value="">All Statuses</option>
           <option value="Available">Available</option>
           <option value="Adopted">Adopted</option>
         </select>
+
         <select id="animalSpeciesFilter" onchange="renderAnimals()">
           <option value="">All Species</option>
           <option value="Dog">Dog</option>
           <option value="Cat">Cat</option>
           <option value="Other">Other</option>
         </select>
+
       </div>
+
       <div class="table-wrap">
         <table>
           <thead>
@@ -191,119 +206,37 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="animalTableBody">
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:0.6rem">
-          <div class="animal-img">🐶</div>
-          <b>Buddy</b>
-        </div>
-      </td>
-      <td>Dog</td>
-      <td>Labrador</td>
-      <td>3 years</td>
-      <td><span class="badge badge-available">Available</span></td>
-      <td>
-        <div style="display:flex;gap:0.4rem">
-          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(1)">✏️ Edit</button>
-          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(1)">🗑️</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:0.6rem">
-          <div class="animal-img">🐱</div>
-          <b>Luna</b>
-        </div>
-      </td>
-      <td>Cat</td>
-      <td>Siamese</td>
-      <td>2 years</td>
-      <td><span class="badge badge-available">Available</span></td>
-      <td>
-        <div style="display:flex;gap:0.4rem">
-          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(2)">✏️ Edit</button>
-          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(2)">🗑️</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:0.6rem">
-          <div class="animal-img">🐶</div>
-          <b>Max</b>
-        </div>
-      </td>
-      <td>Dog</td>
-      <td>Golden Retriever</td>
-      <td>5 years</td>
-      <td><span class="badge badge-adopted">Adopted</span></td>
-      <td>
-        <div style="display:flex;gap:0.4rem">
-          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(3)">✏️ Edit</button>
-          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(3)">🗑️</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:0.6rem">
-          <div class="animal-img">🐱</div>
-          <b>Mochi</b>
-        </div>
-      </td>
-      <td>Cat</td>
-      <td>Persian</td>
-      <td>1 year</td>
-      <td><span class="badge badge-available">Available</span></td>
-      <td>
-        <div style="display:flex;gap:0.4rem">
-          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(4)">✏️ Edit</button>
-          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(4)">🗑️</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:0.6rem">
-          <div class="animal-img">🐶</div>
-          <b>Rocky</b>
-        </div>
-      </td>
-      <td>Dog</td>
-      <td>Beagle</td>
-      <td>4 years</td>
-      <td><span class="badge badge-available">Available</span></td>
-      <td>
-        <div style="display:flex;gap:0.4rem">
-          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(5)">✏️ Edit</button>
-          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(5)">🗑️</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
+
+          <tbody id="animalTableBody"></tbody>
         </table>
       </div>
-    </div>
-  </div>
 
-  <!-- Applications -->
-  <div class="page" id="page-applications">
+    </div>
+
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section class="page" id="page-applications">
+
     <div class="page-header">
       <h2>📋 Adoption Applications</h2>
       <p>Review and manage adoption applications.</p>
     </div>
+
     <div class="section-card">
+
       <div class="section-header">
         <div class="section-title">All Applications</div>
       </div>
+
       <div class="filter-bar">
-        <input type="text" id="appSearch" placeholder="🔍 Search applicants..." oninput="renderApplications()">
+
+        <input
+          type="text"
+          id="appSearch"
+          placeholder="🔍 Search applicants..."
+          oninput="renderApplications()">
+
         <select id="appStatusFilter" onchange="renderApplications()">
           <option value="">All Statuses</option>
           <option value="Submitted">Submitted</option>
@@ -312,7 +245,9 @@
           <option value="Approved">Approved</option>
           <option value="Rejected">Rejected</option>
         </select>
+
       </div>
+
       <div class="table-wrap">
         <table>
           <thead>
@@ -324,180 +259,109 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="appTableBody">
-    <tr>
-      <td><b>Shinn</b><br><span style="font-size:0.75rem;color:var(--text-light)">sheashinmie04@gmail.com</span></td>
-      <td>Buddy</td>
-      <td><span class="badge badge-pending">Submitted</span></td>
-      <td style="color:var(--text-light)">2026-04-28</td>
-      <td>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="btn btn-info btn-sm" onclick="viewApp(1)">👁️ View</button>
-          <button class="btn btn-success btn-sm" onclick="updateAppStatus(1,'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(1,'Rejected')">❌</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td><b>Shaun</b><br><span style="font-size:0.75rem;color:var(--text-light)">janxentshawn@gmail.com</span></td>
-      <td>Luna</td>
-      <td><span class="badge badge-interview">Interview Scheduled</span></td>
-      <td style="color:var(--text-light)">2026-04-27</td>
-      <td>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="btn btn-info btn-sm" onclick="viewApp(2)">👁️ View</button>
-          <button class="btn btn-success btn-sm" onclick="updateAppStatus(2,'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(2,'Rejected')">❌</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td><b>Shinn</b><br><span style="font-size:0.75rem;color:var(--text-light)">sheashinmie04@gmail.com</span></td>
-      <td>Mochi</td>
-      <td><span class="badge badge-homecheck">Home Check</span></td>
-      <td style="color:var(--text-light)">2026-04-25</td>
-      <td>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="btn btn-info btn-sm" onclick="viewApp(3)">👁️ View</button>
-          <button class="btn btn-success btn-sm" onclick="updateAppStatus(3,'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(3,'Rejected')">❌</button>
-        </div>
-      </td>
-    </tr>
-  
-    <tr>
-      <td><b>Shaun</b><br><span style="font-size:0.75rem;color:var(--text-light)">janxentshawn@gmail.com</span></td>
-      <td>Rocky</td>
-      <td><span class="badge badge-approved">Approved</span></td>
-      <td style="color:var(--text-light)">2026-04-20</td>
-      <td>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="btn btn-info btn-sm" onclick="viewApp(4)">👁️ View</button>
-          
-        </div>
-      </td>
-    </tr>
-  </tbody>
+
+          <tbody id="appTableBody"></tbody>
         </table>
       </div>
-    </div>
-  </div>
 
-  <!-- Notifications -->
-  <div class="page" id="page-notifications">
+    </div>
+
+  </section>
+
+  <!-- NOTIFICATIONS -->
+  <section class="page" id="page-notifications">
+
     <div class="page-header">
       <h2>🔔 Notifications</h2>
       <p>System updates and new application alerts.</p>
     </div>
+
     <div class="section-card">
+
       <div class="section-header">
         <div class="section-title">All Notifications</div>
-        <button class="btn btn-primary btn-sm" onclick="markAllRead()">Mark All Read</button>
-      </div>
-      <div id="notifList">
-    <div class="notif-item unread" onclick="markRead(1)">
-      <div class="notif-icon">📋</div>
-      <div>
-        <div class="notif-text">New application from Shinn for Buddy</div>
-        <div class="notif-time">2 hours ago</div>
-      </div>
-    </div>
-  
-    <div class="notif-item unread" onclick="markRead(2)">
-      <div class="notif-icon">📋</div>
-      <div>
-        <div class="notif-text">New application from Shaun for Luna</div>
-        <div class="notif-time">5 hours ago</div>
-      </div>
-    </div>
-  
-    <div class="notif-item " onclick="markRead(3)">
-      <div class="notif-icon">✅</div>
-      <div>
-        <div class="notif-text">Shaun's application for Rocky approved</div>
-        <div class="notif-time">1 day ago</div>
-      </div>
-    </div>
-  
-    <div class="notif-item " onclick="markRead(4)">
-      <div class="notif-icon">🐾</div>
-      <div>
-        <div class="notif-text">New animal Mochi added to the shelter</div>
-        <div class="notif-time">2 days ago</div>
-      </div>
-    </div>
-  </div>
-    </div>
-  </div>
 
-  <!-- Audit Log -->
-  <div class="page" id="page-auditlog">
+        <button class="btn btn-primary btn-sm" onclick="markAllRead()">
+          Mark All Read
+        </button>
+      </div>
+
+      <div id="notifList"></div>
+
+    </div>
+
+  </section>
+
+  <!-- AUDIT LOG -->
+  <section class="page" id="page-auditlog">
+
     <div class="page-header">
       <h2>📜 Audit Log</h2>
       <p>All admin actions are recorded here for transparency.</p>
     </div>
+
     <div class="section-card">
+
       <div class="section-header">
         <div class="section-title">Activity History</div>
-        <button class="btn btn-danger btn-sm" onclick="clearLogs()">Clear Logs</button>
+
+        <button class="btn btn-danger btn-sm" onclick="clearLogs()">
+          Clear Logs
+        </button>
       </div>
-      <div id="auditLogList">
-    <div class="log-item">
-      <div class="log-dot green"></div>
-      <div><div class="log-text">Admin approved application #4 (Shaun → Rocky)</div><div class="log-time">Apr 20, 2026 10:32 AM</div></div>
+
+      <div id="auditLogList"></div>
+
     </div>
-  
-    <div class="log-item">
-      <div class="log-dot tan"></div>
-      <div><div class="log-text">Admin added new animal: Mochi (Persian Cat)</div><div class="log-time">Apr 19, 2026 2:15 PM</div></div>
-    </div>
-  
-    <div class="log-item">
-      <div class="log-dot green"></div>
-      <div><div class="log-text">Admin updated animal status: Max → Adopted</div><div class="log-time">Apr 18, 2026 9:00 AM</div></div>
-    </div>
-  
-    <div class="log-item">
-      <div class="log-dot red"></div>
-      <div><div class="log-text">Admin rejected application #0 (test user)</div><div class="log-time">Apr 17, 2026 4:45 PM</div></div>
-    </div>
-  </div>
-    </div>
-  </div>
+
+  </section>
 
 </main>
 
-<!-- ── Animal Modal ── -->
+<!-- ───────── Animal Modal ───────── -->
 <div class="modal-overlay" id="animalModal">
+
   <div class="modal">
+
     <div class="modal-header">
       <div class="modal-title" id="animalModalTitle">Add Animal</div>
       <button class="modal-close" onclick="closeModal('animalModal')">✕</button>
     </div>
+
     <div class="form-row">
+
       <div class="form-group">
         <label>Name</label>
-        <input type="text" id="aName" placeholder="e.g. Buddy">
+        <input type="text" id="aName">
       </div>
+
       <div class="form-group">
         <label>Species</label>
         <select id="aSpecies">
-          <option value="Dog">🐶 Dog</option>
-          <option value="Cat">🐱 Cat</option>
-          <option value="Other">🐰 Other</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Other">Other</option>
         </select>
       </div>
+
     </div>
+
     <div class="form-row">
+
       <div class="form-group">
         <label>Breed</label>
-        <input type="text" id="aBreed" placeholder="e.g. Labrador">
+        <input type="text" id="aBreed">
       </div>
+
       <div class="form-group">
         <label>Age</label>
-        <input type="text" id="aAge" placeholder="e.g. 2 years">
+        <input type="text" id="aAge">
       </div>
+
     </div>
+
     <div class="form-row">
+
       <div class="form-group">
         <label>Status</label>
         <select id="aStatus">
@@ -505,6 +369,7 @@
           <option value="Adopted">Adopted</option>
         </select>
       </div>
+
       <div class="form-group">
         <label>Gender</label>
         <select id="aGender">
@@ -512,443 +377,69 @@
           <option value="Female">Female</option>
         </select>
       </div>
+
     </div>
+
     <div class="form-group">
       <label>Description</label>
-      <textarea id="aDesc" placeholder="Brief description of the animal..."></textarea>
+      <textarea id="aDesc"></textarea>
     </div>
-    <input type="hidden" id="aEditId" value="">
+
+    <input type="hidden" id="aEditId">
+
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('animalModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveAnimal()">Save Animal</button>
     </div>
+
   </div>
 </div>
 
-<!-- ── Application Detail Modal ── -->
+<!-- ───────── Application Modal ───────── -->
 <div class="modal-overlay" id="appModal">
+
   <div class="modal">
+
     <div class="modal-header">
       <div class="modal-title">Application Details</div>
       <button class="modal-close" onclick="closeModal('appModal')">✕</button>
     </div>
+
     <div id="appModalContent"></div>
+
     <div class="modal-actions" id="appModalActions"></div>
+
   </div>
+
 </div>
 
-<!-- ── Confirm Modal ── -->
+<!-- ───────── Confirm Modal ───────── -->
 <div class="modal-overlay" id="confirmModal">
+
   <div class="modal" style="max-width:380px">
+
     <div class="modal-header">
       <div class="modal-title" id="confirmTitle">Confirm Action</div>
       <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
     </div>
+
     <div class="confirm-msg" id="confirmMsg"></div>
+
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('confirmModal')">Cancel</button>
       <button class="btn btn-danger" id="confirmOkBtn">Confirm</button>
     </div>
+
   </div>
+
 </div>
 
 <!-- Toast -->
 <div id="adminToast"></div>
 
-<script>
-// ── State ──
-let animals = [
-  { id: 1, name: 'Buddy',   species: 'Dog', breed: 'Labrador',        age: '3 years',  status: 'Available', gender: 'Male',   desc: 'Friendly and energetic.' },
-  { id: 2, name: 'Luna',    species: 'Cat', breed: 'Siamese',         age: '2 years',  status: 'Available', gender: 'Female', desc: 'Calm and affectionate.' },
-  { id: 3, name: 'Max',     species: 'Dog', breed: 'Golden Retriever', age: '5 years', status: 'Adopted',   gender: 'Male',   desc: 'Great with kids.' },
-  { id: 4, name: 'Mochi',   species: 'Cat', breed: 'Persian',         age: '1 year',   status: 'Available', gender: 'Female', desc: 'Loves to cuddle.' },
-  { id: 5, name: 'Rocky',   species: 'Dog', breed: 'Beagle',          age: '4 years',  status: 'Available', gender: 'Male',   desc: 'Playful and loyal.' },
-];
+<!-- External JS -->
+<script src="../js/admin-dashboard.js"></script>
 
-let applications = [
-  { id: 1, applicant: 'Shinn',  animal: 'Buddy', status: 'Submitted',           date: '2026-04-28', email: 'sheashinmie04@gmail.com', notes: 'Has a large backyard.' },
-  { id: 2, applicant: 'Shaun',  animal: 'Luna',  status: 'Interview Scheduled', date: '2026-04-27', email: 'janxentshawn@gmail.com',  notes: 'Lives alone, very responsible.' },
-  { id: 3, applicant: 'Shinn',  animal: 'Mochi', status: 'Home Check',          date: '2026-04-25', email: 'sheashinmie04@gmail.com', notes: 'Cat-friendly household.' },
-  { id: 4, applicant: 'Shaun',  animal: 'Rocky', status: 'Approved',            date: '2026-04-20', email: 'janxentshawn@gmail.com',  notes: 'Previous pet owner.' },
-];
-
-let notifications = [
-  { id: 1, icon: '📋', text: 'New application from Shinn for Buddy',   time: '2 hours ago', read: false },
-  { id: 2, icon: '📋', text: 'New application from Shaun for Luna',    time: '5 hours ago', read: false },
-  { id: 3, icon: '✅', text: "Shaun's application for Rocky approved", time: '1 day ago',   read: true  },
-  { id: 4, icon: '🐾', text: 'New animal Mochi added to the shelter',  time: '2 days ago',  read: true  },
-];
-
-let auditLogs = [
-  { type: 'green', text: 'Admin approved application #4 (Shaun → Rocky)', time: 'Apr 20, 2026 10:32 AM' },
-  { type: 'tan',   text: 'Admin added new animal: Mochi (Persian Cat)',    time: 'Apr 19, 2026 2:15 PM'  },
-  { type: 'green', text: 'Admin updated animal status: Max → Adopted',     time: 'Apr 18, 2026 9:00 AM'  },
-  { type: 'red',   text: 'Admin rejected application #0 (test user)',      time: 'Apr 17, 2026 4:45 PM'  },
-];
-
-let animalIdCounter = 6;
-let appIdCounter    = 5;
-
-// ── Init ──
-window.addEventListener('DOMContentLoaded', () => {
-  const user = JSON.parse(sessionStorage.getItem('shelterlink_user') || localStorage.getItem('shelterlink_user') || 'null');
-  if (user) {
-    document.getElementById('adminName').textContent   = user.name;
-    document.getElementById('welcomeName').textContent = user.name;
-    document.getElementById('adminAvatar').textContent = user.name.charAt(0).toUpperCase();
-  }
-  updateStats();
-  renderRecentApps();
-  renderRecentLogs();
-  renderAnimals();
-  renderApplications();
-  renderNotifications();
-  renderAuditLog();
-  updateNotifDots();
-});
-
-// ── Navigation ──
-function showPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  if (btn) btn.classList.add('active');
-
-  if (name === 'overview')      { updateStats(); renderRecentApps(); renderRecentLogs(); }
-  if (name === 'animals')       renderAnimals();
-  if (name === 'applications')  renderApplications();
-  if (name === 'notifications') renderNotifications();
-  if (name === 'auditlog')      renderAuditLog();
-}
-
-// ── Stats ──
-function updateStats() {
-  document.getElementById('statTotal').textContent    = animals.length;
-  document.getElementById('statPending').textContent  = applications.filter(a => a.status === 'Submitted').length;
-  document.getElementById('statApproved').textContent = applications.filter(a => a.status === 'Approved').length;
-  document.getElementById('statRejected').textContent = applications.filter(a => a.status === 'Rejected').length;
-}
-
-// ── Recent apps (overview) ──
-function renderRecentApps() {
-  const tbody  = document.getElementById('recentAppBody');
-  const recent = [...applications].reverse().slice(0, 4);
-  if (!recent.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:1.5rem">No applications yet</td></tr>'; return; }
-  tbody.innerHTML = recent.map(a => `
-    <tr>
-      <td><b>${a.applicant}</b></td>
-      <td>${a.animal}</td>
-      <td><span class="badge ${badgeClass(a.status)}">${a.status}</span></td>
-      <td style="color:var(--text-light)">${a.date}</td>
-    </tr>
-  `).join('');
-}
-
-// ── Recent logs (overview) ──
-function renderRecentLogs() {
-  const el     = document.getElementById('recentLogs');
-  const recent = auditLogs.slice(0, 3);
-  if (!recent.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📜</div>No activity yet</div>'; return; }
-  el.innerHTML = recent.map(l => `
-    <div class="log-item">
-      <div class="log-dot ${l.type}"></div>
-      <div><div class="log-text">${l.text}</div><div class="log-time">${l.time}</div></div>
-    </div>
-  `).join('');
-}
-
-// ── Animals ──
-function renderAnimals() {
-  const search  = (document.getElementById('animalSearch')?.value || '').toLowerCase();
-  const status  = document.getElementById('animalStatusFilter')?.value || '';
-  const species = document.getElementById('animalSpeciesFilter')?.value || '';
-
-  let filtered = animals.filter(a => {
-    const matchSearch  = !search  || a.name.toLowerCase().includes(search) || a.breed.toLowerCase().includes(search);
-    const matchStatus  = !status  || a.status  === status;
-    const matchSpecies = !species || a.species === species;
-    return matchSearch && matchStatus && matchSpecies;
-  });
-
-  const tbody = document.getElementById('animalTableBody');
-  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:2rem">No animals found</td></tr>'; return; }
-
-  tbody.innerHTML = filtered.map(a => `
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:0.6rem">
-          <div class="animal-img">${a.species === 'Dog' ? '🐶' : a.species === 'Cat' ? '🐱' : '🐰'}</div>
-          <b>${a.name}</b>
-        </div>
-      </td>
-      <td>${a.species}</td>
-      <td>${a.breed}</td>
-      <td>${a.age}</td>
-      <td><span class="badge ${a.status === 'Available' ? 'badge-available' : 'badge-adopted'}">${a.status}</span></td>
-      <td>
-        <div style="display:flex;gap:0.4rem">
-          <button class="btn btn-warning btn-sm" onclick="openAnimalModal(${a.id})">✏️ Edit</button>
-          <button class="btn btn-danger  btn-sm" onclick="confirmDelete(${a.id})">🗑️</button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function openAnimalModal(id) {
-  document.getElementById('aEditId').value  = '';
-  document.getElementById('aName').value    = '';
-  document.getElementById('aSpecies').value = 'Dog';
-  document.getElementById('aBreed').value   = '';
-  document.getElementById('aAge').value     = '';
-  document.getElementById('aStatus').value  = 'Available';
-  document.getElementById('aGender').value  = 'Male';
-  document.getElementById('aDesc').value    = '';
-  document.getElementById('animalModalTitle').textContent = id ? 'Edit Animal' : 'Add Animal';
-
-  if (id) {
-    const a = animals.find(x => x.id === id);
-    if (a) {
-      document.getElementById('aEditId').value  = a.id;
-      document.getElementById('aName').value    = a.name;
-      document.getElementById('aSpecies').value = a.species;
-      document.getElementById('aBreed').value   = a.breed;
-      document.getElementById('aAge').value     = a.age;
-      document.getElementById('aStatus').value  = a.status;
-      document.getElementById('aGender').value  = a.gender;
-      document.getElementById('aDesc').value    = a.desc;
-    }
-  }
-  openModal('animalModal');
-}
-
-function saveAnimal() {
-  const name    = document.getElementById('aName').value.trim();
-  const species = document.getElementById('aSpecies').value;
-  const breed   = document.getElementById('aBreed').value.trim();
-  const age     = document.getElementById('aAge').value.trim();
-  const status  = document.getElementById('aStatus').value;
-  const gender  = document.getElementById('aGender').value;
-  const desc    = document.getElementById('aDesc').value.trim();
-  const editId  = document.getElementById('aEditId').value;
-
-  if (!name || !breed || !age) { showToast('Please fill in all required fields.', 'error'); return; }
-
-  if (editId) {
-    const idx = animals.findIndex(a => a.id === parseInt(editId));
-    if (idx !== -1) {
-      animals[idx] = { ...animals[idx], name, species, breed, age, status, gender, desc };
-      addLog('tan', `Admin updated animal: ${name} (${species})`);
-      showToast('🐾 Animal updated!', 'success');
-    }
-  } else {
-    animals.push({ id: animalIdCounter++, name, species, breed, age, status, gender, desc });
-    addLog('tan', `Admin added new animal: ${name} (${species})`);
-    addNotif('🐾', `New animal ${name} added to the shelter`);
-    showToast('🐾 Animal added!', 'success');
-  }
-
-  closeModal('animalModal');
-  renderAnimals();
-  updateStats();
-}
-
-function confirmDelete(id) {
-  const a = animals.find(x => x.id === id);
-  if (!a) return;
-  showConfirm('Remove Animal', `Are you sure you want to remove <b>${a.name}</b> from the shelter?`, () => {
-    animals = animals.filter(x => x.id !== id);
-    addLog('red', `Admin removed animal: ${a.name}`);
-    showToast('Animal removed.', 'success');
-    renderAnimals();
-    updateStats();
-  });
-}
-
-// ── Applications ──
-function renderApplications() {
-  const search = (document.getElementById('appSearch')?.value || '').toLowerCase();
-  const status = document.getElementById('appStatusFilter')?.value || '';
-
-  let filtered = applications.filter(a => {
-    const matchSearch = !search || a.applicant.toLowerCase().includes(search) || a.animal.toLowerCase().includes(search);
-    const matchStatus = !status || a.status === status;
-    return matchSearch && matchStatus;
-  });
-
-  const tbody = document.getElementById('appTableBody');
-  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-light);padding:2rem">No applications found</td></tr>'; return; }
-
-  tbody.innerHTML = filtered.map(a => `
-    <tr>
-      <td><b>${a.applicant}</b><br><span style="font-size:0.75rem;color:var(--text-light)">${a.email}</span></td>
-      <td>${a.animal}</td>
-      <td><span class="badge ${badgeClass(a.status)}">${a.status}</span></td>
-      <td style="color:var(--text-light)">${a.date}</td>
-      <td>
-        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="btn btn-info btn-sm" onclick="viewApp(${a.id})">👁️ View</button>
-          ${a.status !== 'Approved' && a.status !== 'Rejected' ? `<button class="btn btn-success btn-sm" onclick="updateAppStatus(${a.id},'Approved')">✅</button><button class="btn btn-danger btn-sm" onclick="updateAppStatus(${a.id},'Rejected')">❌</button>` : ''}
-        </div>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function viewApp(id) {
-  const a = applications.find(x => x.id === id);
-  if (!a) return;
-  document.getElementById('appModalContent').innerHTML = `
-    <div style="display:grid;gap:0.75rem;font-size:0.9rem">
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light);font-weight:700">Applicant</span><b>${a.applicant}</b></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light);font-weight:700">Email</span><span>${a.email}</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light);font-weight:700">Animal</span><b>${a.animal}</b></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light);font-weight:700">Status</span><span class="badge ${badgeClass(a.status)}">${a.status}</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light);font-weight:700">Date</span><span>${a.date}</span></div>
-      <div style="background:var(--input-bg);padding:0.75rem;border-radius:10px;margin-top:0.25rem"><b>Notes:</b> ${a.notes || 'None'}</div>
-    </div>
-  `;
-  const actions = document.getElementById('appModalActions');
-  if (a.status !== 'Approved' && a.status !== 'Rejected') {
-    actions.innerHTML = `
-      <button class="btn" onclick="closeModal('appModal')">Close</button>
-      <button class="btn btn-danger"  onclick="updateAppStatus(${a.id},'Rejected');closeModal('appModal')">❌ Reject</button>
-      <button class="btn btn-success" onclick="updateAppStatus(${a.id},'Approved');closeModal('appModal')">✅ Approve</button>
-    `;
-  } else {
-    actions.innerHTML = `<button class="btn btn-primary" onclick="closeModal('appModal')">Close</button>`;
-  }
-  openModal('appModal');
-}
-
-function updateAppStatus(id, newStatus) {
-  const a = applications.find(x => x.id === id);
-  if (!a) return;
-  a.status = newStatus;
-  const logType = newStatus === 'Approved' ? 'green' : 'red';
-  addLog(logType, `Admin ${newStatus.toLowerCase()} application #${id} (${a.applicant} → ${a.animal})`);
-  addNotif(newStatus === 'Approved' ? '✅' : '❌', `Application for ${a.animal} by ${a.applicant} was ${newStatus.toLowerCase()}`);
-  showToast(`Application ${newStatus}!`, 'success');
-  renderApplications();
-  renderRecentApps();
-  updateStats();
-  updateNotifDots();
-}
-
-// ── Notifications ──
-function renderNotifications() {
-  const el = document.getElementById('notifList');
-  if (!notifications.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🔔</div>No notifications</div>'; return; }
-  el.innerHTML = notifications.map(n => `
-    <div class="notif-item ${n.read ? '' : 'unread'}" onclick="markRead(${n.id})">
-      <div class="notif-icon">${n.icon}</div>
-      <div>
-        <div class="notif-text">${n.text}</div>
-        <div class="notif-time">${n.time}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function markRead(id) {
-  const n = notifications.find(x => x.id === id);
-  if (n) { n.read = true; renderNotifications(); updateNotifDots(); }
-}
-
-function markAllRead() {
-  notifications.forEach(n => n.read = true);
-  renderNotifications();
-  updateNotifDots();
-  showToast('All notifications marked as read!', 'success');
-}
-
-function addNotif(icon, text) {
-  notifications.unshift({ id: Date.now(), icon, text, time: 'Just now', read: false });
-  updateNotifDots();
-}
-
-function updateNotifDots() {
-  const unread     = notifications.filter(n => !n.read).length;
-  const pendingApps = applications.filter(a => a.status === 'Submitted').length;
-  document.getElementById('notifDot').style.display    = unread      ? 'inline-block' : 'none';
-  document.getElementById('appNotifDot').style.display = pendingApps ? 'inline-block' : 'none';
-}
-
-// ── Audit Log ──
-function renderAuditLog() {
-  const el = document.getElementById('auditLogList');
-  if (!auditLogs.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📜</div>No activity recorded yet</div>'; return; }
-  el.innerHTML = auditLogs.map(l => `
-    <div class="log-item">
-      <div class="log-dot ${l.type}"></div>
-      <div><div class="log-text">${l.text}</div><div class="log-time">${l.time}</div></div>
-    </div>
-  `).join('');
-}
-
-function addLog(type, text) {
-  const now  = new Date();
-  const time = now.toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', hour12:true });
-  auditLogs.unshift({ type, text, time });
-  renderRecentLogs();
-}
-
-function clearLogs() {
-  showConfirm('Clear Audit Log', 'Are you sure you want to clear all audit logs? This cannot be undone.', () => {
-    auditLogs = [];
-    renderAuditLog();
-    showToast('Audit logs cleared.', 'success');
-  });
-}
-
-// ── Helpers ──
-function badgeClass(status) {
-  const map = {
-    'Available':           'badge-available',
-    'Adopted':             'badge-adopted',
-    'Submitted':           'badge-pending',
-    'Interview Scheduled': 'badge-interview',
-    'Home Check':          'badge-homecheck',
-    'Approved':            'badge-approved',
-    'Rejected':            'badge-rejected',
-  };
-  return map[status] || '';
-}
-
-function openModal(id)  { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-function showConfirm(title, msg, onConfirm) {
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmMsg').innerHTML     = msg;
-  document.getElementById('confirmOkBtn').onclick     = () => { onConfirm(); closeModal('confirmModal'); };
-  openModal('confirmModal');
-}
-
-let toastTimer;
-function showToast(msg, type) {
-  const t   = document.getElementById('adminToast');
-  t.textContent = msg;
-  t.className   = type;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.className = '', 3000);
-}
-
-function logout() {
-  showConfirm('Sign Out', 'Are you sure you want to sign out?', () => {
-    sessionStorage.removeItem('shelterlink_user');
-    localStorage.removeItem('shelterlink_user');
-    window.location.href = '/html/login.html';
-  });
-}
-
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.remove('open');
-  });
-});
-</script>
-
-
-</body></html>
+</body>
+</html>
+```
