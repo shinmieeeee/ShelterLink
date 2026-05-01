@@ -45,7 +45,6 @@ namespace ShelterLink.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            // Support login by username (Name) OR email, case-insensitive
             var identifier = (request.Email ?? "").Trim();
             var allUsers   = await _db.Users.ToListAsync();
 
@@ -55,6 +54,10 @@ namespace ShelterLink.Controllers
                 && u.PasswordHash == request.Password);
 
             if (user == null)
+                return Unauthorized(new { success = false, message = "Invalid email or password." });
+
+            // Block admin from user login
+            if (user.Role == "Admin")
                 return Unauthorized(new { success = false, message = "Invalid email or password." });
 
             int? adopterId = null;
@@ -76,6 +79,39 @@ namespace ShelterLink.Controllers
                     email     = user.Email,
                     role      = user.Role,
                     adopterId = adopterId,
+                }
+            });
+        }
+
+        [HttpPost("admin-login")]
+        public async Task<IActionResult> AdminLogin([FromBody] LoginRequest request)
+        {
+            var identifier = (request.Email ?? "").Trim();
+            var allUsers   = await _db.Users.ToListAsync();
+
+            var user = allUsers.FirstOrDefault(u =>
+                (string.Equals(u.Name,  identifier, StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(u.Email, identifier, StringComparison.OrdinalIgnoreCase))
+                && u.PasswordHash == request.Password);
+
+            if (user == null)
+                return Unauthorized(new { success = false, message = "Invalid username or password." });
+
+            // Only allow Admin role
+            if (user.Role != "Admin")
+                return Unauthorized(new { success = false, message = "Invalid username or password." });
+
+            return Ok(new
+            {
+                success     = true,
+                message     = "Login successful!",
+                redirectUrl = "/html/admin-dashboard.html",
+                user = new
+                {
+                    userId = user.UserId,
+                    name   = user.Name,
+                    email  = user.Email,
+                    role   = user.Role,
                 }
             });
         }

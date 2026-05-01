@@ -1,93 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ShelterLink – Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../css/dashboard.css"/>
-</head>
-<body>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ShelterLink – Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/dashboard.css"/>
+  </head>
+  <body>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <span class="logo-icon">🐾</span>
-      <span class="brand"><span class="brand-shelter">Shelter</span><span class="brand-link">Link</span></span>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">🐾</span>
+        <span class="brand"><span class="brand-shelter">Shelter</span><span class="brand-link">Link</span></span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-view="home">
+          <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
+        </a>
+        <a href="#" class="nav-item" data-view="browse">
+          <span class="nav-icon">🔍</span><span class="nav-label">Browse Animals</span>
+        </a>
+        <a href="#" class="nav-item" data-view="applications">
+          <span class="nav-icon">📋</span><span class="nav-label">My Applications</span>
+          <span class="nav-badge" id="appBadge" hidden>0</span>
+        </a>
+        <a href="#" class="nav-item" data-view="notifications">
+          <span class="nav-icon">🔔</span><span class="nav-label">Notifications</span>
+          <span class="nav-badge" id="notifBadge" hidden>0</span>
+        </a>
+        <a href="#" class="nav-item" data-view="profile">
+          <span class="nav-icon">👤</span><span class="nav-label">Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" id="logoutBtn">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+
+      <!-- HEADER -->
+      <header class="topbar">
+        <div class="topbar-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearch" placeholder="Search animals…"/>
+        </div>
+        <div class="topbar-filters" id="browseFilters" style="display:none">
+          <select id="filterSpecies">
+            <option value="">Species: All</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Rabbit">Rabbit</option>
+            <option value="Bird">Bird</option>
+          </select>
+          <select id="filterAge">
+            <option value="">Age: All</option>
+            <option value="young">Young (0–2)</option>
+            <option value="adult">Adult (3–7)</option>
+            <option value="senior">Senior (8+)</option>
+          </select>
+        </div>
+        <div class="topbar-user">
+          <span class="user-greeting">Welcome back, <strong id="userNameDisplay">User</strong> 👋</span>
+          <div class="user-avatar" id="userAvatar">🐾</div>
+        </div>
+      </header>
+
+      <!-- VIEW CONTAINER -->
+      <main class="view-container" id="viewContainer">
+        <div class="loading-spinner" id="loadingSpinner">
+          <div class="spinner"></div>
+        </div>
+      </main>
+
     </div>
 
-    <nav class="sidebar-nav">
-      <a href="#" class="nav-item active" data-view="home">
-        <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
-      </a>
-      <a href="#" class="nav-item" data-view="browse">
-        <span class="nav-icon">🔍</span><span class="nav-label">Browse Animals</span>
-      </a>
-      <a href="#" class="nav-item" data-view="applications">
-        <span class="nav-icon">📋</span><span class="nav-label">My Applications</span>
-        <span class="nav-badge" id="appBadge" hidden>0</span>
-      </a>
-      <a href="#" class="nav-item" data-view="notifications">
-        <span class="nav-icon">🔔</span><span class="nav-label">Notifications</span>
-        <span class="nav-badge" id="notifBadge" hidden>0</span>
-      </a>
-      <a href="#" class="nav-item" data-view="profile">
-        <span class="nav-icon">👤</span><span class="nav-label">Profile</span>
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <button class="btn-logout" id="logoutBtn">🚪 Sign Out</button>
+    <!-- ANIMAL DETAIL MODAL -->
+    <div class="modal-overlay" id="modalOverlay" hidden>
+      <div class="modal-card" id="modalCard">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div id="modalContent"></div>
+      </div>
     </div>
-  </aside>
 
-  <!-- MAIN CONTENT -->
-  <div class="main-wrapper">
-
-    <!-- HEADER -->
-    <header class="topbar">
-      <div class="topbar-search">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="globalSearch" placeholder="Search animals…"/>
-      </div>
-      <div class="topbar-filters" id="browseFilters" style="display:none">
-        <select id="filterSpecies">
-          <option value="">Species: All</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Rabbit">Rabbit</option>
-          <option value="Bird">Bird</option>
-        </select>
-        <select id="filterAge">
-          <option value="">Age: All</option>
-          <option value="young">Young (0–2)</option>
-          <option value="adult">Adult (3–7)</option>
-          <option value="senior">Senior (8+)</option>
-        </select>
-      </div>
-      <div class="topbar-user">
-        <span class="user-greeting">Welcome back, <strong id="userNameDisplay">User</strong> 👋</span>
-        <div class="user-avatar" id="userAvatar">🐾</div>
-      </div>
-    </header>
-
-    <!-- VIEW CONTAINER -->
-    <main class="view-container" id="viewContainer">
-      <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner"></div>
-      </div>
-    </main>
-
-  </div>
-
-  <!-- ANIMAL DETAIL MODAL -->
-  <div class="modal-overlay" id="modalOverlay" hidden>
-    <div class="modal-card" id="modalCard">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <script src="../js/dashboard.js?v=9"></script>
-</body>
-</html>
+    <script src="../js/dashboard.js?v=9"></script>
+  </body>
+  </html>
