@@ -20,7 +20,6 @@ namespace ShelterLink.Models
 
         public bool IsRead { get; set; } = false;
 
-        // Methods from UML
         public void Send() { }
 
         public void MarkRead()

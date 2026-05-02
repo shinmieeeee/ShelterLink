@@ -11,7 +11,6 @@ namespace ShelterLink.Controllers
         private readonly ShelterLinkContext _db;
         public NotificationsController(ShelterLinkContext db) { _db = db; }
 
-        // GET /api/notifications/{userId}
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetByUser(int userId)
         {
@@ -23,7 +22,6 @@ namespace ShelterLink.Controllers
             return Ok(notifs);
         }
 
-        // PUT /api/notifications/markread/{userId}
         [HttpPut("markread/{userId}")]
         public async Task<IActionResult> MarkAllRead(int userId)
         {

@@ -34,7 +34,6 @@ namespace ShelterLink.Models
 
         public DateTime DateAdmitted { get; set; } = DateTime.Now;
 
-        // Methods from UML
         public void UpdateStatus(AnimalStatus newStatus)
         {
             Status = newStatus;

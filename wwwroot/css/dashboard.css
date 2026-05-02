@@ -25,11 +25,9 @@
   --status-adopted: #1a56db;
   --status-quarantine: #d63031;
 
-  /* Input */
   --input-bg: #f5f0ea;
   --input-border: #d8ccc0;
 
-  /* Brown/tan accent */
   --brown: #7a4f2d;
   --tan: #c9a87c;
 }
@@ -247,7 +245,6 @@ body {
   border: 2px solid var(--accent);
 }
 
-/* ── VIEW CONTAINER ── */
 .view-container {
   flex: 1;
   padding: 28px;
@@ -259,7 +256,6 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── LOADING ── */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -514,7 +510,6 @@ body {
   color: var(--accent);
 }
 
-/* ── STATS ROW ── */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -651,7 +646,6 @@ body {
 
 .btn-save:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
-/* ── NOTIFICATIONS ── */
 .notif-list {
   display: flex;
   flex-direction: column;

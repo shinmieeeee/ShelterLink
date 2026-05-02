@@ -10,14 +10,12 @@ namespace ShelterLink.Controllers
         private readonly ShelterLinkContext _db;
         public UsersController(ShelterLinkContext db) { _db = db; }
 
-        // PUT /api/users/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProfile(int id, [FromBody] UpdateProfileRequest req)
         {
             var user = await _db.Users.FindAsync(id);
             if (user == null) return NotFound();
 
-            // Check email not taken by another user
             if (_db.Users.Any(u => u.Email == req.Email && u.UserId != id))
                 return BadRequest(new { message = "Email already in use." });
 
@@ -31,7 +29,6 @@ namespace ShelterLink.Controllers
             return Ok(new { userId = user.UserId, name = user.Name, email = user.Email, role = user.Role });
         }
 
-        // GET /api/users/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {

@@ -32,7 +32,6 @@ namespace ShelterLink.Models
 
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Pending;
 
-        // ReviewedBy maps to User (Admin) from UML
         public int? ReviewedBy { get; set; }
 
         [ForeignKey("ReviewedBy")]
@@ -40,7 +39,6 @@ namespace ShelterLink.Models
 
         public string? RejectionReason { get; set; }
 
-        // Methods from UML
         public void Submit()
         {
             Status = ApplicationStatus.Pending;

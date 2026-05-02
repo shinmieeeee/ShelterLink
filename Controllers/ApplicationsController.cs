@@ -26,21 +26,17 @@ namespace ShelterLink.Controllers
             return Ok(apps);
         }
 
-        // POST /api/applications
         [HttpPost]
         public async Task<IActionResult> Submit([FromBody] ApplicationRequest req)
         {
-            // Check adopter exists
             var adopter = await _db.Adopters.FindAsync(req.AdopterId);
             if (adopter == null)
                 return BadRequest(new { message = "Adopter not found." });
 
-            // Check animal is available
             var animal = await _db.Animals.FindAsync(req.AnimalId);
             if (animal == null || animal.Status != AnimalStatus.Available)
                 return BadRequest(new { message = "Animal is not available." });
 
-            // Check no duplicate pending application
             var existing = await _db.AdoptionApplications
                 .AnyAsync(a => a.AdopterId == req.AdopterId
                             && a.AnimalId == req.AnimalId
@@ -56,7 +52,6 @@ namespace ShelterLink.Controllers
                 Status      = ApplicationStatus.Pending,
             };
 
-            // Mark animal as pending
             animal.Status = AnimalStatus.Pending;
 
             _db.AdoptionApplications.Add(app);
