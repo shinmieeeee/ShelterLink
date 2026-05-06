@@ -283,7 +283,8 @@ function renderProfile() {
       </div>
       <div class="form-field">
         <label>New Password</label>
-        <input type="password" id="profilePassword" placeholder="Leave blank to keep current"/>
+        <input type="password" id="profilePassword" placeholder="Leave blank to keep current" minlength="6"/>
+        <small style="color: var(--text-muted, #888); font-size: 0.75rem;">Minimum 6 characters if changing</small>
       </div>
 
       <button class="btn-save" id="saveProfileBtn">Save Changes</button>
@@ -299,6 +300,7 @@ async function saveProfile() {
   const password = document.getElementById('profilePassword').value;
 
   if (!name || !email) { showToast('Name and email are required.', 'error'); return; }
+  if (password && password.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
 
   const payload = { name, email };
   if (password) payload.password = password;
