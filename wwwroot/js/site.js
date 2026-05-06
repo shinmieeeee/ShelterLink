@@ -73,14 +73,14 @@
          sessionStorage.setItem('shelterlink_user', userJson);
          localStorage.setItem('shelterlink_user', userJson);
    
-         showToast('🐾 Welcome back! Redirecting…', 'success');
+         showToast('🐾 Welcome! Redirecting…', 'success');
          
         if (response.ok && data.success) {
           const userJson = JSON.stringify(data.user);
           sessionStorage.setItem('shelterlink_user', userJson);
           localStorage.setItem('shelterlink_user', userJson);
 
-          showToast('🐾 Welcome back! Redirecting…', 'success');
+          showToast('🐾 Welcome! Redirecting…', 'success');
           setTimeout(() => {
             window.location.href = '/html/dashboard.html';
           }, 1000);
