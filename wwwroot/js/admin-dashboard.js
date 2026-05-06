@@ -23,7 +23,7 @@ const API = '';
 let animals      = [];
 let applications = [];
 
-// ── Notifications & audit log stay in-memory (session only) ──
+// ── Notifications & audit log ──
 let notifications = [];
 let auditLogs     = [];
 
@@ -42,17 +42,57 @@ function showToast(msg, type = 'success') {
 
 // ── Page labels for topbar ──
 const pageMeta = {
-  overview:     { title: 'Overview',                sub: "Here's what's happening at the shelter today." },
-  animals:      { title: '🐾 Animal Management',    sub: 'Add, edit, or remove animals from the shelter.' },
+  overview:     { title: 'Overview',                 sub: "Here's what's happening at the shelter today." },
+  animals:      { title: '🐾 Animal Management',     sub: 'Add, edit, or remove animals from the shelter.' },
   applications: { title: '📋 Adoption Applications', sub: 'Review and manage adoption applications.' },
-  notifications:{ title: '🔔 Notifications',        sub: 'System updates and new application alerts.' },
-  auditlog:     { title: '📜 Audit Log',             sub: 'All admin actions are recorded here.' },
+  notifications:{ title: '🔔 Notifications',         sub: 'System updates and new application alerts.' },
+  auditlog:     { title: '📜 Audit Log',              sub: 'All admin actions are recorded here.' },
 };
+
+// ── Helper: build fetch options with admin role headers ──
+function adminFetchOpts(method = 'GET', body = null) {
+  const user = JSON.parse(
+    sessionStorage.getItem('shelterlink_user') ||
+    localStorage.getItem('shelterlink_user') ||
+    'null'
+  );
+  const opts = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-User-Role': user?.role || 'Admin',
+      'X-User-Id':   String(user?.userId || 0),
+    },
+  };
+  if (body !== null) opts.body = JSON.stringify(body);
+  return opts;
+}
+
+// ── Helper: write an audit log entry to the database ──
+async function persistAuditLog(action, targetId = 0) {
+  const user = JSON.parse(
+    sessionStorage.getItem('shelterlink_user') ||
+    localStorage.getItem('shelterlink_user') ||
+    'null'
+  );
+  if (!user?.userId) return;
+  try {
+    await fetch(`${API}/api/admin/auditlogs`, {
+      ...adminFetchOpts('POST', {
+        actorId:  user.userId,
+        action,
+        targetId,
+      }),
+    });
+  } catch (e) {
+    console.warn('Audit log write failed (non-fatal):', e);
+  }
+}
 
 // ── Init ──
 window.addEventListener('DOMContentLoaded', () => {
   loadUser();
-  loadData();
+  loadData().then(() => loadServerAuditLogs());
 });
 
 function loadUser() {
@@ -75,18 +115,37 @@ function loadUser() {
 async function loadData() {
   try {
     const [animalsRes, appsRes] = await Promise.all([
-      fetch(`${API}/api/animal`),
-      fetch(`${API}/api/applications`),
+      fetch(`${API}/api/animal`, adminFetchOpts()),
+      fetch(`${API}/api/applications`, adminFetchOpts()),
     ]);
 
-    animals      = animalsRes.ok      ? await animalsRes.json() : [];
-    applications = appsRes.ok         ? await appsRes.json()    : [];
+    animals      = animalsRes.ok ? await animalsRes.json() : [];
+    applications = appsRes.ok   ? await appsRes.json()    : [];
   } catch (e) {
     console.error('Failed to load data:', e);
     showToast('Could not reach the server.', 'error');
   }
 
   refreshDashboard();
+}
+
+// ── Load server-side audit logs from DB ──
+async function loadServerAuditLogs() {
+  try {
+    const res = await fetch(`${API}/api/admin/auditlogs`, adminFetchOpts());
+    if (!res.ok) return;
+    const serverLogs = await res.json();
+    // Merge server logs in (server logs first, then any in-memory ones from this session)
+    auditLogs = serverLogs.map(l => ({
+      type: 'tan',
+      text: `[${l.actorName}] ${l.action}`,
+      time: new Date(l.timestamp).toLocaleString(),
+    })).concat(auditLogs);
+    renderAuditLogs();
+    renderRecentLogs();
+  } catch (e) {
+    console.warn('Could not load server audit logs:', e);
+  }
 }
 
 function refreshDashboard() {
@@ -206,6 +265,7 @@ function openAnimalModal(id) {
   openModal('animalModal');
 }
 
+// ── FIXED: saveAnimal now sends role headers and parses status correctly ──
 async function saveAnimal() {
   const name = document.getElementById('aName').value.trim();
   if (!name) { showToast('Name is required.', 'error'); return; }
@@ -225,19 +285,21 @@ async function saveAnimal() {
   const method = id ? 'PUT' : 'POST';
 
   try {
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
+    const res = await fetch(url, adminFetchOpts(method, data));
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      showToast(err.message || 'Save failed.', 'error');
+      let errMsg = 'Save failed.';
+      try { const err = await res.json(); errMsg = err.message || errMsg; } catch {}
+      showToast(errMsg, 'error');
       return;
     }
 
-    addLog('tan', id ? `Updated animal "${data.name}".` : `Added new animal "${data.name}".`);
+    const saved  = await res.json();
+    const logMsg = id ? `Updated animal "${data.name}".` : `Added new animal "${data.name}".`;
+
+    addLog('tan', logMsg);
+    await persistAuditLog(logMsg, saved.animalId ?? id);
+
     showToast(id ? 'Animal updated!' : 'Animal added!', 'success');
     closeModal('animalModal');
     await loadData();
@@ -256,12 +318,20 @@ function confirmDeleteAnimal(id) {
   );
 }
 
+// ── FIXED: deleteAnimal now sends role headers and persists audit log ──
 async function deleteAnimal(id) {
   const a = animals.find(x => x.animalId === id);
   try {
-    const res = await fetch(`${API}/api/animal/${id}`, { method: 'DELETE' });
-    if (!res.ok) { showToast('Delete failed.', 'error'); return; }
-    addLog('red', `Removed animal "${a?.name || '#' + id}".`);
+    const res = await fetch(`${API}/api/animal/${id}`, adminFetchOpts('DELETE'));
+    if (!res.ok) {
+      let errMsg = 'Delete failed.';
+      try { const err = await res.json(); errMsg = err.message || errMsg; } catch {}
+      showToast(errMsg, 'error');
+      return;
+    }
+    const logMsg = `Removed animal "${a?.name || '#' + id}".`;
+    addLog('red', logMsg);
+    await persistAuditLog(logMsg, id);
     showToast('Animal removed.', 'success');
     await loadData();
   } catch (e) {
@@ -304,17 +374,17 @@ function renderApplications() {
   `).join('');
 }
 
+// ── FIXED: approveApp now sends role headers and persists audit log ──
 async function approveApp(id) {
   const app = applications.find(a => a.applicationId === id);
   try {
-    const res = await fetch(`${API}/api/applications/${id}/status`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'Approved' }),
-    });
+    const res = await fetch(`${API}/api/applications/${id}/status`, adminFetchOpts('PUT', { status: 'Approved' }));
     if (!res.ok) { showToast('Could not approve application.', 'error'); return; }
-    addLog('green', `Approved application from "${appApplicantName(app)}".`);
+
+    const logMsg = `Approved application from "${appApplicantName(app)}".`;
+    addLog('green', logMsg);
     addNotification('✅', `Application from ${appApplicantName(app)} approved.`);
+    await persistAuditLog(logMsg, id);
     showToast('Application approved!', 'success');
     await loadData();
   } catch (e) {
@@ -322,17 +392,17 @@ async function approveApp(id) {
   }
 }
 
+// ── FIXED: rejectApp now sends role headers and persists audit log ──
 async function rejectApp(id) {
   const app = applications.find(a => a.applicationId === id);
   try {
-    const res = await fetch(`${API}/api/applications/${id}/status`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'Rejected' }),
-    });
+    const res = await fetch(`${API}/api/applications/${id}/status`, adminFetchOpts('PUT', { status: 'Rejected' }));
     if (!res.ok) { showToast('Could not reject application.', 'error'); return; }
-    addLog('red', `Rejected application from "${appApplicantName(app)}".`);
+
+    const logMsg = `Rejected application from "${appApplicantName(app)}".`;
+    addLog('red', logMsg);
     addNotification('❌', `Application from ${appApplicantName(app)} rejected.`);
+    await persistAuditLog(logMsg, id);
     showToast('Application rejected.', 'error');
     await loadData();
   } catch (e) {
@@ -388,7 +458,7 @@ function updateNotificationDots() {
   }
 }
 
-// ── Audit Log (in-memory; generated by admin actions this session) ──
+// ── Audit Log ──
 function renderAuditLogs() {
   if (!auditLogs.length) {
     auditLogList.innerHTML = emptyState('📜', 'No logs yet', 'Admin actions will appear here.');
@@ -438,7 +508,6 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 
 // ── Helpers ──
 function appApplicantName(app) {
-  // API returns nested adopter → user → name
   return app.adopter?.user?.name || app.adopter?.user?.email || 'Unknown';
 }
 

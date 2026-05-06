@@ -40,27 +40,18 @@ namespace ShelterLink.Migrations
                 oldType: "int")
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AdoptionRecords_AppId",
-                table: "AdoptionRecords",
-                column: "AppId",
-                unique: true);
-
+            // Safe index creation — checks if index already exists before creating.
+            // This prevents crashes when groupmates run the migration on a DB
+            // that already has the index from a previous partial run.
             migrationBuilder.Sql(@"
                 SET @exists = (
-                    SELECT COUNT(*) FROM information_schema.statistics 
-                    WHERE table_schema = DATABASE() 
-                    AND table_name = 'Adopters' 
-                    AND index_name = 'IX_Adopters_UserId'
+                    SELECT COUNT(*) FROM information_schema.statistics
+                    WHERE table_schema = DATABASE()
+                    AND table_name = 'Users'
+                    AND index_name = 'IX_Users_Email'
                 );
-                SET @sql = IF(@exists = 0, 
-                    'CREATE UNIQUE INDEX IX_Adopters_UserId ON Adopters (UserId)', 
+                SET @sql = IF(@exists = 0,
+                    'CREATE UNIQUE INDEX IX_Users_Email ON Users (Email)',
                     'SELECT 1');
                 PREPARE stmt FROM @sql;
                 EXECUTE stmt;
@@ -69,13 +60,43 @@ namespace ShelterLink.Migrations
 
             migrationBuilder.Sql(@"
                 SET @exists = (
-                    SELECT COUNT(*) FROM information_schema.statistics 
-                    WHERE table_schema = DATABASE() 
-                    AND table_name = 'Admins' 
+                    SELECT COUNT(*) FROM information_schema.statistics
+                    WHERE table_schema = DATABASE()
+                    AND table_name = 'AdoptionRecords'
+                    AND index_name = 'IX_AdoptionRecords_AppId'
+                );
+                SET @sql = IF(@exists = 0,
+                    'CREATE UNIQUE INDEX IX_AdoptionRecords_AppId ON AdoptionRecords (AppId)',
+                    'SELECT 1');
+                PREPARE stmt FROM @sql;
+                EXECUTE stmt;
+                DEALLOCATE PREPARE stmt;
+            ");
+
+            migrationBuilder.Sql(@"
+                SET @exists = (
+                    SELECT COUNT(*) FROM information_schema.statistics
+                    WHERE table_schema = DATABASE()
+                    AND table_name = 'Adopters'
+                    AND index_name = 'IX_Adopters_UserId'
+                );
+                SET @sql = IF(@exists = 0,
+                    'CREATE UNIQUE INDEX IX_Adopters_UserId ON Adopters (UserId)',
+                    'SELECT 1');
+                PREPARE stmt FROM @sql;
+                EXECUTE stmt;
+                DEALLOCATE PREPARE stmt;
+            ");
+
+            migrationBuilder.Sql(@"
+                SET @exists = (
+                    SELECT COUNT(*) FROM information_schema.statistics
+                    WHERE table_schema = DATABASE()
+                    AND table_name = 'Admins'
                     AND index_name = 'IX_Admins_UserId'
                 );
-                SET @sql = IF(@exists = 0, 
-                    'CREATE UNIQUE INDEX IX_Admins_UserId ON Admins (UserId)', 
+                SET @sql = IF(@exists = 0,
+                    'CREATE UNIQUE INDEX IX_Admins_UserId ON Admins (UserId)',
                     'SELECT 1');
                 PREPARE stmt FROM @sql;
                 EXECUTE stmt;
