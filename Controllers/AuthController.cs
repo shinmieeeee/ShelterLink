@@ -64,23 +64,38 @@ namespace ShelterLink.Controllers
             if (user.Role == "Adopter")
             {
                 var adopter = await _db.Adopters.FirstOrDefaultAsync(a => a.UserId == user.UserId);
-                adopterId = adopter?.AdopterId;
+
+                if (adopter == null)
+{
+    adopter = new Adopter
+    {
+        UserId  = user.UserId,
+        Name    = user.Name,
+        Age     = 0,
+        Address = string.Empty,
+    };
+    _db.Adopters.Add(adopter);
+    await _db.SaveChangesAsync();
+}
+
+adopterId = adopter.AdopterId;
             }
 
             return Ok(new
-            {
-                success     = true,
-                message     = "Login successful!",
-                redirectUrl = "/html/dashboard.html",
-                user = new
-                {
-                    userId    = user.UserId,
-                    name      = user.Name,
-                    email     = user.Email,
-                    role      = user.Role,
-                    adopterId = adopterId,
-                }
-            });
+{
+    success     = true,
+    message     = "Login successful!",
+    redirectUrl = "/html/dashboard.html",
+    debug       = new { foundAdopterId = adopterId, userId = user.UserId },
+    user = new
+    {
+        userId    = user.UserId,
+        name      = user.Name,
+        email     = user.Email,
+        role      = user.Role,
+        adopterId = adopterId,
+    }
+});
         }
 
         [HttpPost("admin-login")]

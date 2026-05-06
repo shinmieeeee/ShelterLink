@@ -100,9 +100,7 @@ async function renderHome() {
   try {
     const [animals, apps] = await Promise.all([
       api('/api/animal').catch(() => []),
-      state.user?.adopterId
-        ? api(`/api/applications/user/${state.user.adopterId}`).catch(() => [])
-        : Promise.resolve([]),
+      api(`/api/applications/user/${state.user.adopterId ?? state.user.userId}`).catch(() => []),
     ]);
     state.animals = animals;
     state.applications = apps;
@@ -207,9 +205,8 @@ function checkAgeRange(age, range) {
 async function renderApplications() {
   showLoading();
   try {
-    if (state.user?.adopterId) {
-      state.applications = await api(`/api/applications/user/${state.user.adopterId}`).catch(() => []);
-    }
+    const adopterId = state.user.adopterId ?? state.user.userId;
+    state.applications = await api(`/api/applications/user/${adopterId}`).catch(() => []);
 
     viewContainer.innerHTML = `
       <h1 class="page-title">My Applications</h1>

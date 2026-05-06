@@ -68,29 +68,20 @@
        const data = await response.json();
    
        if (response.ok && data.success) {
-         // Save user to both storage types
-         const userJson = JSON.stringify(data.user);
-         sessionStorage.setItem('shelterlink_user', userJson);
-         localStorage.setItem('shelterlink_user', userJson);
-   
-         showToast('🐾 Welcome! Redirecting…', 'success');
-         
-        if (response.ok && data.success) {
-          const userJson = JSON.stringify(data.user);
-          sessionStorage.setItem('shelterlink_user', userJson);
-          localStorage.setItem('shelterlink_user', userJson);
+  const userJson = JSON.stringify(data.user);
+  sessionStorage.setItem('shelterlink_user', userJson);
+  localStorage.setItem('shelterlink_user', userJson);
 
-          showToast('🐾 Welcome! Redirecting…', 'success');
-          setTimeout(() => {
-            window.location.href = '/html/dashboard.html';
-          }, 1000);
-        }
-       } else {
-         showToast(data.message || 'Invalid email or password.', 'error');
-         signInBtn.disabled = false;
-         signInBtn.querySelector('.btn-label').textContent = 'Sign In';
-         btnLoader.hidden = true;
-       }
+  showToast('🐾 Welcome! Redirecting…', 'success');
+  setTimeout(() => {
+    window.location.href = '/html/dashboard.html';
+  }, 1000);
+} else {
+  showToast(data.message || 'Invalid email or password.', 'error');
+  signInBtn.disabled = false;
+  signInBtn.querySelector('.btn-label').textContent = 'Sign In';
+  btnLoader.hidden = true;
+}
    
      } catch (err) {
        showToast('🐾 Could not connect. Please try again.', 'error');
