@@ -174,7 +174,7 @@ async function renderBrowse() {
     const search  = globalSearch.value.toLowerCase();
 
     const filtered = state.animals.filter(a => {
-      const matchSpecies = !species || a.species === species;
+      const matchSpecies = !species || a.species.toLowerCase().includes(species.toLowerCase());
       const matchAge = !age || checkAgeRange(a.age, age);
       const matchSearch = !search || a.name.toLowerCase().includes(search) || a.species.toLowerCase().includes(search);
       return matchSpecies && matchAge && matchSearch;
@@ -424,7 +424,7 @@ function attachSectionLinks() {
 }
 
 // ── FILTERS & SEARCH ──
-document.getElementById('filterSpecies').addEventListener('change', () => { if (state.currentView === 'browse') renderBrowse(); });
+document.getElementById('filterSpecies').addEventListener('input', () => { if (state.currentView === 'browse') renderBrowse(); });
 document.getElementById('filterAge').addEventListener('change',     () => { if (state.currentView === 'browse') renderBrowse(); });
 globalSearch.addEventListener('input', () => { if (state.currentView === 'browse') renderBrowse(); });
 

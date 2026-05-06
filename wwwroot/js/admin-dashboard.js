@@ -216,7 +216,7 @@ function renderAnimals() {
   const filtered = animals.filter(a =>
     (!q       || a.name.toLowerCase().includes(q) || (a.breed || '').toLowerCase().includes(q)) &&
     (!status  || a.status  === status) &&
-    (!species || a.species === species)
+    (!species || a.species.toLowerCase().includes(species.toLowerCase()))
   );
 
   if (!filtered.length) {
@@ -257,9 +257,9 @@ function openAnimalModal(id) {
     document.getElementById('aDesc').value    = a.specialNotes || '';
   } else {
     ['aName', 'aBreed', 'aAge', 'aDesc'].forEach(fid => document.getElementById(fid).value = '');
-    document.getElementById('aSpecies').value = 'Dog';
-    document.getElementById('aStatus').value  = 'Available';
-    document.getElementById('aGender').value  = 'Male';
+    document.getElementById('aSpecies').value = '';
+    document.getElementById('aStatus').value  = '';
+    document.getElementById('aGender').value  = '';
   }
 
   openModal('animalModal');

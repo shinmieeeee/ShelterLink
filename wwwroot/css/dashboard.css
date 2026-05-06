@@ -220,6 +220,22 @@ body {
 }
 
 .topbar-filters select:focus { border-color: var(--accent); }
+.topbar-filters input[type="text"] {
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 30px;
+  padding: 7px 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.topbar-filters input[type="text"]:focus {
+  border-color: var(--accent);
+}
 
 .topbar-user {
   display: flex;

@@ -162,11 +162,12 @@
             <option value="Available">Available</option>
             <option value="Adopted">Adopted</option>
           </select>
-          <select id="animalSpeciesFilter" onchange="renderAnimals()">
-            <option value="">All Species</option>
-            <option value="Dog">Dog</option>
-            <option value="Cat">Cat</option>
-            <option value="Other">Other</option>
+            <input
+              type="text"
+              id="animalSpeciesFilter"
+              placeholder="🔍 Search species…"
+              oninput="renderAnimals()"
+            />
           </select>
         </div>
 
@@ -273,20 +274,17 @@
       <button class="modal-close" onclick="closeModal('animalModal')">✕</button>
     </div>
 
+   
     <div class="form-row">
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" id="aName">
-      </div>
-      <div class="form-group">
-        <label>Species</label>
-        <select id="aSpecies">
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-    </div>
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text" id="aName">
+  </div>
+  <div class="form-group">
+    <label>Species</label>
+    <input type="text" id="aSpecies" placeholder="e.g. Dog, Cat, Rabbit…">
+  </div>
+</div>
 
     <div class="form-row">
       <div class="form-group">
