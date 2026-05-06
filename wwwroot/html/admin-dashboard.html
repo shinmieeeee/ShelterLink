@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,328 +12,272 @@
 
 <body>
 
+<!-- ── SIDEBAR ── -->
 <aside class="sidebar">
 
   <div class="sidebar-logo">
     <div class="logo-icon">🐾</div>
-
     <div class="brand">
-      <span class="brand-shelter">Shelter</span>
-      <span class="brand-link">Link</span>
+      <span class="brand-shelter">Shelter</span><span class="brand-link">Link</span>
     </div>
-
     <span class="admin-badge">ADMIN</span>
   </div>
 
-  <button class="nav-item active" onclick="showPage('overview', this)">
-    <span class="nav-icon">📊</span>
-    Overview
-  </button>
-
-  <button class="nav-item" onclick="showPage('animals', this)">
-    <span class="nav-icon">🐾</span>
-    Animals
-  </button>
-
-  <button class="nav-item" onclick="showPage('applications', this)">
-    <span class="nav-icon">📋</span>
-    Applications
-    <span class="notif-dot" id="appNotifDot"></span>
-  </button>
-
-  <button class="nav-item" onclick="showPage('notifications', this)">
-    <span class="nav-icon">🔔</span>
-    Notifications
-    <span class="notif-dot" id="notifDot"></span>
-  </button>
-
-  <button class="nav-item" onclick="showPage('auditlog', this)">
-    <span class="nav-icon">📜</span>
-    Audit Log
-  </button>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" onclick="showPage('overview', this)">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Overview</span>
+    </button>
+    <button class="nav-item" onclick="showPage('animals', this)">
+      <span class="nav-icon">🐾</span>
+      <span class="nav-label">Animals</span>
+    </button>
+    <button class="nav-item" onclick="showPage('applications', this)">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Applications</span>
+      <span class="nav-badge" id="appNotifDot" hidden>0</span>
+    </button>
+    <button class="nav-item" onclick="showPage('notifications', this)">
+      <span class="nav-icon">🔔</span>
+      <span class="nav-label">Notifications</span>
+      <span class="nav-badge" id="notifDot" hidden>0</span>
+    </button>
+    <button class="nav-item" onclick="showPage('auditlog', this)">
+      <span class="nav-icon">📜</span>
+      <span class="nav-label">Audit Log</span>
+    </button>
+  </nav>
 
   <div class="sidebar-footer">
-
     <div class="admin-info">
       <div class="admin-avatar" id="adminAvatar">A</div>
-
       <div>
         <div class="admin-name" id="adminName">Admin</div>
         <div class="admin-role">Administrator</div>
       </div>
     </div>
-
     <button class="btn-logout" onclick="logout()">🚪 Sign Out</button>
-
   </div>
+
 </aside>
 
-<!-- ───────── Main Content ───────── -->
-<main class="main">
+<!-- ── MAIN WRAPPER ── -->
+<div class="main-wrapper">
 
-  <section class="page active" id="page-overview">
-
-    <div class="page-header">
-      <h2>👋 Welcome back, <span id="welcomeName">Admin</span>!</h2>
-      <p>Here's what's happening at the shelter today.</p>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle">
+      Overview
+      <span id="topbarSub">Here's what's happening at the shelter today.</span>
     </div>
-
-    <div class="stats-grid">
-
-      <div class="stat-card green">
-        <div class="stat-icon">🐾</div>
-        <div class="stat-label">Total Animals</div>
-        <div class="stat-value" id="statTotal">0</div>
-      </div>
-
-      <div class="stat-card tan">
-        <div class="stat-icon">⏳</div>
-        <div class="stat-label">Pending Applications</div>
-        <div class="stat-value" id="statPending">0</div>
-      </div>
-
-      <div class="stat-card green">
-        <div class="stat-icon">✅</div>
-        <div class="stat-label">Approved</div>
-        <div class="stat-value" id="statApproved">0</div>
-      </div>
-
-      <div class="stat-card red">
-        <div class="stat-icon">❌</div>
-        <div class="stat-label">Rejected</div>
-        <div class="stat-value" id="statRejected">0</div>
-      </div>
-
+    <div class="topbar-user">
+      <span class="user-greeting">Welcome back, <strong id="topbarName">Admin</strong> 👋</span>
+      <div class="user-avatar" id="topbarAvatar">A</div>
     </div>
+  </header>
 
-    <div class="section-card">
+  <!-- VIEW CONTAINER -->
+  <div class="view-container">
 
-      <div class="section-header">
-        <div class="section-title">📋 Recent Applications</div>
+    <!-- ── OVERVIEW ── -->
+    <section class="page active" id="page-overview">
 
-        <button
-          class="btn btn-primary btn-sm"
-          onclick="showPage('applications', document.querySelectorAll('.nav-item')[2])">
-          View All
-        </button>
+      <div class="stats-row">
+        <div class="stat-card green">
+          <div class="stat-icon-wrap">🐾</div>
+          <div>
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-label">Total Animals</div>
+          </div>
+        </div>
+        <div class="stat-card tan">
+          <div class="stat-icon-wrap tan">⏳</div>
+          <div>
+            <div class="stat-value" id="statPending">0</div>
+            <div class="stat-label">Pending</div>
+          </div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon-wrap">✅</div>
+          <div>
+            <div class="stat-value" id="statApproved">0</div>
+            <div class="stat-label">Approved</div>
+          </div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-icon-wrap red">❌</div>
+          <div>
+            <div class="stat-value" id="statRejected">0</div>
+            <div class="stat-label">Rejected</div>
+          </div>
+        </div>
       </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Applicant</th>
-              <th>Animal</th>
-              <th>Status</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-
-          <tbody id="recentAppBody"></tbody>
-        </table>
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">📋 Recent Applications</div>
+          <button class="section-link" onclick="showPage('applications', document.querySelectorAll('.nav-item')[2])">View All →</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Applicant</th>
+                <th>Animal</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="recentAppBody"></tbody>
+          </table>
+        </div>
       </div>
 
-    </div>
-
-    <div class="section-card">
-
-      <div class="section-header">
-        <div class="section-title">📜 Recent Activity</div>
-
-        <button
-          class="btn btn-primary btn-sm"
-          onclick="showPage('auditlog', document.querySelectorAll('.nav-item')[4])">
-          View All
-        </button>
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">📜 Recent Activity</div>
+          <button class="section-link" onclick="showPage('auditlog', document.querySelectorAll('.nav-item')[4])">View All →</button>
+        </div>
+        <div class="log-list" id="recentLogs"></div>
       </div>
 
-      <div id="recentLogs"></div>
+    </section>
 
-    </div>
+    <!-- ── ANIMALS ── -->
+    <section class="page" id="page-animals">
 
-  </section>
+      <h1 class="page-title">🐾 Animal Management</h1>
+      <p class="page-subtitle">Add, edit, or remove animals from the shelter.</p>
 
-  <section class="page" id="page-animals">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">All Animals</div>
+          <button class="btn btn-primary btn-sm" onclick="openAnimalModal()">+ Add Animal</button>
+        </div>
 
-    <div class="page-header">
-      <h2>🐾 Animal Management</h2>
-      <p>Add, edit, or remove animals from the shelter.</p>
-    </div>
+        <div class="filter-bar">
+          <input type="text" id="animalSearch" placeholder="🔍 Search animals…" oninput="renderAnimals()">
+          <select id="animalStatusFilter" onchange="renderAnimals()">
+            <option value="">All Statuses</option>
+            <option value="Available">Available</option>
+            <option value="Adopted">Adopted</option>
+          </select>
+          <select id="animalSpeciesFilter" onchange="renderAnimals()">
+            <option value="">All Species</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
-    <div class="section-card">
-
-      <div class="section-header">
-        <div class="section-title">All Animals</div>
-
-        <button class="btn btn-primary" onclick="openAnimalModal()">
-          + Add Animal
-        </button>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Breed</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="animalTableBody"></tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="filter-bar">
+    </section>
 
-        <input
-          type="text"
-          id="animalSearch"
-          placeholder="🔍 Search animals..."
-          oninput="renderAnimals()">
+    <!-- ── APPLICATIONS ── -->
+    <section class="page" id="page-applications">
 
-        <select id="animalStatusFilter" onchange="renderAnimals()">
-          <option value="">All Statuses</option>
-          <option value="Available">Available</option>
-          <option value="Adopted">Adopted</option>
-        </select>
+      <h1 class="page-title">📋 Adoption Applications</h1>
+      <p class="page-subtitle">Review and manage adoption applications.</p>
 
-        <select id="animalSpeciesFilter" onchange="renderAnimals()">
-          <option value="">All Species</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Other">Other</option>
-        </select>
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">All Applications</div>
+        </div>
 
+        <div class="filter-bar">
+          <input type="text" id="appSearch" placeholder="🔍 Search applicants…" oninput="renderApplications()">
+          <select id="appStatusFilter" onchange="renderApplications()">
+            <option value="">All Statuses</option>
+            <option value="Submitted">Submitted</option>
+            <option value="Interview Scheduled">Interview Scheduled</option>
+            <option value="Home Check">Home Check</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Applicant</th>
+                <th>Animal</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appTableBody"></tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Animal</th>
-              <th>Species</th>
-              <th>Breed</th>
-              <th>Age</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+    </section>
 
-          <tbody id="animalTableBody"></tbody>
-        </table>
+    <!-- ── NOTIFICATIONS ── -->
+    <section class="page" id="page-notifications">
+
+      <h1 class="page-title">🔔 Notifications</h1>
+      <p class="page-subtitle">System updates and new application alerts.</p>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">All Notifications</div>
+          <button class="btn btn-primary btn-sm" onclick="markAllRead()">Mark All Read</button>
+        </div>
+        <div class="notif-list" id="notifList"></div>
       </div>
 
-    </div>
+    </section>
 
-  </section>
+    <!-- ── AUDIT LOG ── -->
+    <section class="page" id="page-auditlog">
 
-  <!-- APPLICATIONS -->
-  <section class="page" id="page-applications">
+      <h1 class="page-title">📜 Audit Log</h1>
+      <p class="page-subtitle">All admin actions are recorded here for transparency.</p>
 
-    <div class="page-header">
-      <h2>📋 Adoption Applications</h2>
-      <p>Review and manage adoption applications.</p>
-    </div>
-
-    <div class="section-card">
-
-      <div class="section-header">
-        <div class="section-title">All Applications</div>
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">Activity History</div>
+          <button class="btn btn-danger btn-sm" onclick="clearLogs()">Clear Logs</button>
+        </div>
+        <div class="log-list" id="auditLogList"></div>
       </div>
 
-      <div class="filter-bar">
+    </section>
 
-        <input
-          type="text"
-          id="appSearch"
-          placeholder="🔍 Search applicants..."
-          oninput="renderApplications()">
+  </div><!-- /view-container -->
+</div><!-- /main-wrapper -->
 
-        <select id="appStatusFilter" onchange="renderApplications()">
-          <option value="">All Statuses</option>
-          <option value="Submitted">Submitted</option>
-          <option value="Interview Scheduled">Interview Scheduled</option>
-          <option value="Home Check">Home Check</option>
-          <option value="Approved">Approved</option>
-          <option value="Rejected">Rejected</option>
-        </select>
-
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Applicant</th>
-              <th>Animal</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody id="appTableBody"></tbody>
-        </table>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- NOTIFICATIONS -->
-  <section class="page" id="page-notifications">
-
-    <div class="page-header">
-      <h2>🔔 Notifications</h2>
-      <p>System updates and new application alerts.</p>
-    </div>
-
-    <div class="section-card">
-
-      <div class="section-header">
-        <div class="section-title">All Notifications</div>
-
-        <button class="btn btn-primary btn-sm" onclick="markAllRead()">
-          Mark All Read
-        </button>
-      </div>
-
-      <div id="notifList"></div>
-
-    </div>
-
-  </section>
-
-  <!-- AUDIT LOG -->
-  <section class="page" id="page-auditlog">
-
-    <div class="page-header">
-      <h2>📜 Audit Log</h2>
-      <p>All admin actions are recorded here for transparency.</p>
-    </div>
-
-    <div class="section-card">
-
-      <div class="section-header">
-        <div class="section-title">Activity History</div>
-
-        <button class="btn btn-danger btn-sm" onclick="clearLogs()">
-          Clear Logs
-        </button>
-      </div>
-
-      <div id="auditLogList"></div>
-
-    </div>
-
-  </section>
-
-</main>
-
-<!-- ───────── Animal Modal ───────── -->
+<!-- ── ANIMAL MODAL ── -->
 <div class="modal-overlay" id="animalModal">
-
   <div class="modal">
-
     <div class="modal-header">
       <div class="modal-title" id="animalModalTitle">Add Animal</div>
       <button class="modal-close" onclick="closeModal('animalModal')">✕</button>
     </div>
 
     <div class="form-row">
-
       <div class="form-group">
         <label>Name</label>
         <input type="text" id="aName">
       </div>
-
       <div class="form-group">
         <label>Species</label>
         <select id="aSpecies">
@@ -343,25 +286,20 @@
           <option value="Other">Other</option>
         </select>
       </div>
-
     </div>
 
     <div class="form-row">
-
       <div class="form-group">
         <label>Breed</label>
         <input type="text" id="aBreed">
       </div>
-
       <div class="form-group">
         <label>Age</label>
         <input type="text" id="aAge">
       </div>
-
     </div>
 
     <div class="form-row">
-
       <div class="form-group">
         <label>Status</label>
         <select id="aStatus">
@@ -369,7 +307,6 @@
           <option value="Adopted">Adopted</option>
         </select>
       </div>
-
       <div class="form-group">
         <label>Gender</label>
         <select id="aGender">
@@ -377,7 +314,6 @@
           <option value="Female">Female</option>
         </select>
       </div>
-
     </div>
 
     <div class="form-group">
@@ -388,58 +324,39 @@
     <input type="hidden" id="aEditId">
 
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal('animalModal')">Cancel</button>
+      <button class="btn btn-ghost" onclick="closeModal('animalModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveAnimal()">Save Animal</button>
     </div>
-
   </div>
 </div>
 
-<!-- ───────── Application Modal ───────── -->
+<!-- ── APPLICATION MODAL ── -->
 <div class="modal-overlay" id="appModal">
-
   <div class="modal">
-
     <div class="modal-header">
       <div class="modal-title">Application Details</div>
       <button class="modal-close" onclick="closeModal('appModal')">✕</button>
     </div>
-
     <div id="appModalContent"></div>
-
     <div class="modal-actions" id="appModalActions"></div>
-
   </div>
-
 </div>
 
-<!-- ───────── Confirm Modal ───────── -->
+<!-- ── CONFIRM MODAL ── -->
 <div class="modal-overlay" id="confirmModal">
-
   <div class="modal" style="max-width:380px">
-
     <div class="modal-header">
       <div class="modal-title" id="confirmTitle">Confirm Action</div>
       <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
     </div>
-
     <div class="confirm-msg" id="confirmMsg"></div>
-
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-ghost" onclick="closeModal('confirmModal')">Cancel</button>
       <button class="btn btn-danger" id="confirmOkBtn">Confirm</button>
     </div>
-
   </div>
-
 </div>
 
-<!-- Toast -->
-<div id="adminToast"></div>
-
-<!-- External JS -->
 <script src="../js/admin-dashboard.js"></script>
-
 </body>
 </html>
-```

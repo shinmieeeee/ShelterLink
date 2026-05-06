@@ -12,7 +12,6 @@ builder.Services.AddDbContext<ShelterLinkContext>(options =>
 
 var app = builder.Build();
 
-// Serve static files with no-cache headers so JS changes always take effect
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
