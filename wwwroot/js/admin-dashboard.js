@@ -1,22 +1,33 @@
 // ── DOM refs ──
-const adminNameEl    = document.getElementById('adminName');
-const topbarName     = document.getElementById('topbarName');
-const topbarAvatar   = document.getElementById('topbarAvatar');
-const adminAvatarEl  = document.getElementById('adminAvatar');
-const statTotal      = document.getElementById('statTotal');
-const statPending    = document.getElementById('statPending');
-const statApproved   = document.getElementById('statApproved');
-const statRejected   = document.getElementById('statRejected');
-const recentAppBody  = document.getElementById('recentAppBody');
-const recentLogs     = document.getElementById('recentLogs');
-const animalTableBody= document.getElementById('animalTableBody');
-const appTableBody   = document.getElementById('appTableBody');
-const notifList      = document.getElementById('notifList');
-const notifDot       = document.getElementById('notifDot');
-const appNotifDot    = document.getElementById('appNotifDot');
-const auditLogList   = document.getElementById('auditLogList');
+const adminNameEl     = document.getElementById('adminName');
+const topbarName      = document.getElementById('topbarName');
+const topbarAvatar    = document.getElementById('topbarAvatar');
+const adminAvatarEl   = document.getElementById('adminAvatar');
+const statTotal       = document.getElementById('statTotal');
+const statPending     = document.getElementById('statPending');
+const statApproved    = document.getElementById('statApproved');
+const statRejected    = document.getElementById('statRejected');
+const recentAppBody   = document.getElementById('recentAppBody');
+const recentLogs      = document.getElementById('recentLogs');
+const animalTableBody = document.getElementById('animalTableBody');
+const appTableBody    = document.getElementById('appTableBody');
+const notifList       = document.getElementById('notifList');
+const notifDot        = document.getElementById('notifDot');
+const appNotifDot     = document.getElementById('appNotifDot');
+const auditLogList    = document.getElementById('auditLogList');
 
-// ── Toast (mirrors dashboard.js pattern) ──
+// ── API base (same origin — ASP.NET serves both HTML and API) ──
+const API = '';
+
+// ── Live data from the backend ──
+let animals      = [];
+let applications = [];
+
+// ── Notifications & audit log stay in-memory (session only) ──
+let notifications = [];
+let auditLogs     = [];
+
+// ── Toast ──
 let toastEl = document.createElement('div');
 toastEl.className = 'global-toast';
 document.body.appendChild(toastEl);
@@ -29,43 +40,19 @@ function showToast(msg, type = 'success') {
   toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
 }
 
-// ── Sample data (replace with API calls) ──
-let animals = [
-  { id: 1, name: 'Max',    species: 'Dog', breed: 'Labrador',      age: '3 yrs', gender: 'Male',   status: 'Available', desc: 'Friendly and energetic.' },
-  { id: 2, name: 'Luna',   species: 'Cat', breed: 'Siamese',       age: '2 yrs', gender: 'Female', status: 'Available', desc: 'Calm and affectionate.' },
-  { id: 3, name: 'Buddy',  species: 'Dog', breed: 'Beagle',        age: '5 yrs', gender: 'Male',   status: 'Adopted',   desc: 'Loves long walks.' },
-];
-
-let applications = [
-  { id: 1, applicant: 'Maria Santos',  animal: 'Max',  status: 'Submitted', date: '2025-05-01' },
-  { id: 2, applicant: 'Juan dela Cruz', animal: 'Luna', status: 'Approved',  date: '2025-04-28' },
-  { id: 3, applicant: 'Ana Reyes',     animal: 'Max',  status: 'Rejected',  date: '2025-04-25' },
-];
-
-let notifications = [
-  { id: 1, icon: '📋', text: 'New application from Maria Santos.', time: '5 mins ago', read: false },
-  { id: 2, icon: '✅', text: 'Application #2 approved.',           time: '1 hr ago',   read: true  },
-];
-
-let auditLogs = [
-  { type: 'green', text: 'Admin approved application #2.',    time: '2025-05-01 10:32 AM' },
-  { type: 'red',   text: 'Admin rejected application #3.',    time: '2025-04-28 03:15 PM' },
-  { type: 'tan',   text: 'New animal "Max" added.',           time: '2025-04-25 09:00 AM' },
-];
-
 // ── Page labels for topbar ──
 const pageMeta = {
-  overview:     { title: 'Overview',              sub: "Here's what's happening at the shelter today." },
-  animals:      { title: '🐾 Animal Management',   sub: 'Add, edit, or remove animals from the shelter.' },
+  overview:     { title: 'Overview',                sub: "Here's what's happening at the shelter today." },
+  animals:      { title: '🐾 Animal Management',    sub: 'Add, edit, or remove animals from the shelter.' },
   applications: { title: '📋 Adoption Applications', sub: 'Review and manage adoption applications.' },
-  notifications:{ title: '🔔 Notifications',       sub: 'System updates and new application alerts.' },
-  auditlog:     { title: '📜 Audit Log',            sub: 'All admin actions are recorded here.' },
+  notifications:{ title: '🔔 Notifications',        sub: 'System updates and new application alerts.' },
+  auditlog:     { title: '📜 Audit Log',             sub: 'All admin actions are recorded here.' },
 };
 
 // ── Init ──
 window.addEventListener('DOMContentLoaded', () => {
   loadUser();
-  refreshDashboard();
+  loadData();
 });
 
 function loadUser() {
@@ -75,13 +62,31 @@ function loadUser() {
     null;
   if (!user) return;
 
-  const name = user.name || 'Admin';
+  const name    = user.name || 'Admin';
   const initial = name.charAt(0).toUpperCase();
 
   adminNameEl.textContent   = name;
   topbarName.textContent    = name;
   adminAvatarEl.textContent = initial;
   topbarAvatar.textContent  = initial;
+}
+
+// ── Load all data from API then refresh UI ──
+async function loadData() {
+  try {
+    const [animalsRes, appsRes] = await Promise.all([
+      fetch(`${API}/api/animal`),
+      fetch(`${API}/api/applications`),
+    ]);
+
+    animals      = animalsRes.ok      ? await animalsRes.json() : [];
+    applications = appsRes.ok         ? await appsRes.json()    : [];
+  } catch (e) {
+    console.error('Failed to load data:', e);
+    showToast('Could not reach the server.', 'error');
+  }
+
+  refreshDashboard();
 }
 
 function refreshDashboard() {
@@ -103,33 +108,32 @@ function showPage(page, btn) {
   document.getElementById(`page-${page}`).classList.add('active');
   if (btn) btn.classList.add('active');
 
-  // Update topbar
   const meta = pageMeta[page] || {};
   document.getElementById('topbarTitle').innerHTML =
-    `${meta.title || page}<span>${meta.sub || ''}</span>`;
+    `${meta.title || page}<span id="topbarSub">${meta.sub || ''}</span>`;
 }
 
 // ── Stats ──
 function updateStats() {
   statTotal.textContent    = animals.length;
-  statPending.textContent  = applications.filter(a => a.status === 'Submitted').length;
+  statPending.textContent  = applications.filter(a => a.status === 'Pending').length;
   statApproved.textContent = applications.filter(a => a.status === 'Approved').length;
   statRejected.textContent = applications.filter(a => a.status === 'Rejected').length;
 }
 
 // ── Recent Apps (overview) ──
 function renderRecentApps() {
-  const recent = [...applications].reverse().slice(0, 4);
+  const recent = [...applications].slice(0, 4);
   if (!recent.length) {
     recentAppBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:20px">No applications yet.</td></tr>`;
     return;
   }
   recentAppBody.innerHTML = recent.map(app => `
     <tr>
-      <td><b>${app.applicant}</b></td>
-      <td>${app.animal}</td>
+      <td><b>${appApplicantName(app)}</b></td>
+      <td>${app.animal?.name || '—'}</td>
       <td><span class="badge ${badgeClass(app.status)}">${app.status}</span></td>
-      <td>${app.date}</td>
+      <td>${formatDate(app.submittedAt)}</td>
     </tr>
   `).join('');
 }
@@ -146,12 +150,12 @@ function renderRecentLogs() {
 
 // ── Animals table ──
 function renderAnimals() {
-  const q      = (document.getElementById('animalSearch')?.value || '').toLowerCase();
-  const status = document.getElementById('animalStatusFilter')?.value || '';
-  const species= document.getElementById('animalSpeciesFilter')?.value || '';
+  const q       = (document.getElementById('animalSearch')?.value || '').toLowerCase();
+  const status  = document.getElementById('animalStatusFilter')?.value || '';
+  const species = document.getElementById('animalSpeciesFilter')?.value || '';
 
   const filtered = animals.filter(a =>
-    (!q       || a.name.toLowerCase().includes(q) || a.breed.toLowerCase().includes(q)) &&
+    (!q       || a.name.toLowerCase().includes(q) || (a.breed || '').toLowerCase().includes(q)) &&
     (!status  || a.status  === status) &&
     (!species || a.species === species)
   );
@@ -165,13 +169,13 @@ function renderAnimals() {
     <tr>
       <td><b>${a.name}</b></td>
       <td>${a.species}</td>
-      <td>${a.breed}</td>
+      <td>${a.breed || '—'}</td>
       <td>${a.age}</td>
       <td><span class="badge ${badgeClass(a.status)}">${a.status}</span></td>
       <td>
         <div class="action-group">
-          <button class="btn btn-info btn-sm"    onclick="openAnimalModal(${a.id})">Edit</button>
-          <button class="btn btn-danger btn-sm"  onclick="confirmDeleteAnimal(${a.id})">Delete</button>
+          <button class="btn btn-info btn-sm"   onclick="openAnimalModal(${a.animalId})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDeleteAnimal(${a.animalId})">Delete</button>
         </div>
       </td>
     </tr>
@@ -183,17 +187,17 @@ function openAnimalModal(id) {
   document.getElementById('aEditId').value = id || '';
 
   if (id) {
-    const a = animals.find(x => x.id === id);
+    const a = animals.find(x => x.animalId === id);
     if (!a) return;
     document.getElementById('aName').value    = a.name;
     document.getElementById('aSpecies').value = a.species;
-    document.getElementById('aBreed').value   = a.breed;
+    document.getElementById('aBreed').value   = a.breed || '';
     document.getElementById('aAge').value     = a.age;
     document.getElementById('aStatus').value  = a.status;
-    document.getElementById('aGender').value  = a.gender;
-    document.getElementById('aDesc').value    = a.desc;
+    document.getElementById('aGender').value  = a.gender || 'Male';
+    document.getElementById('aDesc').value    = a.specialNotes || '';
   } else {
-    ['aName','aBreed','aAge','aDesc'].forEach(id => document.getElementById(id).value = '');
+    ['aName', 'aBreed', 'aAge', 'aDesc'].forEach(fid => document.getElementById(fid).value = '');
     document.getElementById('aSpecies').value = 'Dog';
     document.getElementById('aStatus').value  = 'Available';
     document.getElementById('aGender').value  = 'Male';
@@ -202,39 +206,48 @@ function openAnimalModal(id) {
   openModal('animalModal');
 }
 
-function saveAnimal() {
+async function saveAnimal() {
   const name = document.getElementById('aName').value.trim();
   if (!name) { showToast('Name is required.', 'error'); return; }
 
-  const id = parseInt(document.getElementById('aEditId').value);
+  const id = parseInt(document.getElementById('aEditId').value) || 0;
 
   const data = {
     name,
-    species: document.getElementById('aSpecies').value,
-    breed:   document.getElementById('aBreed').value.trim(),
-    age:     document.getElementById('aAge').value.trim(),
-    status:  document.getElementById('aStatus').value,
-    gender:  document.getElementById('aGender').value,
-    desc:    document.getElementById('aDesc').value.trim(),
+    species:      document.getElementById('aSpecies').value,
+    breed:        document.getElementById('aBreed').value.trim(),
+    age:          parseFloat(document.getElementById('aAge').value) || 0,
+    status:       document.getElementById('aStatus').value,
+    specialNotes: document.getElementById('aDesc').value.trim(),
   };
 
-  if (id) {
-    Object.assign(animals.find(a => a.id === id), data);
-    addLog('tan', `Updated animal "${data.name}".`);
-    showToast('Animal updated!', 'success');
-  } else {
-    const newId = Math.max(0, ...animals.map(a => a.id)) + 1;
-    animals.push({ id: newId, ...data });
-    addLog('tan', `Added new animal "${data.name}".`);
-    showToast('Animal added!', 'success');
-  }
+  const url    = id ? `${API}/api/animal/${id}` : `${API}/api/animal`;
+  const method = id ? 'PUT' : 'POST';
 
-  closeModal('animalModal');
-  refreshDashboard();
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      showToast(err.message || 'Save failed.', 'error');
+      return;
+    }
+
+    addLog('tan', id ? `Updated animal "${data.name}".` : `Added new animal "${data.name}".`);
+    showToast(id ? 'Animal updated!' : 'Animal added!', 'success');
+    closeModal('animalModal');
+    await loadData();
+  } catch (e) {
+    showToast('Could not reach the server.', 'error');
+  }
 }
 
 function confirmDeleteAnimal(id) {
-  const a = animals.find(x => x.id === id);
+  const a = animals.find(x => x.animalId === id);
   if (!a) return;
   showConfirm(
     'Remove Animal',
@@ -243,12 +256,17 @@ function confirmDeleteAnimal(id) {
   );
 }
 
-function deleteAnimal(id) {
-  const a = animals.find(x => x.id === id);
-  animals = animals.filter(x => x.id !== id);
-  addLog('red', `Removed animal "${a?.name || '#' + id}".`);
-  showToast('Animal removed.', 'success');
-  refreshDashboard();
+async function deleteAnimal(id) {
+  const a = animals.find(x => x.animalId === id);
+  try {
+    const res = await fetch(`${API}/api/animal/${id}`, { method: 'DELETE' });
+    if (!res.ok) { showToast('Delete failed.', 'error'); return; }
+    addLog('red', `Removed animal "${a?.name || '#' + id}".`);
+    showToast('Animal removed.', 'success');
+    await loadData();
+  } catch (e) {
+    showToast('Could not reach the server.', 'error');
+  }
 }
 
 // ── Applications table ──
@@ -256,10 +274,12 @@ function renderApplications() {
   const q      = (document.getElementById('appSearch')?.value || '').toLowerCase();
   const status = document.getElementById('appStatusFilter')?.value || '';
 
-  const filtered = applications.filter(a =>
-    (!q      || a.applicant.toLowerCase().includes(q) || a.animal.toLowerCase().includes(q)) &&
-    (!status || a.status === status)
-  );
+  const filtered = applications.filter(app => {
+    const name   = appApplicantName(app).toLowerCase();
+    const animal = (app.animal?.name || '').toLowerCase();
+    return (!q || name.includes(q) || animal.includes(q)) &&
+           (!status || app.status === status);
+  });
 
   if (!filtered.length) {
     appTableBody.innerHTML = `<tr><td colspan="5">${emptyState('📋', 'No applications found', 'Try adjusting your filters.')}</td></tr>`;
@@ -268,15 +288,15 @@ function renderApplications() {
 
   appTableBody.innerHTML = filtered.map(app => `
     <tr>
-      <td><b>${app.applicant}</b></td>
-      <td>${app.animal}</td>
+      <td><b>${appApplicantName(app)}</b></td>
+      <td>${app.animal?.name || '—'}</td>
       <td><span class="badge ${badgeClass(app.status)}">${app.status}</span></td>
-      <td>${app.date}</td>
+      <td>${formatDate(app.submittedAt)}</td>
       <td>
         <div class="action-group">
-          ${app.status === 'Submitted' ? `
-            <button class="btn btn-success btn-sm" onclick="approveApp(${app.id})">Approve</button>
-            <button class="btn btn-danger btn-sm"  onclick="rejectApp(${app.id})">Reject</button>
+          ${app.status === 'Pending' || app.status === 'UnderReview' ? `
+            <button class="btn btn-success btn-sm" onclick="approveApp(${app.applicationId})">Approve</button>
+            <button class="btn btn-danger btn-sm"  onclick="rejectApp(${app.applicationId})">Reject</button>
           ` : `<span style="font-size:0.8rem;color:var(--text-light)">${app.status}</span>`}
         </div>
       </td>
@@ -284,30 +304,46 @@ function renderApplications() {
   `).join('');
 }
 
-function approveApp(id) {
-  const app = applications.find(a => a.id === id);
-  if (!app) return;
-  app.status = 'Approved';
-  addLog('green', `Approved application from "${app.applicant}".`);
-  addNotification('✅', `Application from ${app.applicant} approved.`);
-  showToast('Application approved!', 'success');
-  refreshDashboard();
+async function approveApp(id) {
+  const app = applications.find(a => a.applicationId === id);
+  try {
+    const res = await fetch(`${API}/api/applications/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'Approved' }),
+    });
+    if (!res.ok) { showToast('Could not approve application.', 'error'); return; }
+    addLog('green', `Approved application from "${appApplicantName(app)}".`);
+    addNotification('✅', `Application from ${appApplicantName(app)} approved.`);
+    showToast('Application approved!', 'success');
+    await loadData();
+  } catch (e) {
+    showToast('Could not reach the server.', 'error');
+  }
 }
 
-function rejectApp(id) {
-  const app = applications.find(a => a.id === id);
-  if (!app) return;
-  app.status = 'Rejected';
-  addLog('red', `Rejected application from "${app.applicant}".`);
-  addNotification('❌', `Application from ${app.applicant} rejected.`);
-  showToast('Application rejected.', 'error');
-  refreshDashboard();
+async function rejectApp(id) {
+  const app = applications.find(a => a.applicationId === id);
+  try {
+    const res = await fetch(`${API}/api/applications/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'Rejected' }),
+    });
+    if (!res.ok) { showToast('Could not reject application.', 'error'); return; }
+    addLog('red', `Rejected application from "${appApplicantName(app)}".`);
+    addNotification('❌', `Application from ${appApplicantName(app)} rejected.`);
+    showToast('Application rejected.', 'error');
+    await loadData();
+  } catch (e) {
+    showToast('Could not reach the server.', 'error');
+  }
 }
 
-// ── Notifications ──
+// ── Notifications (in-memory; generated by admin actions) ──
 function renderNotifications() {
   if (!notifications.length) {
-    notifList.innerHTML = emptyState('🔔', 'No notifications', 'You\'re all caught up!');
+    notifList.innerHTML = emptyState('🔔', 'No notifications', "You're all caught up!");
     return;
   }
   notifList.innerHTML = notifications.map(n => `
@@ -323,6 +359,8 @@ function renderNotifications() {
 
 function addNotification(icon, text) {
   notifications.unshift({ id: Date.now(), icon, text, time: 'Just now', read: false });
+  updateNotificationDots();
+  renderNotifications();
 }
 
 function markAllRead() {
@@ -341,7 +379,7 @@ function updateNotificationDots() {
     notifDot.setAttribute('hidden', '');
   }
 
-  const pending = applications.filter(a => a.status === 'Submitted').length;
+  const pending = applications.filter(a => a.status === 'Pending' || a.status === 'UnderReview').length;
   if (pending > 0) {
     appNotifDot.textContent = pending;
     appNotifDot.removeAttribute('hidden');
@@ -350,7 +388,7 @@ function updateNotificationDots() {
   }
 }
 
-// ── Audit Log ──
+// ── Audit Log (in-memory; generated by admin actions this session) ──
 function renderAuditLogs() {
   if (!auditLogs.length) {
     auditLogList.innerHTML = emptyState('📜', 'No logs yet', 'Admin actions will appear here.');
@@ -361,6 +399,8 @@ function renderAuditLogs() {
 
 function addLog(type, text) {
   auditLogs.unshift({ type, text, time: new Date().toLocaleString() });
+  renderAuditLogs();
+  renderRecentLogs();
 }
 
 function clearLogs() {
@@ -397,6 +437,18 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 // ── Helpers ──
+function appApplicantName(app) {
+  // API returns nested adopter → user → name
+  return app.adopter?.user?.name || app.adopter?.user?.email || 'Unknown';
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  });
+}
+
 function logHtml(log) {
   return `
     <div class="log-item">
@@ -421,13 +473,15 @@ function emptyState(icon, title, sub) {
 
 function badgeClass(status) {
   const map = {
-    'Available'          : 'badge-available',
-    'Adopted'            : 'badge-adopted',
-    'Submitted'          : 'badge-pending',
-    'Approved'           : 'badge-approved',
-    'Rejected'           : 'badge-rejected',
-    'Interview Scheduled': 'badge-interview',
-    'Home Check'         : 'badge-homecheck',
+    'Available'   : 'badge-available',
+    'Pending'     : 'badge-pending',
+    'Adopted'     : 'badge-adopted',
+    'Quarantine'  : 'badge-pending',
+    'UnderReview' : 'badge-interview',
+    'Approved'    : 'badge-approved',
+    'Rejected'    : 'badge-rejected',
+    'Completed'   : 'badge-approved',
+    'Cancelled'   : 'badge-rejected',
   };
   return map[status] || '';
 }

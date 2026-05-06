@@ -26,6 +26,41 @@ namespace ShelterLink.Controllers
             return Ok(apps);
         }
 
+        // GET /api/applications  (all, for admin)
+[HttpGet]
+public async Task<IActionResult> GetAll()
+{
+    var apps = await _db.AdoptionApplications
+        .Include(a => a.Animal)
+        .Include(a => a.Adopter).ThenInclude(ad => ad.User)
+        .OrderByDescending(a => a.SubmittedAt)
+        .ToListAsync();
+    return Ok(apps);
+}
+
+        // PUT /api/applications/{id}/status  (approve/reject)
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdate req)
+        {
+            var app = await _db.AdoptionApplications.Include(a => a.Animal).FirstOrDefaultAsync(a => a.ApplicationId == id);
+            if (app == null) return NotFound();
+
+            app.Status = Enum.Parse<ApplicationStatus>(req.Status);
+
+            // If approved, mark animal as adopted
+            if (app.Status == ApplicationStatus.Approved && app.Animal != null)
+                app.Animal.Status = AnimalStatus.Adopted;
+
+            // If rejected, free the animal back to available
+            if (app.Status == ApplicationStatus.Rejected && app.Animal != null)
+                app.Animal.Status = AnimalStatus.Available;
+
+            await _db.SaveChangesAsync();
+            return Ok(app);
+        }
+
+        public class StatusUpdate { public string Status { get; set; } = ""; }
+
         [HttpPost]
         public async Task<IActionResult> Submit([FromBody] ApplicationRequest req)
         {
