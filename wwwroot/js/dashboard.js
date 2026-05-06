@@ -377,7 +377,7 @@ function openAnimalModal(id) {
   if (!a) return;
 
   const emoji = a.species === 'Cat' ? '🐱' : a.species === 'Dog' ? '🐶' : a.species === 'Rabbit' ? '🐰' : '🐾';
-  const canApply = a.status === 'Available' && state.user?.adopterId;
+  const canApply = a.status === 'Available' && (state.user?.adopterId || state.user?.userId);
 
   modalContent.innerHTML = `
     <div class="modal-animal-img">
@@ -387,7 +387,7 @@ function openAnimalModal(id) {
     <div class="modal-meta">${escHtml(a.species)} · ${escHtml(a.breed || 'Mixed')} · Age: ${a.age} · <span class="status-badge status-${(a.status||'available').toLowerCase()}">${a.status}</span></div>
     ${a.specialNotes ? `<div class="modal-notes">${escHtml(a.specialNotes)}</div>` : ''}
     <button class="btn-apply" id="applyBtn" ${canApply ? '' : 'disabled'}>
-      ${canApply ? '🐾 Apply to Adopt' : a.status !== 'Available' ? 'Not Available' : 'Login to Apply'}
+      ${canApply ? '🐾 Apply to Adopt' : a.status !== 'Available' ? 'Not Available' : !state.user ? 'Login to Apply' : 'Profile Incomplete'}
     </button>
   `;
 
@@ -402,7 +402,7 @@ async function submitApplication(animalId) {
   try {
     await api('/api/applications', {
       method: 'POST',
-      body: JSON.stringify({ adopterId: state.user.adopterId, animalId }),
+      body: JSON.stringify({ adopterId: state.user.adopterId ?? state.user.userId, animalId }),
     });
     showToast('🐾 Application submitted!', 'success');
     modalOverlay.hidden = true;
