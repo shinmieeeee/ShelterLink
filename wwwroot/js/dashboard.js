@@ -280,7 +280,13 @@ function renderProfile() {
       </div>
       <div class="form-field">
         <label>New Password</label>
-        <input type="password" id="profilePassword" placeholder="Leave blank to keep current" minlength="6"/>
+        <div style="position: relative; display: flex; align-items: center;">
+          <input type="password" id="profilePassword" placeholder="Leave blank to keep current" minlength="6" style="width: 100%; padding-right: 2.5rem;"/>
+          <button type="button" id="togglePasswordBtn" aria-label="Toggle password visibility"
+            style="position: absolute; right: 0.6rem; background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0; line-height: 1; color: var(--text-muted, #888);">
+            👁️
+          </button>
+        </div>
         <small style="color: var(--text-muted, #888); font-size: 0.75rem;">Minimum 6 characters if changing</small>
       </div>
 
@@ -289,6 +295,15 @@ function renderProfile() {
   `;
 
   document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
+
+  document.getElementById('togglePasswordBtn').addEventListener('click', () => {
+    const input = document.getElementById('profilePassword');
+    const btn   = document.getElementById('togglePasswordBtn');
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    btn.textContent = isHidden ? '🙈' : '👁️';
+    btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+  });
 }
 
 async function saveProfile() {
