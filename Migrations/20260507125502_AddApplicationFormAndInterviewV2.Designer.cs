@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShelterLink.Data;
 
@@ -11,9 +12,11 @@ using ShelterLink.Data;
 namespace ShelterLink.Migrations
 {
     [DbContext(typeof(ShelterLinkContext))]
-    partial class ShelterLinkContextModelSnapshot : ModelSnapshot
+    [Migration("20260507125502_AddApplicationFormAndInterviewV2")]
+    partial class AddApplicationFormAndInterviewV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
