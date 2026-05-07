@@ -377,15 +377,6 @@ function applicationCard(app) {
             <div>${dtStr}</div>
           </div>
         </div>`;
-    } else if (app.rescheduleRequested === true) {
-      interviewBlock = `
-        <div class="interview-block reschedule">
-          <span class="interview-icon">🔄</span>
-          <div>
-            <strong>Reschedule Requested</strong>
-            <div>Waiting for admin to propose a new time.</div>
-          </div>
-        </div>`;
     } else {
       interviewBlock = `
         <div class="interview-block pending-confirm">
@@ -395,7 +386,6 @@ function applicationCard(app) {
             <div>${dtStr}</div>
             <div style="margin-top:0.6rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
               <button class="btn-confirm-interview" data-app-id="${app.applicationId}">✅ I'm Available</button>
-              <button class="btn-reschedule-interview" data-app-id="${app.applicationId}">🔄 Request Reschedule</button>
             </div>
           </div>
         </div>`;
@@ -463,16 +453,6 @@ function attachInterviewActions() {
         showToast('Interview confirmed! ✅', 'success');
         renderApplications();
       } catch { showToast('Could not confirm interview.', 'error'); }
-    });
-  });
-  document.querySelectorAll('.btn-reschedule-interview').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const id = parseInt(btn.dataset.appId);
-      try {
-        await api(`/api/applications/${id}/confirm`, { method: 'PUT', body: JSON.stringify({ confirmed: false }) });
-        showToast('Reschedule requested. Admin will contact you.', 'success');
-        renderApplications();
-      } catch { showToast('Could not send request.', 'error'); }
     });
   });
 }
@@ -726,7 +706,6 @@ function injectFormStyles() {
     .interview-block { display:flex;gap:1rem;align-items:flex-start;padding:1rem;border-radius:10px;margin-top:1rem; }
     .interview-block.pending-confirm { background:#eff6ff;border:1.5px solid #bfdbfe; }
     .interview-block.confirmed { background:#f0fdf4;border:1.5px solid #bbf7d0; }
-    .interview-block.reschedule { background:#fefce8;border:1.5px solid #fde68a; }
     .interview-icon { font-size:1.5rem; }
     .btn-confirm-interview,.btn-reschedule-interview {
       padding:0.5rem 1rem;border-radius:7px;border:none;cursor:pointer;
