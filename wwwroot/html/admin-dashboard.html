@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShelterLink – Admin Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/admin-dashboard.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin-dashboard.css">
 </head>
 
 <body>
@@ -35,12 +33,12 @@
     <button class="nav-item" onclick="showPage('applications', this)">
       <span class="nav-icon">📋</span>
       <span class="nav-label">Applications</span>
-      <span class="nav-badge" id="appNotifDot" hidden>0</span>
+      <span class="nav-badge" id="appNotifDot" hidden="">0</span>
     </button>
     <button class="nav-item" onclick="showPage('notifications', this)">
       <span class="nav-icon">🔔</span>
       <span class="nav-label">Notifications</span>
-      <span class="nav-badge" id="notifDot" hidden>0</span>
+      <span class="nav-badge" id="notifDot" hidden="">0</span>
     </button>
     <button class="nav-item" onclick="showPage('auditlog', this)">
       <span class="nav-icon">📜</span>
@@ -162,13 +160,8 @@
             <option value="Available">Available</option>
             <option value="Adopted">Adopted</option>
           </select>
-            <input
-              type="text"
-              id="animalSpeciesFilter"
-              placeholder="🔍 Search species…"
-              oninput="renderAnimals()"
-            />
-          </select>
+            <input type="text" id="animalSpeciesFilter" placeholder="🔍 Search species…" oninput="renderAnimals()">
+          
         </div>
 
         <div class="table-wrap">
@@ -194,8 +187,6 @@
     <section class="page" id="page-applications">
 
       <h1 class="page-title">📋 Adoption Applications</h1>
-      <p class="page-subtitle">Review and manage adoption applications.</p>
-
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">All Applications</div>
@@ -221,6 +212,7 @@
                 <th>Animal</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Interview Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -235,7 +227,6 @@
     <section class="page" id="page-notifications">
 
       <h1 class="page-title">🔔 Notifications</h1>
-      <p class="page-subtitle">System updates and new application alerts.</p>
 
       <div class="section-card">
         <div class="section-header">
@@ -251,7 +242,6 @@
     <section class="page" id="page-auditlog">
 
       <h1 class="page-title">📜 Audit Log</h1>
-      <p class="page-subtitle">All admin actions are recorded here for transparency.</p>
 
       <div class="section-card">
         <div class="section-header">
@@ -274,7 +264,20 @@
       <button class="modal-close" onclick="closeModal('animalModal')">✕</button>
     </div>
 
-   
+
+    <div class="form-group photo-upload-group">
+      <label>Animal Photo</label>
+      <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('aPhotoInput').click()">
+        <div class="photo-preview-wrap" id="photoPreviewWrap">
+          <span class="photo-placeholder-icon" id="photoPlaceholderIcon">📷</span>
+          <img id="aPhotoPreview" src="" alt="Preview" style="display:none">
+        </div>
+        <div class="photo-upload-hint" id="photoUploadHint">Click to upload a photo <span class="photo-upload-sub">(JPG, PNG, GIF, WEBP · max 5 MB)</span></div>
+      </div>
+      <input type="file" id="aPhotoInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none" onchange="handlePhotoSelect(event)">
+      <input type="hidden" id="aPhotoPath">
+    </div>
+
     <div class="form-row">
   <div class="form-group">
     <label>Name</label>
@@ -330,7 +333,7 @@
 
 <!-- ── APPLICATION MODAL ── -->
 <div class="modal-overlay" id="appModal">
-  <div class="modal">
+  <div class="modal" style="max-width:680px;">
     <div class="modal-header">
       <div class="modal-title">Application Details</div>
       <button class="modal-close" onclick="closeModal('appModal')">✕</button>
@@ -356,5 +359,5 @@
 </div>
 
 <script src="../js/admin-dashboard.js"></script>
-</body>
-</html>
+
+</body></html>

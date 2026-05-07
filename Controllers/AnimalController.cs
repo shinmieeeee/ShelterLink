@@ -12,33 +12,25 @@ namespace ShelterLink.Controllers
         private readonly ShelterLinkContext _db;
         public AnimalController(ShelterLinkContext db) { _db = db; }
  
-        // ── GET /api/animal ──────────────────────────────────────────
         [HttpGet]
         public async Task<IActionResult> GetAll() =>
             Ok(await _db.Animals.ToListAsync());
  
-        // ── GET /api/animal/{id} ─────────────────────────────────────
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var animal = await _db.Animals.FindAsync(id);
             return animal == null ? NotFound() : Ok(animal);
         }
- 
-        // ── POST /api/animal  (ADD ANIMAL – WAS BROKEN, NOW FIXED) ───
-        [HttpPost]
+         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AnimalDto dto)
         {
-            // Validate required fields before touching the DB
             if (string.IsNullOrWhiteSpace(dto.Name))
                 return BadRequest(new { message = "Name is required." });
  
             if (string.IsNullOrWhiteSpace(dto.Species))
                 return BadRequest(new { message = "Species is required." });
  
-            // FIX 1: Parse Status from the incoming string explicitly.
-            // If the client sends an unrecognised value we return 400
-            // instead of letting EF throw a cryptic DB exception.
             if (!Enum.TryParse<AnimalStatus>(dto.Status, ignoreCase: true, out var status))
                 status = AnimalStatus.Available;   // safe default
  
@@ -60,7 +52,6 @@ namespace ShelterLink.Controllers
             return Ok(animal);
         }
  
-        // ── PUT /api/animal/{id}  (EDIT ANIMAL) ──────────────────────
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] AnimalDto dto)
         {
@@ -83,7 +74,32 @@ namespace ShelterLink.Controllers
             return Ok(animal);
         }
  
-        // ── DELETE /api/animal/{id} ───────────────────────────────────
+        [HttpPost("upload-photo")]
+        public async Task<IActionResult> UploadPhoto(IFormFile photo)
+        {
+            if (photo == null || photo.Length == 0)
+                return BadRequest(new { message = "No file uploaded." });
+
+            var allowed = new[] { "image/jpeg", "image/png", "image/gif", "image/webp" };
+            if (!allowed.Contains(photo.ContentType.ToLower()))
+                return BadRequest(new { message = "Only image files are allowed (jpg, png, gif, webp)." });
+
+            if (photo.Length > 5 * 1024 * 1024)
+                return BadRequest(new { message = "Image must be under 5 MB." });
+
+            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "animals");
+            Directory.CreateDirectory(uploadsDir);
+
+            var ext      = Path.GetExtension(photo.FileName).ToLower();
+            var fileName = $"{Guid.NewGuid()}{ext}";
+            var filePath = Path.Combine(uploadsDir, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+                await photo.CopyToAsync(stream);
+
+            return Ok(new { photoPath = $"/images/animals/{fileName}" });
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -105,10 +121,6 @@ namespace ShelterLink.Controllers
         }
     }
  
-    // ── DTO ──────────────────────────────────────────────────────────
-    // Accepts Status as a plain string from the JS frontend.
-    // This decouples serialisation from the C# enum, which is the
-    // direct fix for the "failed to save" crash.
     public class AnimalDto
     {
         public string  Name         { get; set; } = string.Empty;
@@ -120,4 +132,3 @@ namespace ShelterLink.Controllers
         public string? PhotoPath    { get; set; }
     }
 }
- 

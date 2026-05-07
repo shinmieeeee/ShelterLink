@@ -656,3 +656,56 @@ tr:hover td { background: rgba(46,158,79,0.04); }
   .main-wrapper { margin-left: 60px; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── Photo Upload ───────────────────────────────────────────────── */
+.photo-upload-group { margin-bottom: 16px; }
+
+.photo-upload-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 2px dashed var(--input-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  background: var(--input-bg);
+}
+.photo-upload-area:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  box-shadow: 0 0 0 3px rgba(46,158,79,0.10);
+}
+
+.photo-preview-wrap {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  border: 1.5px solid var(--input-border);
+}
+.photo-preview-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-upload-hint {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.photo-upload-sub {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 400;
+  color: var(--text-light);
+  margin-top: 3px;
+}
