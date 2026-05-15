@@ -343,8 +343,7 @@ function animalCard(a) {
       </div>
       <div class="animal-card-body">
         <div class="animal-card-name">${escHtml(a.name)}</div>
-        <div class="animal-card-meta">${escHtml(a.species)}${a.breed ? ' · ' + escHtml(a.breed) : ''} · Age: ${a.age}</div>
-        <div class="status-badge status-${statusClass}">${a.status || 'Available'}</div>
+        <div class="animal-card-meta">${escHtml(a.species)}${a.breed ? ' · ' + escHtml(a.breed) : ''} · Age: ${a.age < 1 ? Math.round(a.age * 12) + ' mo' : a.age + ' yr'}</div>        <div class="status-badge status-${statusClass}">${a.status || 'Available'}</div>
         <button class="btn-details" data-animal-id="${a.animalId}">View Details</button>
       </div>
     </div>`;
@@ -480,7 +479,7 @@ function openAnimalModal(id) {
       ${a.photoPath ? `<img src="${escHtml(a.photoPath)}" alt="${escHtml(a.name)}" onerror="this.parentElement.textContent='${emoji}'"/>` : emoji}
     </div>
     <div class="modal-name">${escHtml(a.name)}</div>
-    <div class="modal-meta">${escHtml(a.species)} · ${escHtml(a.breed || 'Mixed')} · Age: ${a.age} · <span class="status-badge status-${(a.status||'available').toLowerCase()}">${a.status}</span></div>
+    <div class="modal-meta">${escHtml(a.species)} · ${escHtml(a.breed || 'Mixed')} · Age: ${a.age < 1 ? Math.round(a.age * 12) + ' mo' : a.age + ' yr'} · <span class="status-badge status-${(a.status||'available').toLowerCase()}">${a.status}</span></div>
     ${a.specialNotes ? `<div class="modal-notes">${escHtml(a.specialNotes)}</div>` : ''}
     <button class="btn-apply" id="applyBtn" ${canApply ? '' : 'disabled'}>
       ${canApply ? '🐾 Apply to Adopt' : a.status !== 'Available' ? 'Not Available' : !state.user ? 'Login to Apply' : 'Profile Incomplete'}

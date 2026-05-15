@@ -145,7 +145,6 @@
     <section class="page" id="page-animals">
 
       <h1 class="page-title">🐾 Animal Management</h1>
-      <p class="page-subtitle">Add, edit, or remove animals from the shelter.</p>
 
       <div class="section-card">
         <div class="section-header">
@@ -296,7 +295,13 @@
       </div>
       <div class="form-group">
         <label>Age</label>
-        <input type="text" id="aAge">
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <input type="number" id="aAge" min="0" step="1" placeholder="e.g. 3" style="flex:1"/>
+          <select id="aAgeUnit" style="width:110px;">
+            <option value="years">Years</option>
+            <option value="months">Months</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -358,6 +363,6 @@
   </div>
 </div>
 
-<script src="../js/admin-dashboard.js"></script>
+<script src="../js/admin-dashboard.js?v=2"></script>
 
 </body></html>

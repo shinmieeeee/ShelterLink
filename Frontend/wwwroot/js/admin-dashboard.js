@@ -229,9 +229,7 @@ function renderAnimals() {
       <td><b>${a.name}</b></td>
       <td>${a.species}</td>
       <td>${a.breed || '—'}</td>
-      <td>${a.age}</td>
-      <td><span class="badge ${badgeClass(a.status)}">${a.status}</span></td>
-      <td>
+      <td>${a.age < 1 ? Math.round(a.age * 12) + ' mo' : a.age + ' yr'}</td>      <td>
         <div class="action-group">
           <button class="btn btn-info btn-sm"   onclick="openAnimalModal(${a.animalId})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="confirmDeleteAnimal(${a.animalId})">Delete</button>
@@ -326,14 +324,15 @@ function openAnimalModal(id) {
     document.getElementById('aName').value    = a.name;
     document.getElementById('aSpecies').value = a.species;
     document.getElementById('aBreed').value   = a.breed || '';
-    document.getElementById('aAge').value     = a.age;
-    document.getElementById('aStatus').value  = a.status;
+    document.getElementById('aAge').value = Math.abs(a.age);
+    document.getElementById('aAgeUnit').value = a.age < 1 ? 'months' : 'years';    document.getElementById('aStatus').value  = a.status;
     document.getElementById('aGender').value  = a.gender || 'Male';
     document.getElementById('aDesc').value    = a.specialNotes || '';
     setPhotoPreview(a.photoPath || '');
   } else {
     ['aName', 'aBreed', 'aAge', 'aDesc'].forEach(fid => document.getElementById(fid).value = '');
     document.getElementById('aSpecies').value = '';
+    document.getElementById('aAgeUnit').value = 'years';
     document.getElementById('aStatus').value  = '';
     document.getElementById('aGender').value  = '';
     resetPhotoUpload();
@@ -342,19 +341,23 @@ function openAnimalModal(id) {
   openModal('animalModal');
 }
 
-// ── FIXED: saveAnimal now sends role headers and parses status correctly ──
 async function saveAnimal() {
   const name = document.getElementById('aName').value.trim();
   if (!name) { showToast('Name is required.', 'error'); return; }
 
   const id = parseInt(document.getElementById('aEditId').value) || 0;
 
+  const val  = parseFloat(document.getElementById('aAge').value) || 0;
+  const unit = document.getElementById('aAgeUnit')?.value || 'years';
+  const age  = unit === 'months' ? parseFloat((val / 12).toFixed(2)) : val;
+
   const data = {
     name,
     species:      document.getElementById('aSpecies').value,
     breed:        document.getElementById('aBreed').value.trim(),
-    age:          parseFloat(document.getElementById('aAge').value) || 0,
+    age,
     status:       document.getElementById('aStatus').value,
+    gender:       document.getElementById('aGender').value,
     specialNotes: document.getElementById('aDesc').value.trim(),
     photoPath:    document.getElementById('aPhotoPath').value.trim() || null,
   };
@@ -362,8 +365,11 @@ async function saveAnimal() {
   const url    = id ? `${API}/api/animal/${id}` : `${API}/api/animal`;
   const method = id ? 'PUT' : 'POST';
 
+  console.log('Saving animal:', method, url, data); // ← check this in console
+
   try {
     const res = await fetch(url, adminFetchOpts(method, data));
+    console.log('Response status:', res.status); // ← check this too
 
     if (!res.ok) {
       let errMsg = 'Save failed.';
@@ -374,26 +380,15 @@ async function saveAnimal() {
 
     const saved  = await res.json();
     const logMsg = id ? `Updated animal "${data.name}".` : `Added new animal "${data.name}".`;
-
     addLog('tan', logMsg);
     await persistAuditLog(logMsg, saved.animalId ?? id);
-
     showToast(id ? 'Animal updated!' : 'Animal added!', 'success');
     closeModal('animalModal');
     await loadData();
   } catch (e) {
-    showToast('Could not reach the server.', 'error');
+    console.error('saveAnimal error:', e); // ← this will show the real error
+    showToast('Could not reach the server: ' + e.message, 'error');
   }
-}
-
-function confirmDeleteAnimal(id) {
-  const a = animals.find(x => x.animalId === id);
-  if (!a) return;
-  showConfirm(
-    'Remove Animal',
-    `Are you sure you want to remove <b>${a.name}</b>? This cannot be undone.`,
-    () => deleteAnimal(id)
-  );
 }
 
 // ── FIXED: deleteAnimal now sends role headers and persists audit log ──
