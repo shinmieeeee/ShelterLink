@@ -857,3 +857,35 @@ body {
   .main-wrapper { margin-left: 60px; }
   .animals-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
+
+.btn-confirm-interview {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(46,158,79,0.3);
+  transition: background 0.2s, transform 0.1s, box-shadow 0.15s;
+}
+.btn-confirm-interview::before {
+  content: '✓';
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.btn-confirm-interview:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(46,158,79,0.4);
+  transform: translateY(-1px);
+}
+.btn-confirm-interview:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

@@ -381,11 +381,13 @@ function applicationCard(app) {
       interviewBlock = `
         <div class="interview-block pending-confirm">
           <span class="interview-icon">📅</span>
-          <div>
+          <div style="flex:1">
             <strong>Interview Scheduled</strong>
-            <div>${dtStr}</div>
-            <div style="margin-top:0.6rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-              <button class="btn-confirm-interview" data-app-id="${app.applicationId}">✅ I'm Available</button>
+            <div style="margin-top:0.25rem;font-size:0.9rem;color:#374151">${dtStr}</div>
+            <div style="margin-top:0.75rem">
+              <button class="btn-confirm-interview" data-app-id="${app.applicationId}">
+                I'm Available
+              </button>
             </div>
           </div>
         </div>`;
@@ -707,12 +709,21 @@ function injectFormStyles() {
     .interview-block.pending-confirm { background:#eff6ff;border:1.5px solid #bfdbfe; }
     .interview-block.confirmed { background:#f0fdf4;border:1.5px solid #bbf7d0; }
     .interview-icon { font-size:1.5rem; }
-    .btn-confirm-interview,.btn-reschedule-interview {
-      padding:0.5rem 1rem;border-radius:7px;border:none;cursor:pointer;
-      font-size:0.85rem;font-weight:600;
+    .btn-confirm-interview {
+      display:inline-flex;align-items:center;gap:0.5rem;
+      padding:0.6rem 1.4rem;border-radius:10px;border:none;cursor:pointer;
+      font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;
+      background:var(--accent);color:#fff;
+      box-shadow:0 2px 8px rgba(46,158,79,0.3);
+      transition:background 0.2s,transform 0.1s,box-shadow 0.15s;
     }
-    .btn-confirm-interview { background:#22c55e;color:#fff; }
-    .btn-reschedule-interview { background:#f59e0b;color:#fff; }
+    .btn-confirm-interview::before { content:'✓';font-size:1rem;font-weight:800;line-height:1; }
+    .btn-confirm-interview:hover { background:var(--accent-hover);box-shadow:0 4px 12px rgba(46,158,79,0.4);transform:translateY(-1px); }
+    .btn-confirm-interview:active { transform:translateY(0);box-shadow:none; }
+    .btn-reschedule-interview {
+      padding:0.5rem 1rem;border-radius:7px;border:none;cursor:pointer;
+      font-size:0.85rem;font-weight:600;background:#f59e0b;color:#fff;
+    }
     .decision-block { display:flex;gap:1rem;padding:1.25rem;border-radius:12px;margin-top:1rem;align-items:flex-start; }
     .decision-block.approved { background:#f0fdf4;border:1.5px solid #86efac; }
     .decision-block.rejected { background:#fef2f2;border:1.5px solid #fca5a5; }
