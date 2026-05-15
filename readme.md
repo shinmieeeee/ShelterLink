@@ -245,6 +245,26 @@ ShelterLink follows a **layered MVC architecture** within a single ASP.NET Core 
 
 ---
 
+## OOP Principles Applied
+
+**Encapsulation** — Models own their state-changing logic. `Animal.UpdateStatus()`, `AdoptionApplication.Approve()`/`Reject()`, and `Notification.MarkRead()` are called instead of setting properties directly. The frontend never touches the database — all communication goes through the API: Controllers call the Database layer via `ShelterLinkContext`.
+
+**Abstraction** — `AnimalStatus` and `ApplicationStatus` enums hide raw string comparisons behind a clean, typed vocabulary. DTO classes (`AnimalDto`, `ApplicationRequest`, etc.) define what the frontend sends without exposing the internal model structure.
+
+**Inheritance** — All controllers extend `ControllerBase`, inheriting HTTP helpers like `Ok()`, `NotFound()`, and `BadRequest()`. `Admin` and `Adopter` both extend `User` — every admin and adopter is a user first, with their own table only adding role-specific fields.
+
+**Polymorphism** — Every action returns `IActionResult`, so the same method can return different result types at runtime. `UpdateStatus()` uses a switch expression to produce different outcomes depending on the application status:
+
+```csharp
+app.Animal.Status = newStatus switch
+{
+    ApplicationStatus.Approved => AnimalStatus.Adopted,
+    ApplicationStatus.Rejected => AnimalStatus.Available,
+    ApplicationStatus.Pending  => AnimalStatus.Pending,
+    _                          => app.Animal.Status
+};
+```
+
 ## Instructions on How to Run the Application
 
 ### Prerequisites
