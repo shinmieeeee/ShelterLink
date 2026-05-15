@@ -35,7 +35,7 @@ The system was built as an academic project to demonstrate the practical applica
 | Animal Browsing | Search and filter available animals by species, breed, age, and status |
 | Adoption Applications | Submit detailed multi-field adoption applications |
 | Application Tracking | Monitor application status: Pending → Under Review → Approved / Rejected |
-| Interview Scheduling | Confirm or request reschedule for admin-booked interviews |
+| Interview Scheduling | Confirm for admin-booked interviews |
 | Real-Time Notifications | In-app bell with unread badge for status changes and interview updates |
 | Profile View | View account information from within the dashboard |
  
