@@ -308,9 +308,9 @@ The application will start and listen on the configured port (typically `http://
 
 | Name | Role |
 |---|---|
-| [Earl Leobert Quijaro] | Project Manager |
-| [Shin-mie Ramos ] | GUI Designer |
-| [Shawn Janxent Torririt] | Logic Developer|
+| Earl Leobert Quijaro | Project Manager |
+| Shin-mie Ramos  | GUI Designer |
+| Shawn Janxent Torririt | Logic Developer|
 
 ---
 
