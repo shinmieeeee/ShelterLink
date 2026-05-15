@@ -4,13 +4,13 @@
 
 ---
 
-## 1. Project Title
+## Project Title
 
 # ShelterLink — Animal Shelter Adoption Management System
 
 ---
 
-## 2. Project Description & Purpose
+## Project Description & Purpose
 
 **ShelterLink** is a full-stack web application designed to streamline and digitize the animal adoption process for both shelter staff and prospective adopters. The system bridges the gap between animals in need of a home and the people who want to provide one — hence the name *ShelterLink*.
 
@@ -26,7 +26,7 @@ The system was built as an academic project to demonstrate the practical applica
 
 ---
 
-## 3. UML Diagram
+## UML Diagram
 
 The diagram below illustrates the core class relationships in the ShelterLink system.
 
@@ -140,7 +140,7 @@ classDiagram
 
 ---
 
-## 4. Features and Functionalities of the System
+## Features and Functionalities of the System
 
 ### Adopter-Facing Features
 
@@ -165,7 +165,7 @@ classDiagram
 
 ---
 
-## 5. System Architecture / How the Program Works
+## System Architecture / How the Program Works
 
 ShelterLink follows a **layered MVC architecture** within a single ASP.NET Core Web application. The backend exposes a REST API consumed by the static HTML/CSS/JS frontend.
 
@@ -230,7 +230,7 @@ ShelterLink follows a **layered MVC architecture** within a single ASP.NET Core 
 
 ---
 
-## 6. Instructions on How to Run the Application
+## Instructions on How to Run the Application
 
 ### Prerequisites
 
@@ -304,16 +304,13 @@ The application will start and listen on the configured port (typically `http://
 
 ---
 
-## 7. Developers / Team Members
-
-> ⚠️ **Note to student:** Replace the placeholder names below with your actual team members before submitting.
+## Developers / Team Members
 
 | Name | Role |
 |---|---|
-| [Developer 1 Full Name] | Full-Stack Developer / Project Lead |
-| [Developer 2 Full Name] | Backend Developer |
-| [Developer 3 Full Name] | Frontend Developer |
-| [Developer 4 Full Name] | Database Designer / QA |
+| [Earl Leobert Quijaro] | Project Manager |
+| [Shin-mie Ramos ] | GUI Designer |
+| [Shawn Janxent Torririt] | Logic Developer|
 
 ---
 

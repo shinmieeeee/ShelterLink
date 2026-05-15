@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShelterLink")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9f7c27ade24ca4f72cfc8a4defd540594378563")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db3a361a0c3dc9e2e2d16a421a9238c6b4094ec2")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShelterLink")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShelterLink")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
