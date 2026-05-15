@@ -27,6 +27,7 @@ Animal shelters traditionally manage adoption records through paper-based or fra
 The system was built as an academic project to demonstrate the practical application of object-oriented design, relational database modeling, RESTful API development, and frontend-backend integration using modern web technologies.
 
 ---
+## Features
 
 ### For Adopters
 | Feature | Description |
