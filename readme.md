@@ -290,17 +290,17 @@ VALUES ('Admin', 'admin@shelterlink.com', 'your_password', 'Admin');
 dotnet run
 ```
 
-The application will start and listen on the configured port (typically `http://localhost:5000` or `https://localhost:5001`). Check the terminal output for the exact URL.
+The application will start and listen on the configured port (typically `http://localhost:5084`). Check the terminal output for the exact URL.
 
 ### Step 6 — Access the Application
 
 | Page | URL |
 |---|---|
-| Adopter Login | `http://localhost:5000/html/login.html` |
-| Adopter Registration | `http://localhost:5000/html/register.html` |
-| Adopter Dashboard | `http://localhost:5000/html/dashboard.html` |
-| Admin Login | `http://localhost:5000/html/admin.html` |
-| Admin Dashboard | `http://localhost:5000/html/admin-dashboard.html` |
+| Adopter Login | `http://localhost:5084/html/login.html` |
+| Adopter Registration | `http://localhost:5084/html/register.html` |
+| Adopter Dashboard | `http://localhost:5084/html/dashboard.html` |
+| Admin Login | `http://localhost:5084/html/admin.html` |
+| Admin Dashboard | `http://localhost:5084/html/admin-dashboard.html` |
 
 ---
 
