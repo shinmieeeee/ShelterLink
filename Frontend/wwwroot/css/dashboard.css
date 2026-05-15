@@ -351,19 +351,23 @@ body {
 
 .animal-card-img {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  aspect-ratio: 4 / 3;
   background: var(--input-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 4rem;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .animal-card-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: var(--input-bg);
 }
 
 .animal-card-body {
@@ -756,21 +760,25 @@ body {
 
 .modal-animal-img {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 16 / 9;
   border-radius: var(--radius-sm);
-  object-fit: cover;
   margin-bottom: 16px;
   background: var(--input-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 5rem;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .modal-animal-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: var(--input-bg);
   border-radius: var(--radius-sm);
 }
 
