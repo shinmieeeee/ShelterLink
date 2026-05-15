@@ -28,117 +28,97 @@ The system was built as an academic project to demonstrate the practical applica
 
 ## UML Diagram
 
-The diagram below illustrates the core class relationships in the ShelterLink system.
-
 ```mermaid
 classDiagram
-    class User {
-        +int UserId
-        +string Name
-        +string Email
-        +string PasswordHash
-        +string Role
-    }
+  class User {
+    +int UserId
+    +string Name
+    +string Email
+    +string PasswordHash
+    +string Role
+  }
+  class Admin {
+    +int AdminId
+    +int UserId
+  }
+  class Adopter {
+    +int AdopterId
+    +int UserId
+    +string Name
+    +int Age
+    +string Address
+  }
+  class Animal {
+    +int AnimalId
+    +string Name
+    +string Species
+    +string Breed
+    +float Age
+    +AnimalStatus Status
+    +string PhotoPath
+    +string SpecialNotes
+    +DateTime DateAdmitted
+    +UpdateStatus(AnimalStatus) void
+    +IsAvailable() bool
+  }
+  class AdoptionApplication {
+    +int ApplicationId
+    +int AdopterId
+    +int AnimalId
+    +DateTime SubmittedAt
+    +ApplicationStatus Status
+    +int ReviewedBy
+    +string RejectionReason
+    +string HousingType
+    +bool HasYard
+    +bool HasOtherPets
+    +bool HasChildren
+    +string AdoptionReason
+    +DateTime InterviewScheduledAt
+    +bool AdopterConfirmed
+    +Submit() void
+    +Approve() void
+    +Reject() void
+    +CheckAgeRestriction(int, string) bool
+  }
+  class AdoptionRecord {
+    +int RecordId
+    +int AppId
+    +int AnimalId
+    +int AdopterId
+  }
+  class Notification {
+    +int NotifId
+    +int RecipientId
+    +string Message
+    +DateTime SentAt
+    +bool IsRead
+  }
+  class AuditLog {
+    +int LogId
+    +int ActorId
+    +string Action
+    +int TargetId
+    +DateTime Timestamp
+    +bool IsFlagged
+  }
+  class Shelter {
+    +int ShelterId
+    +string Name
+    +int Capacity
+    +int CurrentCount
+    +IsOvercrowded() bool
+  }
 
-    class Admin {
-        +int AdminId
-        +int UserId
-        +User User
-    }
-
-    class Adopter {
-        +int AdopterId
-        +int UserId
-        +string Name
-        +int Age
-        +string Address
-        +User User
-    }
-
-    class Animal {
-        +int AnimalId
-        +string Name
-        +string Species
-        +string Breed
-        +float Age
-        +AnimalStatus Status
-        +string PhotoPath
-        +string SpecialNotes
-        +DateTime DateAdmitted
-        +UpdateStatus(AnimalStatus) void
-        +IsAvailable() bool
-    }
-
-    class AdoptionApplication {
-        +int ApplicationId
-        +int AdopterId
-        +int AnimalId
-        +DateTime SubmittedAt
-        +ApplicationStatus Status
-        +int ReviewedBy
-        +string RejectionReason
-        +string ApplicantFullName
-        +string HousingType
-        +bool HasYard
-        +bool HasOtherPets
-        +bool HasChildren
-        +string AdoptionReason
-        +DateTime InterviewScheduledAt
-        +bool AdopterConfirmed
-        +Submit() void
-        +Approve() void
-        +Reject() void
-        +CheckAgeRestriction(int, string) bool
-    }
-
-    class AdoptionRecord {
-        +int RecordId
-        +int AppId
-        +int AnimalId
-        +int AdopterId
-        +AdoptionApplication Application
-        +Animal Animal
-        +Adopter Adopter
-    }
-
-    class Notification {
-        +int NotifId
-        +int RecipientId
-        +string Message
-        +DateTime SentAt
-        +bool IsRead
-        +User Recipient
-    }
-
-    class AuditLog {
-        +int LogId
-        +int ActorId
-        +string Action
-        +int TargetId
-        +DateTime Timestamp
-        +bool IsFlagged
-        +User Actor
-    }
-
-    class Shelter {
-        +int ShelterId
-        +string Name
-        +int Capacity
-        +int CurrentCount
-        +IsOvercrowded() bool
-    }
-
-    User <|-- Admin : extends
-    User <|-- Adopter : extends
-    Adopter "1" --> "many" AdoptionApplication : submits
-    Animal "1" --> "many" AdoptionApplication : linked to
-    User "1" --> "many" AdoptionApplication : reviews
-    AdoptionApplication "1" --> "1" AdoptionRecord : produces
-    User "1" --> "many" Notification : receives
-    User "1" --> "many" AuditLog : generates
+  User <|-- Admin : extends
+  User <|-- Adopter : extends
+  Adopter "1" --> "0..*" AdoptionApplication : submits
+  Animal "1" --> "0..*" AdoptionApplication : linked to
+  User "1" --> "0..*" AdoptionApplication : reviews
+  AdoptionApplication "1" --> "0..1" AdoptionRecord : produces
+  User "1" --> "0..*" Notification : receives
+  User "1" --> "0..*" AuditLog : generates
 ```
-
----
 
 ## Features and Functionalities of the System
 
