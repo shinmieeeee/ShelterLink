@@ -38,10 +38,19 @@ classDiagram
     +string Email
     +string PasswordHash
     +string Role
+    +Login() void
+    +AdminLogin() void
+    +Register() void
+    +UpdateProfile() void
   }
   class Admin {
     +int AdminId
     +int UserId
+    +GetSummary() object
+    +GetAllUsers() List
+    +UpdateUserRole(int, string) void
+    +WriteAuditLog(AuditLogRequest) void
+    +GetAuditLogs() List
   }
   class Adopter {
     +int AdopterId
@@ -49,6 +58,10 @@ classDiagram
     +string Name
     +int Age
     +string Address
+    +BrowseAnimals() List
+    +SubmitApplication() void
+    +ViewStatus() List
+    +GetDashboard(int) object
   }
   class Animal {
     +int AnimalId
@@ -60,6 +73,12 @@ classDiagram
     +string PhotoPath
     +string SpecialNotes
     +DateTime DateAdmitted
+    +GetAll() List
+    +GetById(int) Animal
+    +Create(AnimalDto) void
+    +Update(int, AnimalDto) void
+    +Delete(int) void
+    +UploadPhoto(IFormFile) string
     +UpdateStatus(AnimalStatus) void
     +IsAvailable() bool
   }
@@ -74,13 +93,22 @@ classDiagram
     +string HousingType
     +bool HasYard
     +bool HasOtherPets
+    +string OtherPetsDetails
     +bool HasChildren
+    +string ChildrenAges
     +string AdoptionReason
+    +string DailyRoutine
+    +string VetReference
+    +bool AgreeToTerms
     +DateTime InterviewScheduledAt
     +bool AdopterConfirmed
+    +bool RescheduleRequested
     +Submit() void
     +Approve() void
-    +Reject() void
+    +Reject(string) void
+    +UpdateStatus(string) void
+    +ScheduleInterview(DateTime) void
+    +ConfirmInterview(bool) void
     +CheckAgeRestriction(int, string) bool
   }
   class AdoptionRecord {
@@ -88,6 +116,9 @@ classDiagram
     +int AppId
     +int AnimalId
     +int AdopterId
+    +DateTime CompletedAt
+    +FinalizeAdoption() void
+    +MarkAnimalAdopted(Animal) void
   }
   class Notification {
     +int NotifId
@@ -95,6 +126,10 @@ classDiagram
     +string Message
     +DateTime SentAt
     +bool IsRead
+    +Send() void
+    +MarkRead() void
+    +MarkAllRead(int) void
+    +GetByUser(int) List
   }
   class AuditLog {
     +int LogId
@@ -103,18 +138,22 @@ classDiagram
     +int TargetId
     +DateTime Timestamp
     +bool IsFlagged
+    +LogAction() void
+    +FlagAbuse() void
   }
 
   User <|-- Admin : extends
   User <|-- Adopter : extends
+  Admin "1" --> "0..*" Animal : manages
+  Admin "1" --> "0..*" AuditLog : writes
+  Admin "1" --> "0..*" AdoptionApplication : reviews
   Adopter "1" --> "0..*" AdoptionApplication : submits
   Animal "1" --> "0..*" AdoptionApplication : linked to
-  User "1" --> "0..*" AdoptionApplication : reviews
   AdoptionApplication "1" --> "0..1" AdoptionRecord : produces
+  AdoptionApplication "1" --> "0..*" Notification : triggers
   User "1" --> "0..*" Notification : receives
   User "1" --> "0..*" AuditLog : generates
 ```
-
 
 ## Features and Functionalities of the System
 
