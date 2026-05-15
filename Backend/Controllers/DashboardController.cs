@@ -13,12 +13,8 @@ namespace ShelterLink.Controllers
     {
         private readonly ShelterLinkContext _db;
  
-        // CHANGE 2: Constructor injection – same pattern as every other controller
         public DashboardController(ShelterLinkContext db) { _db = db; }
  
-        // ── GET /api/dashboard/summary ────────────────────────────────
-        // Used by the user dashboard home view AND readable by the admin
-        // dashboard's "View All" link. Returns only public-safe counts.
         [HttpGet("summary")]
         public async Task<IActionResult> GetSummary()
         {
@@ -34,10 +30,6 @@ namespace ShelterLink.Controllers
             return Ok(new { featured, totalAvailable });
         }
  
-        // ── GET /api/dashboard/user/{userId} ──────────────────────────
-        // CHANGE 1: Returns a combined payload (animals + user's apps +
-        // unread notification count) in a single request so the user
-        // dashboard avoids three separate round-trips on load.
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetUserDashboard(int userId)
         {

@@ -35,8 +35,6 @@ var wwwrootPath = Path.Combine(builder.Environment.ContentRootPath, "Frontend", 
 
 var fileProvider = new PhysicalFileProvider(wwwrootPath);
 
-// FIX: UseDefaultFiles maps "/" → "/html/login.html" (or index.html).
-// Must come BEFORE UseStaticFiles.
 app.UseDefaultFiles(new DefaultFilesOptions
 {
     FileProvider = fileProvider,

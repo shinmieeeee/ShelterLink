@@ -11,14 +11,8 @@ namespace ShelterLink.Controllers
     {
         private readonly ShelterLinkContext _db;
  
-        // CHANGE 2: DbContext is injected via constructor – the only
-        // correct pattern for EF Core in ASP.NET Core controllers.
         public AdminController(ShelterLinkContext db) { _db = db; }
  
-        // ── Role guard helper ─────────────────────────────────────────
-        // Reads the X-User-Role header the JS sends with every request.
-        // Replace this with [Authorize(Roles="Admin")] once you add
-        // JWT / cookie authentication to Program.cs.
         private IActionResult? RequireAdmin()
         {
             var role = Request.Headers["X-User-Role"].FirstOrDefault() ?? string.Empty;
@@ -27,8 +21,6 @@ namespace ShelterLink.Controllers
             return null;   // null means "caller may proceed"
         }
  
-        // ── GET /api/admin/summary ────────────────────────────────────
-        // Feeds the four stat cards on the Overview page.
         [HttpGet("summary")]
         public async Task<IActionResult> GetSummary()
         {
@@ -51,8 +43,6 @@ namespace ShelterLink.Controllers
             });
         }
  
-        // ── GET /api/admin/auditlogs ──────────────────────────────────
-        // Returns the 100 most recent audit log entries from the DB.
         [HttpGet("auditlogs")]
         public async Task<IActionResult> GetAuditLogs()
         {
@@ -76,10 +66,6 @@ namespace ShelterLink.Controllers
             return Ok(logs);
         }
  
-        // ── POST /api/admin/auditlogs ─────────────────────────────────
-        // CHANGE 2: Writes an AuditLog entry and calls SaveChangesAsync.
-        // Called automatically by the admin JS after every significant
-        // action (approve/reject/add/delete).
         [HttpPost("auditlogs")]
         public async Task<IActionResult> WriteAuditLog([FromBody] AuditLogRequest req)
         {
@@ -98,12 +84,11 @@ namespace ShelterLink.Controllers
             };
  
             _db.AuditLogs.Add(entry);
-            await _db.SaveChangesAsync();   // ← Change 2: persist to DB
+            await _db.SaveChangesAsync();   
  
             return Ok(new { logId = entry.LogId });
         }
  
-        // ── GET /api/admin/users ──────────────────────────────────────
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -116,8 +101,6 @@ namespace ShelterLink.Controllers
             return Ok(users);
         }
  
-        // ── PUT /api/admin/users/{id}/role ────────────────────────────
-        // CHANGE 2: Demonstrates Update() + SaveChangesAsync pattern.
         [HttpPut("users/{id}/role")]
         public async Task<IActionResult> UpdateUserRole(int id, [FromBody] RoleUpdateRequest req)
         {
@@ -132,9 +115,6 @@ namespace ShelterLink.Controllers
  
             user.Role = req.Role;
  
-            // CHANGE 2: EF Core tracks the change automatically after
-            // FindAsync; calling Update() makes it explicit and safe
-            // even if the entity was detached.
             _db.Users.Update(user);
             await _db.SaveChangesAsync();
  
