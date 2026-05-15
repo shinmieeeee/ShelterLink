@@ -229,7 +229,7 @@ function renderAnimals() {
       <td><b>${a.name}</b></td>
       <td>${a.species}</td>
       <td>${a.breed || '—'}</td>
-      <td>${a.age < 1 ? Math.round(a.age * 12) + ' mo' : a.age + ' yr'}</td>      <td>
+      <td>${a.age < 1 ? Math.round(a.age * 12) + ' mo' : a.age + ' yr/old'}</td>      <td>
         <div class="action-group">
           <button class="btn btn-info btn-sm"   onclick="openAnimalModal(${a.animalId})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="confirmDeleteAnimal(${a.animalId})">Delete</button>
