@@ -141,7 +141,7 @@ Ensure the following are installed on your machine before proceeding:
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [MySQL Server](https://dev.mysql.com/downloads/mysql/) (version 8.x recommended), running on port `3306`
 - A MySQL client tool (e.g., MySQL Workbench, HeidiSQL, or the `mysql` CLI)
-- [Git](https://git-scm.com/)
+- [GitHub](https://github.com/)
 
 ### Step 1 — Clone the Repository
 
