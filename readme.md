@@ -104,13 +104,6 @@ classDiagram
     +DateTime Timestamp
     +bool IsFlagged
   }
-  class Shelter {
-    +int ShelterId
-    +string Name
-    +int Capacity
-    +int CurrentCount
-    +IsOvercrowded() bool
-  }
 
   User <|-- Admin : extends
   User <|-- Adopter : extends
@@ -121,6 +114,7 @@ classDiagram
   User "1" --> "0..*" Notification : receives
   User "1" --> "0..*" AuditLog : generates
 ```
+
 
 ## Features and Functionalities of the System
 
