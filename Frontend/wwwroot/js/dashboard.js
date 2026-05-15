@@ -831,8 +831,13 @@ function attachSectionLinks() {
 // ── FILTERS & SEARCH ──
 document.getElementById('filterSpecies').addEventListener('input', () => { if (state.currentView === 'browse') renderBrowse(); });
 document.getElementById('filterAge').addEventListener('change',     () => { if (state.currentView === 'browse') renderBrowse(); });
-globalSearch.addEventListener('input', () => { if (state.currentView === 'browse') renderBrowse(); });
-
+globalSearch.addEventListener('input', () => {
+  if (state.currentView === 'browse') {
+    renderBrowse();
+  } else if (globalSearch.value.trim().length > 0) {
+    navigateTo('browse');
+  }
+});
 // ── LOGOUT ──
 document.getElementById('logoutBtn').addEventListener('click', () => {
   sessionStorage.clear();
