@@ -10,7 +10,12 @@ namespace ShelterLink.Controllers
     public class AnimalController : ControllerBase
     {
         private readonly ShelterLinkContext _db;
-        public AnimalController(ShelterLinkContext db) { _db = db; }
+        private readonly IWebHostEnvironment _env;
+        public AnimalController(ShelterLinkContext db, IWebHostEnvironment env)
+        {
+            _db  = db;
+            _env = env;
+        }
  
         [HttpGet]
         public async Task<IActionResult> GetAll() =>
@@ -87,7 +92,7 @@ namespace ShelterLink.Controllers
             if (photo.Length > 5 * 1024 * 1024)
                 return BadRequest(new { message = "Image must be under 5 MB." });
 
-            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "animals");
+            var uploadsDir = Path.Combine(_env.ContentRootPath, "Frontend", "wwwroot", "images", "animals");
             Directory.CreateDirectory(uploadsDir);
 
             var ext      = Path.GetExtension(photo.FileName).ToLower();
