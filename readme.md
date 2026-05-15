@@ -64,28 +64,30 @@ ShelterLink follows a **layered MVC architecture** within a single ASP.NET Core 
 
 ```
 ┌─────────────────────────────────────────────────┐
-│              Frontend (Browser)                  │
-│  HTML + CSS + Vanilla JavaScript (Fetch API)     │
-│  Pages: login, register, dashboard, admin-dash   │
+│              Frontend (Browser)                 │
+│  HTML + CSS + Vanilla JavaScript (Fetch API)    │
+│  Pages: login, register, dashboard, admin-dash  │
 └────────────────────┬────────────────────────────┘
-                     │ HTTP (JSON)
+                     │ 
 ┌────────────────────▼────────────────────────────┐
-│           ASP.NET Core REST API                  │
-│  Controllers: Auth, Animal, Applications,        │
-│               Admin, Dashboard, Notifications,   │
-│               Users, Adoption                    │
-└────────────────────┬────────────────────────────┘
-                     │ Entity Framework Core (ORM)
-┌────────────────────▼────────────────────────────┐
-│           ShelterLinkContext (EF Core)           │
-│  DbSets: Users, Adopters, Admins, Animals,       │
-│          AdoptionApplications, AdoptionRecords,  │
-│          Notifications, AuditLogs, Shelters      │
+│                HTTP (JSON)                      |
+|           ASP.NET Core REST API                 │
+│     Controllers: Auth, Animal, Applications,    │
+│          Admin, Dashboard, Notifications,       │
+│               Users, Adoption                   │
 └────────────────────┬────────────────────────────┘
                      │
 ┌────────────────────▼────────────────────────────┐
-│              MySQL Database                      │
-│          (shelterlinkdb via Pomelo)              │
+│         Entity Framework Core (ORM)             |
+|         ShelterLinkContext (EF Core)            │
+│   DbSets: Users, Adopters, Admins, Animals,     │
+│      AdoptionApplications, AdoptionRecords,     │
+│        Notifications, AuditLogs, Shelters       │
+└────────────────────┬────────────────────────────┘
+                     │
+┌────────────────────▼────────────────────────────┐
+│              MySQL Database                     │
+│          (shelterlinkdb via Pomelo)             │
 └─────────────────────────────────────────────────┘
 ```
 
