@@ -1,6 +1,8 @@
-# 🐾 ShelterLink
+<div align="center">
 
-> A web-based animal shelter management and adoption platform built with ASP.NET Core and MySQL.
+<h1>🐶🐾 ShelterLink  🐾🐱</h1>
+<i><b> A web-based animal shelter management and adoption platform. </b> </i>
+</div>
 
 ---
 
