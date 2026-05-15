@@ -147,7 +147,7 @@ Ensure the following are installed on your machine before proceeding:
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/ShelterLink.git
+git clone https://github.com/shinmieeeee/ShelterLink.git
 cd ShelterLink/ShelterLink
 ```
 
@@ -177,17 +177,9 @@ dotnet ef database update
 > ```bash
 > dotnet tool install --global dotnet-ef
 > ```
+> 
 
-### Step 4 — Seed an Admin Account
-
-ShelterLink does not include a seed script. After running migrations, manually insert an Admin user into the `Users` table using your MySQL client:
-
-```sql
-INSERT INTO Users (Name, Email, PasswordHash, Role)
-VALUES ('Admin', 'admin@shelterlink.com', 'your_password', 'Admin');
-```
-
-### Step 5 — Run the Application
+### Step 4 — Run the Application
 
 ```bash
 dotnet run
@@ -195,7 +187,7 @@ dotnet run
 
 The application will start and listen on the configured port (typically `http://localhost:5084`). Check the terminal output for the exact URL.
 
-### Step 6 — Access the Application
+### Step 5 — Access the Application
 
 | Page | URL |
 |---|---|
